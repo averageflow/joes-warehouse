@@ -7,6 +7,10 @@ The application can be run by opening a terminal and navigating into `cmd/wareho
 go run main.go
 ```
 
+This will launch the application running on port `7000`.
+
+This application includes a graceful shutdown mechanics and so whenever you stop it, or it receives a stop signal, it will first wait for any HTTP request currently being processed to be finished and then gracefully shutdown. This makes it possible to deploy it without downtime and to ensure a better experience for users.
+
 ## Additional notes
 
 Some compromises were made during development to simplify certain aspects and make the project more portable and quicker to develop, namely:
