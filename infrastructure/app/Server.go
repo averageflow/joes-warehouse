@@ -13,6 +13,8 @@ import (
 
 	"github.com/averageflow/joes-warehouse/infrastructure"
 	"github.com/gin-gonic/gin"
+
+	// importing the SQLite3 driver.
 	_ "github.com/mattn/go-sqlite3"
 )
 
@@ -91,11 +93,13 @@ func (s *ApplicationServer) registerHandlers() {
 
 	s.State.Handler.Handle(http.MethodGet, "/products")
 	s.State.Handler.Handle(http.MethodPost, "/products")
+	s.State.Handler.Handle(http.MethodPost, "/products/file-submission")
 	s.State.Handler.Handle(http.MethodPatch, "/products")
 	s.State.Handler.Handle(http.MethodDelete, "/products")
 
 	s.State.Handler.Handle(http.MethodGet, "/articles")
 	s.State.Handler.Handle(http.MethodPost, "/articles")
+	s.State.Handler.Handle(http.MethodPost, "/articles/file-submission")
 	s.State.Handler.Handle(http.MethodPatch, "/articles")
 	s.State.Handler.Handle(http.MethodDelete, "/articles")
 }

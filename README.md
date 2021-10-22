@@ -2,7 +2,7 @@
 
 Joe's Warehouse Software is a Go application that has the purpose of managing products and articles in your warehouse.
 
-The application can be run by opening a terminal and navigating into `cmd/warehouse-manager-backend` and running:
+The application can be run by opening a terminal and navigating into `cmd/joes-warehouse` and running:
 ```
 go run main.go
 ```
@@ -10,6 +10,11 @@ go run main.go
 This will launch the application running on port `7000`.
 
 This application includes a graceful shutdown mechanics and so whenever you stop it, or it receives a stop signal, it will first wait for any HTTP request currently being processed to be finished and then gracefully shutdown. This makes it possible to deploy it without downtime and to ensure a better experience for users.
+
+This application provides several endpoints.
+
+A compatibility layer has been added to the endpoints to create products and articles that permits uploading JSON files with a "legacy" data structure to fit the application's more type safe approach. 
+Thus if we want to create new products / articles via an HTTP request with JSON body we use the normal endpoint. If we want to create new products / articles via uploading a file to a web-form then we use the "/file-submission" endpoints.
 
 ## Additional notes
 
