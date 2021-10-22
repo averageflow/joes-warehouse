@@ -4,6 +4,10 @@ func GetArticlesForProduct() ([]ArticleModel, error) {
 	return nil, nil
 }
 
+func AddArticles(articles []ArticleModel) error {
+	return nil
+}
+
 func AddArticlesFromProductPayload(articles []LegacyArticleFromProductFileModel) error {
 	return nil
 }
@@ -21,5 +25,9 @@ func ReserveArticleStock() error {
 }
 
 func ConvertLegacyArticleToStandard(articles []LegacyArticleModel) []ArticleModel {
+	return nil
+}
+
+func ConvertLegacyArticleFromProductFileToStandard(articles []LegacyArticleFromProductFileModel) []ArticleModel {
 	return nil
 }
