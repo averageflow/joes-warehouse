@@ -7,6 +7,7 @@ import (
 )
 
 type ApplicationConfig struct {
+	ApplicationMode    string
 	DatabaseConnection string
 }
 
@@ -24,10 +25,14 @@ func GetConfig() *ApplicationConfig {
 	}
 
 	validateVariablesAreSet([]string{
+		"ApplicationMode",
 		"DatabaseConnection",
 	})
 
-	return &ApplicationConfig{}
+	return &ApplicationConfig{
+		ApplicationMode:    viper.GetString("ApplicationMode"),
+		DatabaseConnection: viper.GetString("DatabaseConnection"),
+	}
 }
 
 // validateVariablesAreSet will assert the existence of each variable,

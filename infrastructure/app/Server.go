@@ -7,9 +7,11 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"strings"
 	"syscall"
 	"time"
 
+	"github.com/averageflow/joes-warehouse/infrastructure"
 	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -19,7 +21,7 @@ const (
 )
 
 type ApplicationState struct {
-	Handler    *gin.Engine
+	Handler    infrastructure.ApplicationHTTPHandler
 	HTTPServer *http.Server
 	DB         *sql.DB
 	Config     *ApplicationConfig
@@ -39,15 +41,17 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 		state = &ApplicationState{}
 	}
 
-	// if strings.EqualFold(state.Config.ApplicationMode, "production") {
-	// 	gin.SetMode(gin.ReleaseMode)
-	// }
-
-	state.Handler = gin.Default()
-
 	if state.Config == nil {
 		state.Config = GetConfig()
 	}
+
+	if strings.EqualFold(state.Config.ApplicationMode, gin.ReleaseMode) {
+		// the application mode should be set before initializing the HTTP handler
+		// so that it takes effect and routes produce less verbose output
+		gin.SetMode(gin.ReleaseMode)
+	}
+
+	state.Handler = gin.New()
 
 	if state.HTTPServer == nil {
 		state.HTTPServer = &http.Server{
@@ -72,7 +76,8 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 		State: ApplicationState{
 			HTTPServer: state.HTTPServer,
 			Handler:    state.Handler,
-			// Config:     state.Config,
+			Config:     state.Config,
+			DB:         state.DB,
 		},
 	}
 
@@ -82,6 +87,8 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 }
 
 func (s *ApplicationServer) registerHandlers() {
+	s.State.Handler.Use(gin.Logger(), gin.Recovery())
+
 	s.State.Handler.Handle(http.MethodGet, "/products")
 	s.State.Handler.Handle(http.MethodPost, "/products")
 	s.State.Handler.Handle(http.MethodPatch, "/products")

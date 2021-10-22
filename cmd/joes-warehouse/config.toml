@@ -1,1 +1,2 @@
+ApplicationMode = "release"
 DatabaseConnection = "../../storage/database/warehouse-database.db"
