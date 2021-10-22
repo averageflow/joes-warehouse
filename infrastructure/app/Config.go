@@ -7,6 +7,7 @@ import (
 )
 
 type ApplicationConfig struct {
+	DatabaseConnection string
 }
 
 // ConfigSetup will prepare and setup the viper instance to the correct config file.
@@ -16,19 +17,20 @@ func ConfigSetup(configName, configPath string) {
 	viper.AddConfigPath(configPath)
 }
 
-// ConfigUpdate initializes the configuration instance to the values described in the config.toml file.
-func GetConfig() ApplicationConfig {
-	err := viper.ReadInConfig() // Find and read the config file
-	if err != nil {             // Handle errors reading the config file
+// GetConfig initializes the configuration instance to the values described in the config.toml file.
+func GetConfig() *ApplicationConfig {
+	if err := viper.ReadInConfig(); err != nil {
 		log.Fatalf("fatal error config file: %s", err)
 	}
 
-	validateVariablesAreSet([]string{})
+	validateVariablesAreSet([]string{
+		"DatabaseConnection",
+	})
 
-	return ApplicationConfig{}
+	return &ApplicationConfig{}
 }
 
-// ValidateVariablesAreSet will assert the existence of each variable,
+// validateVariablesAreSet will assert the existence of each variable,
 // and kill the application when a wanted variable does not exist in the config.
 func validateVariablesAreSet(variables []string) {
 	for i := range variables {

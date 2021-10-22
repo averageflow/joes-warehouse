@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"database/sql"
 	"log"
 	"net/http"
 	"os"
@@ -10,6 +11,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 const (
@@ -19,6 +21,8 @@ const (
 type ApplicationState struct {
 	Handler    *gin.Engine
 	HTTPServer *http.Server
+	DB         *sql.DB
+	Config     *ApplicationConfig
 }
 
 type ApplicationServer struct {
@@ -41,6 +45,10 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 
 	state.Handler = gin.Default()
 
+	if state.Config == nil {
+		state.Config = GetConfig()
+	}
+
 	if state.HTTPServer == nil {
 		state.HTTPServer = &http.Server{
 			ReadTimeout:  10 * time.Second,
@@ -49,6 +57,15 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 			Addr:         ":7000",
 			Handler:      state.Handler,
 		}
+	}
+
+	if state.DB == nil {
+		db, err := sql.Open("sqlite3", state.Config.DatabaseConnection)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		state.DB = db
 	}
 
 	srv := ApplicationServer{
@@ -65,9 +82,15 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 }
 
 func (s *ApplicationServer) registerHandlers() {
-	// s.router.HandleFunc("/api/", s.handleAPI())
-	// s.router.HandleFunc("/about", s.handleAbout())
-	// s.router.HandleFunc("/", s.handleIndex())
+	s.State.Handler.Handle(http.MethodGet, "/products")
+	s.State.Handler.Handle(http.MethodPost, "/products")
+	s.State.Handler.Handle(http.MethodPatch, "/products")
+	s.State.Handler.Handle(http.MethodDelete, "/products")
+
+	s.State.Handler.Handle(http.MethodGet, "/articles")
+	s.State.Handler.Handle(http.MethodPost, "/articles")
+	s.State.Handler.Handle(http.MethodPatch, "/articles")
+	s.State.Handler.Handle(http.MethodDelete, "/articles")
 }
 
 // TerminationSignalWatcher will wait for interrupt signal to gracefully shutdown
