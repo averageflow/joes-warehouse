@@ -1,15 +1,22 @@
 package products
 
-import "github.com/averageflow/joes-warehouse/domain/articles"
-
-type ProductModel struct {
-	ID       int                     `json:"id"`
-	Name     string                  `json:"name"`
-	Price    float64                 `json:"price"`
-	Articles []articles.ArticleModel `json:"articles"`
+func GetProducts() ([]ProductModel, error) {
+	return nil, nil
 }
 
-type ProductFromFile struct {
-	Name     string                                 `json:"name"`
-	Articles []articles.ArticleFromProductFileModel `json:"contain_articles"`
+func AddProducts(products []ProductModel) error {
+	return nil
+}
+
+func ModifyProduct(product ProductModel) error {
+	return nil
+}
+
+func DeleteProduct(product ProductModel) error {
+	return nil
+}
+
+func ConvertLegacyProductToStandard(products []LegacyProductModel) []ProductModel {
+	var result []ProductModel
+	return result
 }

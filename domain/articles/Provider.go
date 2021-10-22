@@ -1,19 +1,25 @@
 package articles
 
-type ArticleModel struct {
-	ID    int    `json:"id"`
-	Name  string `json:"name"`
-	Stock int    `json:"stock"`
+func GetArticlesForProduct() ([]ArticleModel, error) {
+	return nil, nil
 }
 
-type ArticleFromFileModel struct {
-	ID    string `json:"art_id"`
-	Name  string `json:"name"`
-	Stock string `json:"stock"`
+func AddArticlesFromProductPayload(articles []LegacyArticleFromProductFileModel) error {
+	return nil
 }
 
-type ArticleFromProductFileModel struct {
-	ID    string `json:"art_id"`
-	Name  string `json:"name"`
-	Stock string `json:"amount_of"`
+func ModifyArticles() error {
+	return nil
+}
+
+func DeleteArticles() error {
+	return nil
+}
+
+func ReserveArticleStock() error {
+	return nil
+}
+
+func ConvertLegacyArticleToStandard(articles []LegacyArticleModel) []ArticleModel {
+	return nil
 }
