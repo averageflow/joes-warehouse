@@ -64,7 +64,7 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 	}
 
 	if state.DB == nil {
-		db, err := sql.Open("sqlite3", state.Config.DatabaseConnection)
+		db, err := sql.Open(state.Config.DatabaseType, state.Config.DatabaseConnection)
 		if err != nil {
 			log.Fatal(err)
 		}

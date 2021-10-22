@@ -1,2 +1,3 @@
 ApplicationMode = "release"
+DatabaseType = "sqlite3"
 DatabaseConnection = "../../storage/database/warehouse-database.db"
