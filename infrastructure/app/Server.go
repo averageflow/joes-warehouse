@@ -91,17 +91,19 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 func (s *ApplicationServer) registerHandlers() {
 	s.State.Handler.Use(gin.Logger(), gin.Recovery())
 
-	s.State.Handler.Handle(http.MethodGet, "/products")
-	s.State.Handler.Handle(http.MethodPost, "/products")
-	s.State.Handler.Handle(http.MethodPost, "/products/file-submission")
-	s.State.Handler.Handle(http.MethodPatch, "/products")
-	s.State.Handler.Handle(http.MethodDelete, "/products")
+	s.State.Handler.Handle(http.MethodGet, "/products", s.getProductsHandler())
+	s.State.Handler.Handle(http.MethodPost, "/products", s.addProductsHandler())
+	s.State.Handler.Handle(http.MethodPost, "/products/file-submission", s.addProductsFromFileHandler())
+	s.State.Handler.Handle(http.MethodPost, "/products/legacy-file-submission", s.addProductsFromLegacyFileHandler())
+	s.State.Handler.Handle(http.MethodPatch, "/products/:id", s.modifyProductHandler())
+	s.State.Handler.Handle(http.MethodDelete, "/products/:id", s.deleteProductHandler())
 
-	s.State.Handler.Handle(http.MethodGet, "/articles")
-	s.State.Handler.Handle(http.MethodPost, "/articles")
-	s.State.Handler.Handle(http.MethodPost, "/articles/file-submission")
-	s.State.Handler.Handle(http.MethodPatch, "/articles")
-	s.State.Handler.Handle(http.MethodDelete, "/articles")
+	s.State.Handler.Handle(http.MethodGet, "/articles", s.getArticlesHandler())
+	s.State.Handler.Handle(http.MethodPost, "/articles", s.addArticlesHandler())
+	s.State.Handler.Handle(http.MethodPost, "/articles/file-submission", s.addArticlesFromFileHandler())
+	s.State.Handler.Handle(http.MethodPost, "/articles/legacy-file-submission", s.addArticlesFromLegacyFileHandler())
+	s.State.Handler.Handle(http.MethodPatch, "/articles/:id", s.modifyArticleHandler())
+	s.State.Handler.Handle(http.MethodDelete, "/articles/:id", s.deleteArticleHandler())
 }
 
 // TerminationSignalWatcher will wait for interrupt signal to gracefully shutdown
