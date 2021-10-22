@@ -62,7 +62,6 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 	srv.registerHandlers()
 
 	return &srv
-
 }
 
 func (s *ApplicationServer) registerHandlers() {
