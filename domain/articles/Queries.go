@@ -6,7 +6,9 @@ const getArticlesForProductQuery = `
 		articles.name
 	FROM
 		articles
-		INNER JOIN product_articles ON product_articles.product_id = product.id;
+		INNER JOIN product_articles ON product_articles.product_id = product.id
+	WHERE
+		product_id = ?;
 `
 
 const addArticlesQuery = `
@@ -23,7 +25,7 @@ const addArticleStocksQuery = `
 		(?, ?);
 `
 
-const updateArticleQuery = `
+const updateArticleByIDQuery = `
 	UPDATE
 		articles
 	SET
@@ -32,13 +34,13 @@ const updateArticleQuery = `
 		id = ?;
 `
 
-const deleteArticleQuery = `
+const deleteArticleByIDQuery = `
 	DELETE FROM
 		articles
 	WHERE
 		id = ?;
 `
 
-const modifyArticleStocksQuery = `
+const modifyArticleStocksByIDQuery = `
 	UPDATE article_stocks SET stock = ? WHERE article_id = ?;
 `
