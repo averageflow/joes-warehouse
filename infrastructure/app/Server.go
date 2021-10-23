@@ -110,6 +110,9 @@ func (s *ApplicationServer) registerHandlers() {
 	uiGroup.Handle(http.MethodGet, "", func(c *gin.Context) {
 		c.Redirect(http.StatusFound, "/ui/products")
 	})
+	uiGroup.Handle(http.MethodGet, "/", func(c *gin.Context) {
+		c.Redirect(http.StatusFound, "/ui/products")
+	})
 
 	uiGroup.Handle(http.MethodGet, "/products", s.productViewHandler())
 	uiGroup.Handle(http.MethodGet, "/articles", s.articleViewHandler())

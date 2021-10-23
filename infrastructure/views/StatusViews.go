@@ -80,12 +80,21 @@ func ProductView(products map[string]infrastructure.WebProduct, sortProducts []s
 						THead(Tr(
 							Th(g.Text("Name")),
 							Th(g.Text("Price")),
+							Th(g.Text("Stock")),
+							Th(),
 						)),
 						TBody(
 							g.Group(g.Map(len(sortProducts), func(i int) g.Node {
 								return Tr(
 									Td(g.Text(products[sortProducts[i]].Name)),
 									Td(g.Text(fmt.Sprintf("%.2f", products[sortProducts[i]].Price))),
+									Td(g.Text(fmt.Sprintf("%d", products[sortProducts[i]].AmountInStock))),
+									Td(
+										Button(
+											Class("button is-dark is-small"),
+											g.Text("Book"),
+										),
+									),
 								)
 							})),
 						),
@@ -141,7 +150,7 @@ func Navbar() g.Node {
 			Class("navbar-brand"),
 			A(
 				Class("navbar-item"),
-				Href("/"),
+				Href("/ui/products"),
 				g.Text("Joe's Warehouse"),
 			),
 		),
@@ -149,11 +158,6 @@ func Navbar() g.Node {
 			Class("navbar-menu"),
 			Div(
 				Class("navbar-start"),
-				A(
-					Class("navbar-item"),
-					Href("/ui/products"),
-					g.Text("View products"),
-				),
 				A(
 					Class("navbar-item"),
 					Href("/ui/articles"),
