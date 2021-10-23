@@ -49,10 +49,6 @@ func (s *ApplicationServer) addArticlesHandler() func(*gin.Context) {
 	}
 }
 
-func (s *ApplicationServer) addArticlesFromFileHandler() func(*gin.Context) {
-	return func(c *gin.Context) {}
-}
-
 func (s *ApplicationServer) addArticlesFromFileViewHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
 		_ = views.ArticleSubmissionView().Render(c.Writer)

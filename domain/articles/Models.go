@@ -16,3 +16,7 @@ type LegacyArticleFromProductFileModel struct {
 	ID    string `json:"art_id"`
 	Stock string `json:"amount_of"`
 }
+
+type LegacyArticleUploadRequest struct {
+	Products []LegacyArticleModel `json:"inventory"`
+}

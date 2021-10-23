@@ -13,3 +13,7 @@ type LegacyProductModel struct {
 	Name     string                                       `json:"name"`
 	Articles []articles.LegacyArticleFromProductFileModel `json:"contain_articles"`
 }
+
+type LegacyProductUploadRequest struct {
+	Products []LegacyProductModel `json:"products"`
+}
