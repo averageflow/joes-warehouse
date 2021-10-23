@@ -63,7 +63,7 @@ func AddArticlesWithPreMadeID(db infrastructure.ApplicationDatabase, articles []
 	return tx.Commit(ctx)
 }
 
-func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID int, articles []infrastructure.RawArticleFromProductFileModel) error {
+func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID int, articles []infrastructure.ArticleModel) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)
