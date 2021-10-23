@@ -11,7 +11,7 @@ import (
 
 func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 	type getProductsHandlerResponse struct {
-		Data map[string]infrastructure.WebProductModel `json:"data"`
+		Data map[string]infrastructure.WebProduct `json:"data"`
 	}
 
 	return func(c *gin.Context) {
@@ -24,6 +24,27 @@ func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 			})
 
 			return
+		}
+
+		productIDs := warehouse.CollectProductIDs(products)
+		idtoUniqueIdMap := warehouse.CollectProductIDsToUniqueIDs(products)
+
+		relatedArticles, err := warehouse.GetArticlesForProduct(s.State.DB, productIDs)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
+				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
+				Error:         err.Error(),
+				UnixTimestamp: time.Now().Unix(),
+			})
+
+			return
+		}
+
+		for i := range relatedArticles {
+			wantedUUID := idtoUniqueIdMap[i]
+			wantedProduct := products[wantedUUID]
+			wantedProduct.Articles = relatedArticles[i]
+			products[wantedUUID] = wantedProduct
 		}
 
 		c.JSON(http.StatusOK, getProductsHandlerResponse{

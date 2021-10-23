@@ -7,11 +7,57 @@ import (
 	"github.com/averageflow/joes-warehouse/infrastructure"
 )
 
-func GetArticlesForProduct() (map[string]infrastructure.ArticleModel, error) {
-	return nil, nil
+func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []int64) (map[int64]map[string]infrastructure.ArticleOfProduct, error) {
+	ctx := context.Background()
+
+	rows, err := db.Query(
+		ctx,
+		getArticlesForProductQuery,
+		IntSliceToCommaSeparatedString(productIDs),
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	if rows.Err() != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	articleMap := make(map[int64]map[string]infrastructure.ArticleOfProduct)
+
+	for rows.Next() {
+		var article infrastructure.ArticleOfProduct
+
+		var productID int64
+
+		err := rows.Scan(
+			&productID,
+			&article.ID,
+			&article.UniqueID,
+			&article.Name,
+			&article.AmountOf,
+			&article.Stock,
+			&article.CreatedAt,
+			&article.UpdatedAt,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		_, ok := articleMap[productID]
+		if !ok {
+			articleMap[productID] = make(map[string]infrastructure.ArticleOfProduct)
+		}
+
+		articleMap[productID][article.UniqueID] = article
+	}
+
+	return articleMap, nil
 }
 
-func GetArticles(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebArticleModel, error) {
+func GetArticles(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebArticle, error) {
 	ctx := context.Background()
 
 	rows, err := db.Query(ctx, getArticlesQuery)
@@ -25,10 +71,10 @@ func GetArticles(db infrastructure.ApplicationDatabase) (map[string]infrastructu
 
 	defer rows.Close()
 
-	var articles []infrastructure.WebArticleModel
+	var articles []infrastructure.WebArticle
 
 	for rows.Next() {
-		var article infrastructure.WebArticleModel
+		var article infrastructure.WebArticle
 
 		err := rows.Scan(
 			&article.ID,
@@ -45,7 +91,7 @@ func GetArticles(db infrastructure.ApplicationDatabase) (map[string]infrastructu
 		articles = append(articles, article)
 	}
 
-	result := make(map[string]infrastructure.WebArticleModel, len(articles))
+	result := make(map[string]infrastructure.WebArticle, len(articles))
 
 	for i := range articles {
 		result[articles[i].UniqueID] = articles[i]
@@ -54,7 +100,7 @@ func GetArticles(db infrastructure.ApplicationDatabase) (map[string]infrastructu
 	return result, nil
 }
 
-func AddArticles(db infrastructure.ApplicationDatabase, articles []infrastructure.ArticleModel) error {
+func AddArticles(db infrastructure.ApplicationDatabase, articles []infrastructure.Article) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)
@@ -80,7 +126,7 @@ func AddArticles(db infrastructure.ApplicationDatabase, articles []infrastructur
 	return tx.Commit(ctx)
 }
 
-func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID int, articles []infrastructure.ArticleProductRelationModel) error {
+func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID int, articles []infrastructure.ArticleProductRelation) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)
@@ -107,7 +153,7 @@ func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID 
 	return tx.Commit(ctx)
 }
 
-func AddArticleStocks(db infrastructure.ApplicationDatabase, articles []infrastructure.ArticleModel) error {
+func AddArticleStocks(db infrastructure.ApplicationDatabase, articles []infrastructure.Article) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)

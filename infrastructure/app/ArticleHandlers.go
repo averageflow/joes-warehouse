@@ -11,7 +11,7 @@ import (
 
 func (s *ApplicationServer) getArticlesHandler() func(*gin.Context) {
 	type getArticlesHandlerResponse struct {
-		Data map[string]infrastructure.WebArticleModel `json:"data"`
+		Data map[string]infrastructure.WebArticle `json:"data"`
 	}
 
 	return func(c *gin.Context) {

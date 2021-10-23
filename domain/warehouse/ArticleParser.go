@@ -11,14 +11,14 @@ const (
 	wantedConversionBits = 64
 )
 
-func ConvertRawArticle(articles []infrastructure.RawArticleModel) []infrastructure.ArticleModel {
-	result := make([]infrastructure.ArticleModel, len(articles))
+func ConvertRawArticle(articles []infrastructure.RawArticle) []infrastructure.Article {
+	result := make([]infrastructure.Article, len(articles))
 
 	for i := range articles {
 		id, _ := strconv.ParseInt(articles[i].ID, wantedConversionBase, wantedConversionBits)
 		stock, _ := strconv.ParseInt(articles[i].Stock, wantedConversionBase, wantedConversionBits)
 
-		result[i] = infrastructure.ArticleModel{
+		result[i] = infrastructure.Article{
 			ID:    id,
 			Name:  articles[i].Name,
 			Stock: stock,
@@ -28,14 +28,14 @@ func ConvertRawArticle(articles []infrastructure.RawArticleModel) []infrastructu
 	return result
 }
 
-func ConvertRawArticleFromProductFile(articles []infrastructure.RawArticleFromProductFileModel) []infrastructure.ArticleProductRelationModel {
-	result := make([]infrastructure.ArticleProductRelationModel, len(articles))
+func ConvertRawArticleFromProductFile(articles []infrastructure.RawArticleFromProductFile) []infrastructure.ArticleProductRelation {
+	result := make([]infrastructure.ArticleProductRelation, len(articles))
 
 	for i := range articles {
 		id, _ := strconv.ParseInt(articles[i].ID, wantedConversionBase, wantedConversionBits)
 		amountOf, _ := strconv.ParseInt(articles[i].Stock, wantedConversionBase, wantedConversionBits)
 
-		result[i] = infrastructure.ArticleProductRelationModel{
+		result[i] = infrastructure.ArticleProductRelation{
 			ID:       id,
 			AmountOf: amountOf,
 		}

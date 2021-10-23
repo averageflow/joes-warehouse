@@ -7,7 +7,26 @@ import (
 	"github.com/averageflow/joes-warehouse/infrastructure"
 )
 
-func GetProducts(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebProductModel, error) {
+func CollectProductIDs(products map[string]infrastructure.WebProduct) []int64 {
+	var result []int64
+
+	for i := range products {
+		result = append(result, products[i].ID)
+	}
+	return result
+}
+
+func CollectProductIDsToUniqueIDs(products map[string]infrastructure.WebProduct) map[int64]string {
+	result := make(map[int64]string)
+
+	for i := range products {
+		result[products[i].ID] = products[i].UniqueID
+	}
+
+	return result
+}
+
+func GetProducts(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebProduct, error) {
 	ctx := context.Background()
 
 	rows, err := db.Query(ctx, getProductsQuery)
@@ -21,10 +40,10 @@ func GetProducts(db infrastructure.ApplicationDatabase) (map[string]infrastructu
 
 	defer rows.Close()
 
-	var products []infrastructure.WebProductModel
+	var products []infrastructure.WebProduct
 
 	for rows.Next() {
-		var product infrastructure.WebProductModel
+		var product infrastructure.WebProduct
 
 		err := rows.Scan(
 			&product.ID,
@@ -41,7 +60,7 @@ func GetProducts(db infrastructure.ApplicationDatabase) (map[string]infrastructu
 		products = append(products, product)
 	}
 
-	result := make(map[string]infrastructure.WebProductModel, len(products))
+	result := make(map[string]infrastructure.WebProduct, len(products))
 
 	for i := range products {
 		result[products[i].UniqueID] = products[i]
@@ -50,12 +69,12 @@ func GetProducts(db infrastructure.ApplicationDatabase) (map[string]infrastructu
 	return result, nil
 }
 
-func AddProducts(db infrastructure.ApplicationDatabase, products []infrastructure.RawProductModel) error {
+func AddProducts(db infrastructure.ApplicationDatabase, products []infrastructure.RawProduct) error {
 	ctx := context.Background()
 
 	now := time.Now().Unix()
 
-	articleMap := make(map[int][]infrastructure.ArticleProductRelationModel)
+	articleMap := make(map[int][]infrastructure.ArticleProductRelation)
 
 	for i := range products {
 		tx, err := db.Begin(ctx)
@@ -94,10 +113,10 @@ func AddProducts(db infrastructure.ApplicationDatabase, products []infrastructur
 	return nil
 }
 
-func ModifyProduct(product infrastructure.ProductModel) error {
+func ModifyProduct(product infrastructure.Product) error {
 	return nil
 }
 
-func DeleteProduct(product infrastructure.ProductModel) error {
+func DeleteProduct(product infrastructure.Product) error {
 	return nil
 }
