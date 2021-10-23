@@ -1,13 +1,20 @@
 FROM golang:1.17.2-alpine3.14
 
-RUN mkdir /dist
-ADD . /dist
+# Creating the `app` directory in which the app will run 
+RUN mkdir /app
 
-WORKDIR ./cmd/joes-warehouse
+# Move everything from root to the newly created app directory
+ADD . /app
 
-# Pull in any dependencies
-# RUN go mod download
-# Build project as a binary called app
-RUN go build -o ../../dist/app
+# Specifying app as our work directory in which
+# futher instructions should run into
+WORKDIR /app
 
-CMD ["/dist/app"]
+# Download all neededed project dependencies
+RUN go mod download
+
+# Build the project executable binary
+RUN go build -o main ./cmd/joes-warehouse
+
+# Run/Starts the app executable binary
+CMD ["/app/main"]
