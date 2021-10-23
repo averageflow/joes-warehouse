@@ -1,15 +1,26 @@
 package warehouse
 
-// const getArticlesForProductQuery = `
-// 	SELECT
-// 		articles.id,
-// 		articles.item_name
-// 	FROM
-// 		articles
-// 		INNER JOIN product_articles ON product_articles.product_id = product.id
-// 	WHERE
-// 		product_id = $1;
-// `
+const getArticlesForProductQuery = `
+	SELECT
+		product_articles.product_id,
+		articles.id,
+		articles.unique_id,
+		articles.item_name,
+		article_stocks.stock,
+		articles.created_at,
+		articles.updated_at
+	FROM
+		articles
+		INNER JOIN product_articles ON product_articles.article_id = articles.id
+		INNER JOIN article_stocks ON article_stocks.article_id = articles.id
+	WHERE
+		product_articles.product_id IN ($1);
+`
+
+const getArticlesQuery = `
+select articles.id, articles.unique_id, item_name, article_stocks.stock , articles.created_at, articles.updated_at from articles
+inner join article_stocks on article_stocks.article_id  = articles.id;
+`
 
 const addArticlesForProductQuery = `
 	INSERT INTO product_articles (article_id, product_id, amount_of, created_at, updated_at) 

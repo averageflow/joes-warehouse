@@ -10,7 +10,26 @@ import (
 )
 
 func (s *ApplicationServer) getArticlesHandler() func(*gin.Context) {
-	return func(c *gin.Context) {}
+	type getArticlesHandlerResponse struct {
+		Data map[string]infrastructure.WebArticleModel `json:"data"`
+	}
+
+	return func(c *gin.Context) {
+		articles, err := warehouse.GetArticles(s.State.DB)
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
+				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
+				Error:         err.Error(),
+				UnixTimestamp: time.Now().Unix(),
+			})
+
+			return
+		}
+
+		c.JSON(http.StatusOK, getArticlesHandlerResponse{
+			Data: articles,
+		})
+	}
 }
 
 func (s *ApplicationServer) addArticlesHandler() func(*gin.Context) {

@@ -1,5 +1,14 @@
 package infrastructure
 
+type WebArticleModel struct {
+	ID        int64  `json:"id"`
+	UniqueID  string `json:"unique_id"`
+	Name      string `json:"name"`
+	Stock     int64  `json:"stock"`
+	CreatedAt int64  `json:"created_at"`
+	UpdatedAt int64  `json:"updated_at"`
+}
+
 type ArticleModel struct {
 	ID    int64  `json:"id"`
 	Name  string `json:"name"`

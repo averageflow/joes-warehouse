@@ -7,8 +7,51 @@ import (
 	"github.com/averageflow/joes-warehouse/infrastructure"
 )
 
-func GetArticlesForProduct() ([]infrastructure.ArticleModel, error) {
+func GetArticlesForProduct() (map[string]infrastructure.ArticleModel, error) {
 	return nil, nil
+}
+
+func GetArticles(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebArticleModel, error) {
+	ctx := context.Background()
+
+	rows, err := db.Query(ctx, getArticlesQuery)
+	if err != nil {
+		return nil, err
+	}
+
+	if rows.Err() != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var articles []infrastructure.WebArticleModel
+
+	for rows.Next() {
+		var article infrastructure.WebArticleModel
+
+		err := rows.Scan(
+			&article.ID,
+			&article.UniqueID,
+			&article.Name,
+			&article.Stock,
+			&article.CreatedAt,
+			&article.UpdatedAt,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		articles = append(articles, article)
+	}
+
+	result := make(map[string]infrastructure.WebArticleModel, len(articles))
+
+	for i := range articles {
+		result[articles[i].UniqueID] = articles[i]
+	}
+
+	return result, nil
 }
 
 func AddArticles(db infrastructure.ApplicationDatabase, articles []infrastructure.ArticleModel) error {
