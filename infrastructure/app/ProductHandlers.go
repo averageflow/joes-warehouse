@@ -27,7 +27,7 @@ func (s *ApplicationServer) addProductsHandler() func(*gin.Context) {
 			return
 		}
 
-		if err := products.AddProducts(requestBody); err != nil {
+		if err := products.AddProducts(s.State.DB, requestBody); err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
 				Error:         err.Error(),

@@ -23,5 +23,6 @@ func main() {
 		}
 	}()
 
+	log.Println("joe's warehouse application server started listening on port 7000")
 	app.TerminationSignalWatcher(applicationServer.State.HTTPServer)
 }

@@ -14,7 +14,7 @@ import (
 	"github.com/averageflow/joes-warehouse/infrastructure"
 	"github.com/gin-gonic/gin"
 
-	"github.com/jackc/pgx/v4"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 const (
@@ -24,7 +24,7 @@ const (
 type ApplicationState struct {
 	Handler    infrastructure.ApplicationHTTPHandler
 	HTTPServer *http.Server
-	DB         *pgx.Conn
+	DB         *pgxpool.Pool
 	Config     *ApplicationConfig
 }
 
@@ -71,7 +71,7 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 	}
 
 	if state.DB == nil {
-		db, err := pgx.Connect(context.Background(), state.Config.DatabaseConnection)
+		db, err := pgxpool.Connect(context.Background(), state.Config.DatabaseConnection)
 		if err != nil {
 			log.Fatalln(fmt.Sprintf("Unable to connect to database: %v\n", err))
 			os.Exit(1)
