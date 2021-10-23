@@ -7,23 +7,29 @@ import (
 	"github.com/averageflow/joes-warehouse/infrastructure"
 )
 
-func CollectProductIDs(products map[string]infrastructure.WebProduct) []int64 {
-	var result []int64
-
-	for i := range products {
-		result = append(result, products[i].ID)
-	}
-	return result
-}
-
-func CollectProductIDsToUniqueIDs(products map[string]infrastructure.WebProduct) map[int64]string {
-	result := make(map[int64]string)
-
-	for i := range products {
-		result[products[i].ID] = products[i].UniqueID
+func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebProduct, error) {
+	products, err := GetProducts(db)
+	if err != nil {
+		return nil, err
 	}
 
-	return result
+	productIDs := CollectProductIDs(products)
+
+	idtoUniqueIdMap := CollectProductIDsToUniqueIDs(products)
+
+	relatedArticles, err := GetArticlesForProduct(db, productIDs)
+	if err != nil {
+		return nil, err
+	}
+
+	for i := range relatedArticles {
+		wantedUUID := idtoUniqueIdMap[i]
+		wantedProduct := products[wantedUUID]
+		wantedProduct.Articles = relatedArticles[i]
+		products[wantedUUID] = wantedProduct
+	}
+
+	return products, nil
 }
 
 func GetProducts(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebProduct, error) {

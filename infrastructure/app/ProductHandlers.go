@@ -15,7 +15,7 @@ func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 	}
 
 	return func(c *gin.Context) {
-		products, err := warehouse.GetProducts(s.State.DB)
+		productData, err := warehouse.GetFullProductResponse(s.State.DB)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
@@ -24,31 +24,10 @@ func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 			})
 
 			return
-		}
-
-		productIDs := warehouse.CollectProductIDs(products)
-		idtoUniqueIdMap := warehouse.CollectProductIDsToUniqueIDs(products)
-
-		relatedArticles, err := warehouse.GetArticlesForProduct(s.State.DB, productIDs)
-		if err != nil {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
-				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
-				Error:         err.Error(),
-				UnixTimestamp: time.Now().Unix(),
-			})
-
-			return
-		}
-
-		for i := range relatedArticles {
-			wantedUUID := idtoUniqueIdMap[i]
-			wantedProduct := products[wantedUUID]
-			wantedProduct.Articles = relatedArticles[i]
-			products[wantedUUID] = wantedProduct
 		}
 
 		c.JSON(http.StatusOK, getProductsHandlerResponse{
-			Data: products,
+			Data: productData,
 		})
 	}
 }

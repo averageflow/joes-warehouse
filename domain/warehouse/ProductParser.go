@@ -28,3 +28,22 @@ func IntSliceToCommaSeparatedString(data []int64) string {
 
 	return strings.Join(tmp, ", ")
 }
+
+func CollectProductIDs(products map[string]infrastructure.WebProduct) []int64 {
+	var result []int64
+
+	for i := range products {
+		result = append(result, products[i].ID)
+	}
+	return result
+}
+
+func CollectProductIDsToUniqueIDs(products map[string]infrastructure.WebProduct) map[int64]string {
+	result := make(map[int64]string)
+
+	for i := range products {
+		result[products[i].ID] = products[i].UniqueID
+	}
+
+	return result
+}
