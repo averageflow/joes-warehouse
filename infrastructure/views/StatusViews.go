@@ -19,6 +19,7 @@ func ErrorUploadingView() g.Node {
 			c.LinkStylesheet("/styles/bulma.min.css"),
 		},
 		Body: []g.Node{
+			Navbar(),
 			Main(
 				Class("container has-text-justified p-6"),
 				H1(
@@ -41,6 +42,7 @@ func SuccessUploadingView() g.Node {
 			c.LinkStylesheet("/styles/bulma.min.css"),
 		},
 		Body: []g.Node{
+			Navbar(),
 			Main(
 				Class("container has-text-justified p-6"),
 				H1(
@@ -51,4 +53,63 @@ func SuccessUploadingView() g.Node {
 			),
 		},
 	})
+}
+
+func HomeView() g.Node {
+	return c.HTML5(c.HTML5Props{
+		Title:       "Joe's Warehouse",
+		Description: "Warehouse management software made by Joe.",
+		Language:    "en",
+		Head: []g.Node{
+			c.LinkStylesheet("/styles/bulma.min.css"),
+		},
+		Body: []g.Node{
+			Navbar(),
+			Main(
+				Class("container has-text-justified p-6"),
+				Div(
+					H2(
+						Class("title is-2 is-success"),
+						g.Text("Products"),
+					),
+				),
+				Div(
+					H2(
+						Class("title is-2 is-success"),
+						g.Text("Articles"),
+					),
+				),
+			),
+		},
+	})
+}
+
+func Navbar() g.Node {
+	return Nav(
+		Class("navbar is-transparent"),
+		Div(
+			Class("navbar-brand"),
+			A(
+				Class("navbar-item"),
+				Href("/"),
+				g.Text("Joe's Warehouse"),
+			),
+		),
+		Div(
+			Class("navbar-menu"),
+			Div(
+				Class("navbar-start"),
+				A(
+					Class("navbar-item"),
+					Href("/ui/products/file-submission"),
+					g.Text("Add products"),
+				),
+				A(
+					Class("navbar-item"),
+					Href("/ui/articles/file-submission"),
+					g.Text("Add articles"),
+				),
+			),
+		),
+	)
 }

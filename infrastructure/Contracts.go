@@ -14,6 +14,7 @@ type ApplicationHTTPHandler interface {
 	ServeHTTP(http.ResponseWriter, *http.Request)
 	Use(middleware ...gin.HandlerFunc) gin.IRoutes
 	StaticFile(relativePath, filepath string) gin.IRoutes
+	Group(relativePath string, handlers ...gin.HandlerFunc) *gin.RouterGroup
 }
 
 type ApplicationDatabase interface {

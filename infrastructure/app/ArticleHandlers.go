@@ -6,7 +6,6 @@ import (
 
 	"github.com/averageflow/joes-warehouse/domain/warehouse"
 	"github.com/averageflow/joes-warehouse/infrastructure"
-	"github.com/averageflow/joes-warehouse/infrastructure/views"
 	"github.com/gin-gonic/gin"
 )
 
@@ -56,16 +55,10 @@ func (s *ApplicationServer) addArticlesHandler() func(*gin.Context) {
 	}
 }
 
-func (s *ApplicationServer) addArticlesFromFileViewHandler() func(*gin.Context) {
-	return func(c *gin.Context) {
-		_ = views.ArticleSubmissionView().Render(c.Writer)
-	}
-}
+// func (s *ApplicationServer) modifyArticleHandler() func(*gin.Context) {
+// 	return func(c *gin.Context) {}
+// }
 
-func (s *ApplicationServer) modifyArticleHandler() func(*gin.Context) {
-	return func(c *gin.Context) {}
-}
-
-func (s *ApplicationServer) deleteArticleHandler() func(*gin.Context) {
-	return func(c *gin.Context) {}
-}
+// func (s *ApplicationServer) deleteArticleHandler() func(*gin.Context) {
+// 	return func(c *gin.Context) {}
+// }

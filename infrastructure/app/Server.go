@@ -98,20 +98,31 @@ func (s *ApplicationServer) registerHandlers() {
 	s.State.Handler.Use(gin.Logger(), gin.Recovery())
 
 	s.State.Handler.StaticFile("/styles/bulma.min.css", "../../web/styles/bulma.min.css")
-	s.State.Handler.Handle(http.MethodGet, "/products", s.getProductsHandler())
-	s.State.Handler.Handle(http.MethodPost, "/products", s.addProductsHandler())
-	s.State.Handler.Handle(http.MethodPost, "/products/file-submission", s.addDataFromFileHandler(infrastructure.ItemTypeProduct))
-	s.State.Handler.Handle(http.MethodGet, "/products/file-submission", s.addProductsFromFileViewHandler())
-	s.State.Handler.Handle(http.MethodPatch, "/products/:id", s.modifyProductHandler())
-	s.State.Handler.Handle(http.MethodDelete, "/products/:id", s.deleteProductHandler())
 
-	s.State.Handler.Handle(http.MethodGet, "/articles", s.getArticlesHandler())
-	s.State.Handler.Handle(http.MethodPost, "/articles", s.addArticlesHandler())
-	s.State.Handler.Handle(http.MethodPost, "/articles/file-submission", s.addDataFromFileHandler(infrastructure.ItemTypeArticle))
-	s.State.Handler.Handle(http.MethodGet, "/articles/file-submission", s.addArticlesFromFileViewHandler())
-	s.State.Handler.Handle(http.MethodPatch, "/articles/:id", s.modifyArticleHandler())
-	s.State.Handler.Handle(http.MethodDelete, "/articles/:id", s.deleteArticleHandler())
+	s.State.Handler.Handle(http.MethodGet, "/", func(c *gin.Context) {
+		c.Redirect(http.StatusFound, "/ui")
+	})
 
+	uiGroup := s.State.Handler.Group("/ui")
+
+	// HTML views
+	uiGroup.Handle(http.MethodGet, "", s.homeViewHandler())
+	uiGroup.Handle(http.MethodGet, "/products/file-submission", s.addProductsFromFileViewHandler())
+	uiGroup.Handle(http.MethodGet, "/articles/file-submission", s.addArticlesFromFileViewHandler())
+	// Form submissions
+	uiGroup.Handle(http.MethodPost, "/articles/file-submission", s.addDataFromFileHandler(infrastructure.ItemTypeArticle))
+	uiGroup.Handle(http.MethodPost, "/products/file-submission", s.addDataFromFileHandler(infrastructure.ItemTypeProduct))
+
+	headlessGroup := s.State.Handler.Group("/api")
+	headlessGroup.Handle(http.MethodGet, "/products", s.getProductsHandler())
+	headlessGroup.Handle(http.MethodPost, "/products", s.addProductsHandler())
+	headlessGroup.Handle(http.MethodGet, "/articles", s.getArticlesHandler())
+	headlessGroup.Handle(http.MethodPost, "/articles", s.addArticlesHandler())
+
+	// s.State.Handler.Handle(http.MethodPatch, "/products/:id", s.modifyProductHandler())
+	// s.State.Handler.Handle(http.MethodDelete, "/products/:id", s.deleteProductHandler())
+	// s.State.Handler.Handle(http.MethodPatch, "/articles/:id", s.modifyArticleHandler())
+	// s.State.Handler.Handle(http.MethodDelete, "/articles/:id", s.deleteArticleHandler())
 }
 
 // TerminationSignalWatcher will wait for interrupt signal to gracefully shutdown

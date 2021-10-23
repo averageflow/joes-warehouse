@@ -48,6 +48,7 @@ func ArticleSubmissionView() g.Node {
 			c.LinkStylesheet("/styles/bulma.min.css"),
 		},
 		Body: []g.Node{
+			Navbar(),
 			Main(
 				Class("container has-text-justified p-6"),
 				H1(
@@ -77,6 +78,7 @@ func ProductSubmissionView() g.Node {
 			c.LinkStylesheet("/styles/bulma.min.css"),
 		},
 		Body: []g.Node{
+			Navbar(),
 			Main(
 				Class("container has-text-justified p-6"),
 				H1(
