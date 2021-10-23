@@ -30,7 +30,8 @@ const addArticleStocksQuery = `
 	INSERT INTO
 		article_stocks (article_id, stock, created_at, updated_at)
 	VALUES
-		($1, $2, $3, $4);
+		($1, $2, $3, $4) ON CONFLICT ON CONSTRAINT article_stocks_article_id_key DO UPDATE SET 
+		stock = $2, updated_at = $4;
 `
 
 const updateArticleByUUIDQuery = `
