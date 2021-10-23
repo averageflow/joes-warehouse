@@ -11,7 +11,7 @@ func GetArticlesForProduct() ([]infrastructure.ArticleModel, error) {
 	return nil, nil
 }
 
-func AddArticlesWithPreMadeID(db infrastructure.ApplicationDatabase, articles []infrastructure.ArticleModel) error {
+func AddArticles(db infrastructure.ApplicationDatabase, articles []infrastructure.ArticleModel) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)

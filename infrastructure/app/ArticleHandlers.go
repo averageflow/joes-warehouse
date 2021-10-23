@@ -29,7 +29,7 @@ func (s *ApplicationServer) addArticlesHandler() func(*gin.Context) {
 		}
 
 		parsedArticles := warehouse.ConvertRawArticle(requestBody.Inventory)
-		if err := warehouse.AddArticlesWithPreMadeID(s.State.DB, parsedArticles); err != nil {
+		if err := warehouse.AddArticles(s.State.DB, parsedArticles); err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
 				Error:         err.Error(),

@@ -47,7 +47,7 @@ func (s *ApplicationServer) addDataFromFileHandler(itemType int) func(*gin.Conte
 
 			parsedArticles := warehouse.ConvertRawArticle(requestData.Inventory)
 
-			if err := warehouse.AddArticlesWithPreMadeID(s.State.DB, parsedArticles); err != nil {
+			if err := warehouse.AddArticles(s.State.DB, parsedArticles); err != nil {
 				log.Println(err.Error())
 				handleBadFormSubmission(c)
 				return
