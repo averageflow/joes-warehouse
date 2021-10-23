@@ -6,7 +6,7 @@ ADD . /dist
 WORKDIR ./cmd/joes-warehouse
 
 # Pull in any dependencies
-RUN go mod download
+# RUN go mod download
 # Build project as a binary called app
 RUN go build -o ../../dist/app
 
