@@ -24,5 +24,7 @@ Thus if we want to create new products / articles via an HTTP request with JSON 
 ## Additional notes
 
 Some compromises were made during development to simplify certain aspects and make the project more portable and quicker to develop, namely:
+* The legacy files provided contain a data structure that is not ideal for the task at hand, and thus some workarounds had to be made in order to support them. This includes some choices to the database schema, as well as in the application's code.
 * The configuration file contains "secrets" which for a production-ready application should at the very least not be encrypted "on rest". Either the file should be encrypted in a certain fashion or the secrets should be obtained from a Vault (Hashicorp Vault comes to mind).
+* The database migrations were created by hand and this should be managed with any software of choice. I would personally suggest writing my own migration manager, as I have done in the past, or adapt to whatever is the company policy. This could also include rollbacks to the operations, so we could migrate up/down.
 

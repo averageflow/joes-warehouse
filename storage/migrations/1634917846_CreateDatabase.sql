@@ -1,31 +1,39 @@
-USE DATABASE joes_warehouse;
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
-CREATE TABLE "articles" (
-    "id" INTEGER NOT NULL,
-    "name" TEXT NOT NULL,
-    PRIMARY KEY("id" AUTOINCREMENT)
+CREATE TABLE IF NOT EXISTS articles (
+    id SERIAL PRIMARY KEY,
+    unique_id uuid DEFAULT uuid_generate_v4(),
+    item_name VARCHAR NOT NULL,
+    created_at BIGINT NOT NULL,
+    updated_at BIGINT NOT NULL
 );
 
-CREATE TABLE "article_stocks" (
-    "id" INTEGER NOT NULL,
-    "article_id" INTEGER NOT NULL,
-    "stock" INTEGER NOT NULL,
-    FOREIGN KEY("article_id") REFERENCES "articles"("id"),
-    PRIMARY KEY("id" AUTOINCREMENT)
+CREATE TABLE IF NOT EXISTS article_stocks (
+    id SERIAL PRIMARY KEY,
+    unique_id uuid DEFAULT uuid_generate_v4(),
+    article_id INT NOT NULL,
+    stock INT NOT NULL,
+    created_at BIGINT NOT NULL,
+    updated_at BIGINT NOT NULL,
+    CONSTRAINT fk_article_stocks_article FOREIGN KEY(article_id) REFERENCES articles(id)
 );
 
-CREATE TABLE "products" (
-    "id" INTEGER NOT NULL,
-    "name" TEXT NOT NULL,
-    "price" REAL NOT NULL,
-    PRIMARY KEY("id" AUTOINCREMENT)
+CREATE TABLE IF NOT EXISTS products (
+    id SERIAL PRIMARY KEY,
+    unique_id uuid DEFAULT uuid_generate_v4(),
+    item_name VARCHAR NOT NULL,
+    price FLOAT8 NOT NULL,
+    created_at BIGINT NOT NULL,
+    updated_at BIGINT NOT NULL
 );
 
-CREATE TABLE "product_articles" (
-    "id" INTEGER NOT NULL,
-    "product_id" INTEGER NOT NULL,
-    "article_id" INTEGER NOT NULL,
-    FOREIGN KEY("product_id") REFERENCES "products"("id"),
-    FOREIGN KEY("article_id") REFERENCES "articles"("id"),
-    PRIMARY KEY("id" AUTOINCREMENT)
+CREATE TABLE IF NOT EXISTS product_articles (
+    id SERIAL PRIMARY KEY,
+    unique_id uuid DEFAULT uuid_generate_v4(),
+    product_id INT NOT NULL,
+    article_id INT NOT NULL,
+    created_at BIGINT NOT NULL,
+    updated_at BIGINT NOT NULL,
+    CONSTRAINT fk_product_articles_product FOREIGN KEY(product_id) REFERENCES products(id),
+    CONSTRAINT fk_product_articles_article FOREIGN KEY(article_id) REFERENCES articles(id)
 );
