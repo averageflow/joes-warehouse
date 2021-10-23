@@ -12,10 +12,11 @@ import (
 func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 	type getProductsHandlerResponse struct {
 		Data map[string]infrastructure.WebProduct `json:"data"`
+		Sort []string                             `json:"sort"`
 	}
 
 	return func(c *gin.Context) {
-		productData, err := warehouse.GetFullProductResponse(s.State.DB)
+		productData, sortProducts, err := warehouse.GetFullProductResponse(s.State.DB)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
@@ -28,6 +29,7 @@ func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 
 		c.JSON(http.StatusOK, getProductsHandlerResponse{
 			Data: productData,
+			Sort: sortProducts,
 		})
 	}
 }

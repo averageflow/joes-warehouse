@@ -1,6 +1,9 @@
 package views
 
 import (
+	"fmt"
+
+	"github.com/averageflow/joes-warehouse/infrastructure"
 	g "github.com/maragudk/gomponents"
 	c "github.com/maragudk/gomponents/components"
 
@@ -55,7 +58,7 @@ func SuccessUploadingView() g.Node {
 	})
 }
 
-func HomeView() g.Node {
+func ProductView(products map[string]infrastructure.WebProduct, sortProducts []string) g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Joe's Warehouse",
 		Description: "Warehouse management software made by Joe.",
@@ -72,11 +75,58 @@ func HomeView() g.Node {
 						Class("title is-2 is-success"),
 						g.Text("Products"),
 					),
+					Table(
+						Class("table is-striped"),
+						THead(Tr(
+							Th(g.Text("Name")),
+							Th(g.Text("Price")),
+						)),
+						TBody(
+							g.Group(g.Map(len(sortProducts), func(i int) g.Node {
+								return Tr(
+									Td(g.Text(products[sortProducts[i]].Name)),
+									Td(g.Text(fmt.Sprintf("%.2f", products[sortProducts[i]].Price))),
+								)
+							})),
+						),
+					),
 				),
+			),
+		},
+	})
+}
+
+func ArticleView(articles map[string]infrastructure.WebArticle, sortArticles []string) g.Node {
+	return c.HTML5(c.HTML5Props{
+		Title:       "Joe's Warehouse",
+		Description: "Warehouse management software made by Joe.",
+		Language:    "en",
+		Head: []g.Node{
+			c.LinkStylesheet("/styles/bulma.min.css"),
+		},
+		Body: []g.Node{
+			Navbar(),
+			Main(
+				Class("container has-text-justified p-6"),
 				Div(
 					H2(
 						Class("title is-2 is-success"),
 						g.Text("Articles"),
+					),
+					Table(
+						Class("table is-striped"),
+						THead(Tr(
+							Th(g.Text("Name")),
+							Th(g.Text("Stock")),
+						)),
+						TBody(
+							g.Group(g.Map(len(sortArticles), func(i int) g.Node {
+								return Tr(
+									Td(g.Text(articles[sortArticles[i]].Name)),
+									Td(g.Text(fmt.Sprintf("%d", articles[sortArticles[i]].Stock))),
+								)
+							})),
+						),
 					),
 				),
 			),
@@ -99,6 +149,16 @@ func Navbar() g.Node {
 			Class("navbar-menu"),
 			Div(
 				Class("navbar-start"),
+				A(
+					Class("navbar-item"),
+					Href("/ui/products"),
+					g.Text("View products"),
+				),
+				A(
+					Class("navbar-item"),
+					Href("/ui/articles"),
+					g.Text("View articles"),
+				),
 				A(
 					Class("navbar-item"),
 					Href("/ui/products/file-submission"),

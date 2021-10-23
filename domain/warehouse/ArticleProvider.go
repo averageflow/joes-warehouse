@@ -57,16 +57,16 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 	return articleMap, nil
 }
 
-func GetArticles(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebArticle, error) {
+func GetArticles(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebArticle, []string, error) {
 	ctx := context.Background()
 
 	rows, err := db.Query(ctx, getArticlesQuery)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	if rows.Err() != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	defer rows.Close()
@@ -85,19 +85,21 @@ func GetArticles(db infrastructure.ApplicationDatabase) (map[string]infrastructu
 			&article.UpdatedAt,
 		)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 
 		articles = append(articles, article)
 	}
 
 	result := make(map[string]infrastructure.WebArticle, len(articles))
+	sortArticles := make([]string, len(articles))
 
 	for i := range articles {
 		result[articles[i].UniqueID] = articles[i]
+		sortArticles[i] = articles[i].UniqueID
 	}
 
-	return result, nil
+	return result, sortArticles, nil
 }
 
 func AddArticles(db infrastructure.ApplicationDatabase, articles []infrastructure.Article) error {

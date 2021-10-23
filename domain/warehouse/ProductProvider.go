@@ -7,10 +7,10 @@ import (
 	"github.com/averageflow/joes-warehouse/infrastructure"
 )
 
-func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebProduct, error) {
-	products, err := GetProducts(db)
+func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebProduct, []string, error) {
+	products, sortProducts, err := GetProducts(db)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	productIDs := CollectProductIDs(products)
@@ -19,7 +19,7 @@ func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[string]i
 
 	relatedArticles, err := GetArticlesForProduct(db, productIDs)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	for i := range relatedArticles {
@@ -29,19 +29,19 @@ func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[string]i
 		products[wantedUUID] = wantedProduct
 	}
 
-	return products, nil
+	return products, sortProducts, nil
 }
 
-func GetProducts(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebProduct, error) {
+func GetProducts(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebProduct, []string, error) {
 	ctx := context.Background()
 
 	rows, err := db.Query(ctx, getProductsQuery)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	if rows.Err() != nil {
-		return nil, err
+		return nil, nil, err
 	}
 
 	defer rows.Close()
@@ -60,19 +60,21 @@ func GetProducts(db infrastructure.ApplicationDatabase) (map[string]infrastructu
 			&product.UpdatedAt,
 		)
 		if err != nil {
-			return nil, err
+			return nil, nil, err
 		}
 
 		products = append(products, product)
 	}
 
 	result := make(map[string]infrastructure.WebProduct, len(products))
+	orderData := make([]string, len(products))
 
 	for i := range products {
 		result[products[i].UniqueID] = products[i]
+		orderData[i] = products[i].UniqueID
 	}
 
-	return result, nil
+	return result, orderData, nil
 }
 
 func AddProducts(db infrastructure.ApplicationDatabase, products []infrastructure.RawProduct) error {

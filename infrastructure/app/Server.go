@@ -101,13 +101,18 @@ func (s *ApplicationServer) registerHandlers() {
 	s.State.Handler.StaticFile("/styles/bulma.min.css", "../../web/styles/bulma.min.css")
 
 	s.State.Handler.Handle(http.MethodGet, "/", func(c *gin.Context) {
-		c.Redirect(http.StatusFound, "/ui")
+		c.Redirect(http.StatusFound, "/ui/products")
 	})
 
 	uiGroup := s.State.Handler.Group("/ui")
 
 	// HTML views
-	uiGroup.Handle(http.MethodGet, "", s.homeViewHandler())
+	uiGroup.Handle(http.MethodGet, "", func(c *gin.Context) {
+		c.Redirect(http.StatusFound, "/ui/products")
+	})
+
+	uiGroup.Handle(http.MethodGet, "/products", s.productViewHandler())
+	uiGroup.Handle(http.MethodGet, "/articles", s.articleViewHandler())
 	uiGroup.Handle(http.MethodGet, "/products/file-submission", s.addProductsFromFileViewHandler())
 	uiGroup.Handle(http.MethodGet, "/articles/file-submission", s.addArticlesFromFileViewHandler())
 	// Form submissions
