@@ -32,6 +32,7 @@ CREATE TABLE IF NOT EXISTS product_articles (
     unique_id uuid DEFAULT uuid_generate_v4(),
     product_id INT NOT NULL,
     article_id INT NOT NULL,
+    amount_of BIGINT NOT NULL,
     created_at BIGINT NOT NULL,
     updated_at BIGINT NOT NULL,
     CONSTRAINT fk_product_articles_product FOREIGN KEY(product_id) REFERENCES products(id),
