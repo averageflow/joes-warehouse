@@ -14,8 +14,12 @@ func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 }
 
 func (s *ApplicationServer) addProductsHandler() func(*gin.Context) {
+	type addProductsRequest struct {
+		Data []products.ProductModel `json:"data"`
+	}
+
 	return func(c *gin.Context) {
-		var requestBody []products.ProductModel
+		var requestBody addProductsRequest
 
 		if err := c.BindJSON(&requestBody); err != nil {
 			c.AbortWithStatusJSON(http.StatusUnprocessableEntity, ApplicationServerResponse{
@@ -27,7 +31,7 @@ func (s *ApplicationServer) addProductsHandler() func(*gin.Context) {
 			return
 		}
 
-		if err := products.AddProducts(s.State.DB, requestBody); err != nil {
+		if err := products.AddProducts(s.State.DB, requestBody.Data); err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
 				Error:         err.Error(),
