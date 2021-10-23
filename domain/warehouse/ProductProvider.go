@@ -7,8 +7,47 @@ import (
 	"github.com/averageflow/joes-warehouse/infrastructure"
 )
 
-func GetProducts() ([]infrastructure.ProductModel, error) {
-	return nil, nil
+func GetProducts(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebProductModel, error) {
+	ctx := context.Background()
+
+	rows, err := db.Query(ctx, getProductsQuery)
+	if err != nil {
+		return nil, err
+	}
+
+	if rows.Err() != nil {
+		return nil, err
+	}
+
+	defer rows.Close()
+
+	var products []infrastructure.WebProductModel
+
+	for rows.Next() {
+		var product infrastructure.WebProductModel
+
+		err := rows.Scan(
+			&product.ID,
+			&product.UniqueID,
+			&product.Name,
+			&product.Price,
+			&product.CreatedAt,
+			&product.UpdatedAt,
+		)
+		if err != nil {
+			return nil, err
+		}
+
+		products = append(products, product)
+	}
+
+	result := make(map[string]infrastructure.WebProductModel, len(products))
+
+	for i := range products {
+		result[products[i].UniqueID] = products[i]
+	}
+
+	return result, nil
 }
 
 func AddProducts(db infrastructure.ApplicationDatabase, products []infrastructure.RawProductModel) error {

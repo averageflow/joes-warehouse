@@ -77,6 +77,7 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 			os.Exit(1)
 		}
 
+		//db.Query()
 		state.DB = db
 	}
 

@@ -34,6 +34,16 @@ type ProductModel struct {
 	Articles []ArticleModel `json:"articles"`
 }
 
+type WebProductModel struct {
+	ID        int64          `json:"id"`
+	UniqueID  string         `json:"unique_id"`
+	Name      string         `json:"name"`
+	Price     float64        `json:"price"`
+	Articles  []ArticleModel `json:"articles"`
+	CreatedAt int64          `json:"created_at"`
+	UpdatedAt int64          `json:"updated_at"`
+}
+
 type RawProductModel struct {
 	Name     string                           `json:"name"`
 	Articles []RawArticleFromProductFileModel `json:"contain_articles"`

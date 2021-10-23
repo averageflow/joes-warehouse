@@ -1,12 +1,7 @@
 package warehouse
 
 const getProductsQuery = `
-	SELECT
-		id,
-		item_name,
-		price
-	FROM
-		products;
+select id, unique_id, item_name, price, created_at, updated_at from products;
 `
 
 const addProductsQuery = `
