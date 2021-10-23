@@ -17,20 +17,20 @@ const addProductsQuery = `
 	RETURNING id;
 `
 
-const modifyProductByUUIDQuery = `
-	UPDATE
-		products
-	SET
-	    item_name = $1,
-		price = $2,
-		updated_at = $3
-	WHERE
-		unique_id = $4;
-`
+// const modifyProductByUUIDQuery = `
+// 	UPDATE
+// 		products
+// 	SET
+// 	    item_name = $1,
+// 		price = $2,
+// 		updated_at = $3
+// 	WHERE
+// 		unique_id = $4;
+// `
 
-const deleteProductByUUIDQuery = `
-	DELETE FROM
-		products
-	WHERE
-		unique_id = $1;
-`
+// const deleteProductByUUIDQuery = `
+// 	DELETE FROM
+// 		products
+// 	WHERE
+// 		unique_id = $1;
+// `

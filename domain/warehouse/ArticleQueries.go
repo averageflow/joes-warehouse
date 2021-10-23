@@ -1,15 +1,15 @@
 package warehouse
 
-const getArticlesForProductQuery = `
-	SELECT
-		articles.id,
-		articles.item_name
-	FROM
-		articles
-		INNER JOIN product_articles ON product_articles.product_id = product.id
-	WHERE
-		product_id = $1;
-`
+// const getArticlesForProductQuery = `
+// 	SELECT
+// 		articles.id,
+// 		articles.item_name
+// 	FROM
+// 		articles
+// 		INNER JOIN product_articles ON product_articles.product_id = product.id
+// 	WHERE
+// 		product_id = $1;
+// `
 
 const addArticlesForProductQuery = `
 	INSERT INTO product_articles (article_id, product_id, amount_of, created_at, updated_at) 
@@ -34,23 +34,23 @@ const addArticleStocksQuery = `
 		stock = $2, updated_at = $4;
 `
 
-const updateArticleByUUIDQuery = `
-	UPDATE
-		articles
-	SET
-	item_name = $1,
-		updated_at = $2
-	WHERE
-		unique_id = $3;
-`
+// const updateArticleByUUIDQuery = `
+// 	UPDATE
+// 		articles
+// 	SET
+// 	item_name = $1,
+// 		updated_at = $2
+// 	WHERE
+// 		unique_id = $3;
+// `
 
-const deleteArticleByUUIDQuery = `
-	DELETE FROM
-		articles
-	WHERE
-		unique_id = $1;
-`
+// const deleteArticleByUUIDQuery = `
+// 	DELETE FROM
+// 		articles
+// 	WHERE
+// 		unique_id = $1;
+// `
 
-const modifyArticleStocksByIDQuery = `
-	UPDATE article_stocks SET stock = $1, updated_at = $2 WHERE article_id = $3;
-`
+// const modifyArticleStocksByIDQuery = `
+// 	UPDATE article_stocks SET stock = $1, updated_at = $2 WHERE article_id = $3;
+// `
