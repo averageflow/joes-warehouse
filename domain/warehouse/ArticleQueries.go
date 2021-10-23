@@ -15,7 +15,7 @@ const getArticlesForProductQuery = `
 		INNER JOIN product_articles ON product_articles.article_id = articles.id
 		INNER JOIN article_stocks ON article_stocks.article_id = articles.id
 	WHERE
-		product_articles.product_id IN ($1);
+		product_articles.product_id IN (%s);
 `
 
 const getArticlesQuery = `

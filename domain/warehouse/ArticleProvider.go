@@ -2,6 +2,7 @@ package warehouse
 
 import (
 	"context"
+	"fmt"
 	"time"
 
 	"github.com/averageflow/joes-warehouse/infrastructure"
@@ -12,8 +13,7 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 
 	rows, err := db.Query(
 		ctx,
-		getArticlesForProductQuery,
-		IntSliceToCommaSeparatedString(productIDs),
+		fmt.Sprintf(getArticlesForProductQuery, IntSliceToCommaSeparatedString(productIDs)),
 	)
 	if err != nil {
 		return nil, err
