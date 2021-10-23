@@ -6,6 +6,11 @@ type ArticleModel struct {
 	Stock int64  `json:"stock"`
 }
 
+type ArticleProductRelationModel struct {
+	ID       int64
+	AmountOf int64
+}
+
 type RawArticleModel struct {
 	ID    string `json:"art_id"`
 	Name  string `json:"name"`

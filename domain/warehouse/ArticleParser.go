@@ -28,17 +28,16 @@ func ConvertRawArticle(articles []infrastructure.RawArticleModel) []infrastructu
 	return result
 }
 
-func ConvertRawArticleFromProductFile(articles []infrastructure.RawArticleFromProductFileModel) []infrastructure.ArticleModel {
-	result := make([]infrastructure.ArticleModel, len(articles))
+func ConvertRawArticleFromProductFile(articles []infrastructure.RawArticleFromProductFileModel) []infrastructure.ArticleProductRelationModel {
+	result := make([]infrastructure.ArticleProductRelationModel, len(articles))
 
 	for i := range articles {
 		id, _ := strconv.ParseInt(articles[i].ID, wantedConversionBase, wantedConversionBits)
-		stock, _ := strconv.ParseInt(articles[i].Stock, wantedConversionBase, wantedConversionBits)
+		amountOf, _ := strconv.ParseInt(articles[i].Stock, wantedConversionBase, wantedConversionBits)
 
-		result[i] = infrastructure.ArticleModel{
-			ID:    id,
-			Name:  articles[i].Name,
-			Stock: stock,
+		result[i] = infrastructure.ArticleProductRelationModel{
+			ID:       id,
+			AmountOf: amountOf,
 		}
 	}
 

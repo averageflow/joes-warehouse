@@ -37,7 +37,7 @@ func AddArticlesWithPreMadeID(db infrastructure.ApplicationDatabase, articles []
 	return tx.Commit(ctx)
 }
 
-func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID int, articles []infrastructure.ArticleModel) error {
+func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID int, articles []infrastructure.ArticleProductRelationModel) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)
@@ -53,6 +53,7 @@ func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID 
 			addArticlesForProductQuery,
 			articles[i].ID,
 			productID,
+			articles[i].AmountOf,
 			now,
 			now,
 		); err != nil {

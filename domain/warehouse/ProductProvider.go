@@ -16,7 +16,7 @@ func AddProducts(db infrastructure.ApplicationDatabase, products []infrastructur
 
 	now := time.Now().Unix()
 
-	articleMap := make(map[int][]infrastructure.ArticleModel)
+	articleMap := make(map[int][]infrastructure.ArticleProductRelationModel)
 
 	for i := range products {
 		tx, err := db.Begin(ctx)

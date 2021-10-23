@@ -12,7 +12,8 @@ const getArticlesForProductQuery = `
 `
 
 const addArticlesForProductQuery = `
-	INSERT INTO product_articles (article_id, product_id, created_at, updated_at) VALUES ($1, $2, $3, $4);
+	INSERT INTO product_articles (article_id, product_id, amount_of, created_at, updated_at) 
+	VALUES ($1, $2, $3, $4, $5);
 `
 
 const addArticlesWithIDQuery = `
