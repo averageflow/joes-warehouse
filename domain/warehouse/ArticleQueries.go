@@ -1,4 +1,4 @@
-package articles
+package warehouse
 
 const getArticlesForProductQuery = `
 	SELECT

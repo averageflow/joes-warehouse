@@ -1,4 +1,4 @@
-package products
+package warehouse
 
 const getProductsQuery = `
 	SELECT
@@ -13,7 +13,8 @@ const addProductsQuery = `
 	INSERT INTO
 		products (item_name, price, created_at, updated_at)
 	VALUES
-		($1, $2, $3, $4);
+		($1, $2, $3, $4)
+	RETURNING id;
 `
 
 const modifyProductByUUIDQuery = `

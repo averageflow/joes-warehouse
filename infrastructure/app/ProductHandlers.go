@@ -4,7 +4,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/averageflow/joes-warehouse/domain/products"
+	"github.com/averageflow/joes-warehouse/domain/warehouse"
 	"github.com/averageflow/joes-warehouse/infrastructure"
 	"github.com/averageflow/joes-warehouse/infrastructure/views"
 	"github.com/gin-gonic/gin"
@@ -16,7 +16,7 @@ func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 
 func (s *ApplicationServer) addProductsHandler() func(*gin.Context) {
 	type addProductsRequest struct {
-		Data []products.ProductModel `json:"data"`
+		Data []infrastructure.ProductModel `json:"data"`
 	}
 
 	return func(c *gin.Context) {
@@ -32,7 +32,7 @@ func (s *ApplicationServer) addProductsHandler() func(*gin.Context) {
 			return
 		}
 
-		if err := products.AddProducts(s.State.DB, requestBody.Data); err != nil {
+		if err := warehouse.AddProducts(s.State.DB, requestBody.Data); err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
 				Error:         err.Error(),

@@ -7,8 +7,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/averageflow/joes-warehouse/domain/articles"
-	"github.com/averageflow/joes-warehouse/domain/products"
+	"github.com/averageflow/joes-warehouse/domain/warehouse"
 	"github.com/averageflow/joes-warehouse/infrastructure"
 	"github.com/averageflow/joes-warehouse/infrastructure/views"
 	"github.com/gin-gonic/gin"
@@ -39,26 +38,30 @@ func (s *ApplicationServer) addDataFromFileHandler(itemType int) func(*gin.Conte
 		log.Println(buf.String())
 
 		if itemType == infrastructure.ItemTypeArticle {
-			var requestData articles.LegacyArticleUploadRequest
+			var requestData infrastructure.LegacyArticleUploadRequest
 
-			err := json.Unmarshal(buf.Bytes(), &requestData)
-			if err != nil {
+			if err := json.Unmarshal(buf.Bytes(), &requestData); err != nil {
 				handleBadFormSubmission(c)
 				return
 			}
 
-			log.Printf("%#v", requestData)
+			if err := warehouse.AddLegacyArticles(s.State.DB, requestData.Inventory); err != nil {
+				handleBadFormSubmission(c)
+				return
+			}
 
 		} else if itemType == infrastructure.ItemTypeProduct {
-			var requestData products.LegacyProductUploadRequest
+			var requestData infrastructure.LegacyProductUploadRequest
 
-			err := json.Unmarshal(buf.Bytes(), &requestData)
-			if err != nil {
+			if err := json.Unmarshal(buf.Bytes(), &requestData); err != nil {
 				handleBadFormSubmission(c)
 				return
 			}
 
-			log.Printf("%#v", requestData)
+			if err := warehouse.AddLegacyProducts(s.State.DB, requestData.Products); err != nil {
+				handleBadFormSubmission(c)
+				return
+			}
 
 		} else {
 			handleBadFormSubmission(c)
