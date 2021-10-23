@@ -2,6 +2,8 @@ package warehouse
 
 import (
 	"fmt"
+	"math"
+	"sort"
 	"strings"
 
 	"github.com/averageflow/joes-warehouse/infrastructure"
@@ -46,4 +48,24 @@ func CollectProductIDsToUniqueIDs(products map[string]infrastructure.WebProduct)
 	}
 
 	return result
+}
+
+func ProductAmountInStock(product infrastructure.WebProduct) int64 {
+	var amounts []float64
+
+	for i := range product.Articles {
+		if product.Articles[i].AmountOf > product.Articles[i].Stock {
+			// if we need more parts than are in stock then we immediately stop
+			// the calculation and return a 0
+			return 0
+		}
+
+		ratio := float64(product.Articles[i].Stock / product.Articles[i].AmountOf)
+		amounts = append(amounts, ratio)
+
+	}
+
+	sort.Float64s(amounts)
+
+	return int64(math.Floor(amounts[0]))
 }

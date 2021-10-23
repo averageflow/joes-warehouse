@@ -26,6 +26,7 @@ func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[string]i
 		wantedUUID := idtoUniqueIdMap[i]
 		wantedProduct := products[wantedUUID]
 		wantedProduct.Articles = relatedArticles[i]
+		wantedProduct.AmountInStock = ProductAmountInStock(wantedProduct)
 		products[wantedUUID] = wantedProduct
 	}
 
