@@ -15,12 +15,8 @@ func (s *ApplicationServer) getArticlesHandler() func(*gin.Context) {
 }
 
 func (s *ApplicationServer) addArticlesHandler() func(*gin.Context) {
-	type addArticlesRequest struct {
-		Data []infrastructure.ArticleModel `json:"data"`
-	}
-
 	return func(c *gin.Context) {
-		var requestBody addArticlesRequest
+		var requestBody infrastructure.RawArticleUploadRequest
 
 		if err := c.BindJSON(&requestBody); err != nil {
 			c.AbortWithStatusJSON(http.StatusUnprocessableEntity, ApplicationServerResponse{
@@ -32,7 +28,7 @@ func (s *ApplicationServer) addArticlesHandler() func(*gin.Context) {
 			return
 		}
 
-		if err := warehouse.AddArticles(s.State.DB, requestBody.Data); err != nil {
+		if err := warehouse.AddArticlesWithPreMadeID(s.State.DB, warehouse.ConvertRawArticle(requestBody.Inventory)); err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
 				Error:         err.Error(),

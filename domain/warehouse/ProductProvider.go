@@ -62,15 +62,3 @@ func ModifyProduct(product infrastructure.ProductModel) error {
 func DeleteProduct(product infrastructure.ProductModel) error {
 	return nil
 }
-
-func ConvertRawProduct(products []infrastructure.RawProductModel) []infrastructure.ProductModel {
-	result := make([]infrastructure.ProductModel, len(products))
-
-	for i := range products {
-		result[i] = infrastructure.ProductModel{
-			Name: products[i].Name,
-		}
-	}
-
-	return result
-}
