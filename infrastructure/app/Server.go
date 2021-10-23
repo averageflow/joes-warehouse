@@ -97,6 +97,7 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 func (s *ApplicationServer) registerHandlers() {
 	s.State.Handler.Use(gin.Logger(), gin.Recovery())
 
+	s.State.Handler.StaticFile("/styles/bulma.min.css", "../../web/styles/bulma.min.css")
 	s.State.Handler.Handle(http.MethodGet, "/products", s.getProductsHandler())
 	s.State.Handler.Handle(http.MethodPost, "/products", s.addProductsHandler())
 	s.State.Handler.Handle(http.MethodPost, "/products/file-submission", s.addProductsFromFileHandler())

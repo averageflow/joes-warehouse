@@ -15,13 +15,29 @@ func ArticleSubmissionView() g.Node {
 		Title:       "Add Articles | Joe's Warehouse",
 		Description: "Submit a list of new articles to be added to the warehouse.",
 		Language:    "en",
-		Head:        []g.Node{},
+		Head: []g.Node{
+			c.LinkStylesheet("/styles/bulma.min.css"),
+		},
 		Body: []g.Node{
 			Main(
-				Class("container has-text-justified"),
-				Label(
-					g.Text("Please submit a file containing articles using the input below:"),
+				Class("container has-text-justified p-6"),
+				H1(
+					Class("title is-2"),
+					g.Text("Add Articles"),
+				),
+				Div(
+					Class("field"),
+					Label(
+						Class("label"),
+						For("submit-file-input"),
+						g.Text("Please submit a file containing articles using the input below:"),
+					),
+				),
+				Div(
+					Class("control"),
 					Input(
+						Class("input"),
+						ID("submit-file-input"),
 						Type("file"),
 					),
 				),
