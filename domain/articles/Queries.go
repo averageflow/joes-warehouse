@@ -3,7 +3,7 @@ package articles
 const getArticlesForProductQuery = `
 	SELECT
 		articles.id,
-		articles.name
+		articles.item_name
 	FROM
 		articles
 		INNER JOIN product_articles ON product_articles.product_id = product.id
@@ -13,7 +13,7 @@ const getArticlesForProductQuery = `
 
 const addArticlesQuery = `
 	INSERT INTO
-		articles (name, created_at, updated_at)
+		articles (item_name, created_at, updated_at)
 	VALUES
 		($1, $2, $3);
 `
@@ -29,7 +29,7 @@ const updateArticleByUUIDQuery = `
 	UPDATE
 		articles
 	SET
-		name = $1,
+	item_name = $1,
 		updated_at = $2
 	WHERE
 		unique_id = $3;
