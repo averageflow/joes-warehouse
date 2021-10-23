@@ -13,34 +13,35 @@ const getArticlesForProductQuery = `
 
 const addArticlesQuery = `
 	INSERT INTO
-		articles (name)
+		articles (name, created_at, updated_at)
 	VALUES
-		($1);
+		($1, $2, $3);
 `
 
 const addArticleStocksQuery = `
 	INSERT INTO
-		article_stocks (article_id, stock)
+		article_stocks (article_id, stock, created_at, updated_at)
 	VALUES
-		($1, $2);
+		($1, $2, $3, $4);
 `
 
-const updateArticleByIDQuery = `
+const updateArticleByUUIDQuery = `
 	UPDATE
 		articles
 	SET
-		name = $1
+		name = $1,
+		updated_at = $2
 	WHERE
-		id = $2;
+		unique_id = $3;
 `
 
-const deleteArticleByIDQuery = `
+const deleteArticleByUUIDQuery = `
 	DELETE FROM
 		articles
 	WHERE
-		id = $1;
+		unique_id = $1;
 `
 
 const modifyArticleStocksByIDQuery = `
-	UPDATE article_stocks SET stock = $1 WHERE article_id = $2;
+	UPDATE article_stocks SET stock = $1, updated_at = $2 WHERE article_id = $3;
 `
