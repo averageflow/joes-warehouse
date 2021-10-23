@@ -14,10 +14,6 @@ func (s *ApplicationServer) addArticlesFromLegacyFileHandler() func(*gin.Context
 	return func(c *gin.Context) {}
 }
 
-func (s *ApplicationServer) addArticlesFromFileHandler() func(*gin.Context) {
-	return func(c *gin.Context) {}
-}
-
 func (s *ApplicationServer) modifyArticleHandler() func(*gin.Context) {
 	return func(c *gin.Context) {}
 }
