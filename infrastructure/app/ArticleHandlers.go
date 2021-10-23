@@ -28,7 +28,18 @@ func (s *ApplicationServer) addArticlesHandler() func(*gin.Context) {
 			return
 		}
 
-		if err := warehouse.AddArticlesWithPreMadeID(s.State.DB, warehouse.ConvertRawArticle(requestBody.Inventory)); err != nil {
+		parsedArticles := warehouse.ConvertRawArticle(requestBody.Inventory)
+		if err := warehouse.AddArticlesWithPreMadeID(s.State.DB, parsedArticles); err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
+				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
+				Error:         err.Error(),
+				UnixTimestamp: time.Now().Unix(),
+			})
+
+			return
+		}
+
+		if err := warehouse.AddArticleStocks(s.State.DB, parsedArticles); err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
 				Error:         err.Error(),
