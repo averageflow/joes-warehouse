@@ -45,7 +45,8 @@ func (s *ApplicationServer) addDataFromFileHandler(itemType int) func(*gin.Conte
 				return
 			}
 
-			if err := warehouse.AddLegacyArticles(s.State.DB, requestData.Inventory); err != nil {
+			if err := warehouse.AddArticlesWithPreMadeID(s.State.DB, warehouse.ConvertLegacyArticleToStandard(requestData.Inventory)); err != nil {
+				log.Println(err.Error())
 				handleBadFormSubmission(c)
 				return
 			}
@@ -59,6 +60,7 @@ func (s *ApplicationServer) addDataFromFileHandler(itemType int) func(*gin.Conte
 			}
 
 			if err := warehouse.AddLegacyProducts(s.State.DB, requestData.Products); err != nil {
+				log.Println(err.Error())
 				handleBadFormSubmission(c)
 				return
 			}

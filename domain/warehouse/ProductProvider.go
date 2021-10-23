@@ -63,7 +63,7 @@ func AddLegacyProducts(db infrastructure.ApplicationDatabase, products []infrast
 			return err
 		}
 
-		err = AddArticles(db, ConvertLegacyArticleFromProductFileToStandard(products[i].Articles))
+		err = AddArticleProductRelation(db, productID, products[i].Articles)
 		if err != nil {
 			return err
 		}

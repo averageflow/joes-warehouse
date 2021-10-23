@@ -37,13 +37,56 @@ func AddArticles(db infrastructure.ApplicationDatabase, articles []infrastructur
 	return tx.Commit(ctx)
 }
 
-func AddLegacyArticles(db infrastructure.ApplicationDatabase, articles []infrastructure.LegacyArticleModel) error {
-	converted := ConvertLegacyArticleToStandard(articles)
-	return AddArticles(db, converted)
+func AddArticlesWithPreMadeID(db infrastructure.ApplicationDatabase, articles []infrastructure.ArticleModel) error {
+	ctx := context.Background()
+
+	tx, err := db.Begin(ctx)
+	if err != nil {
+		return err
+	}
+
+	now := time.Now().Unix()
+
+	for i := range articles {
+		if _, err := tx.Exec(
+			ctx,
+			addArticlesWithIDQuery,
+			articles[i].ID,
+			articles[i].Name,
+			now,
+			now,
+		); err != nil {
+			return err
+		}
+	}
+
+	return tx.Commit(ctx)
 }
 
-func AddArticleProductRelation(db infrastructure.ApplicationDatabase, items infrastructure.LegacyProductUploadRequest) error {
-	return nil
+func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID int, articles []infrastructure.LegacyArticleFromProductFileModel) error {
+	ctx := context.Background()
+
+	tx, err := db.Begin(ctx)
+	if err != nil {
+		return err
+	}
+
+	now := time.Now().Unix()
+
+	for i := range articles {
+		if _, err := tx.Exec(
+			ctx,
+			addArticlesForProductQuery,
+			articles[i].ID,
+			productID,
+			now,
+			now,
+		); err != nil {
+			return err
+		}
+	}
+
+	return tx.Commit(ctx)
 }
 
 func ModifyArticles() error {
