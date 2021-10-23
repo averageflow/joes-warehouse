@@ -9,7 +9,6 @@ import (
 type ApplicationConfig struct {
 	ApplicationMode    string
 	DatabaseConnection string
-	DatabaseType       string
 }
 
 // ConfigSetup will prepare and setup the viper instance to the correct config file.
@@ -27,14 +26,12 @@ func GetConfig() *ApplicationConfig {
 
 	validateVariablesAreSet([]string{
 		"ApplicationMode",
-		"DatabaseType",
 		"DatabaseConnection",
 	})
 
 	return &ApplicationConfig{
 		ApplicationMode:    viper.GetString("ApplicationMode"),
 		DatabaseConnection: viper.GetString("DatabaseConnection"),
-		DatabaseType:       viper.GetString("DatabaseType"),
 	}
 }
 

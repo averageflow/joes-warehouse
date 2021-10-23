@@ -1,0 +1,11 @@
+# Use postgres/example user/password credentials
+version: '3.8'
+
+services:
+  db:
+    container_name: "PostgresWarehouseDB"
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: warehouse_db

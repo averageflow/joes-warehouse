@@ -8,29 +8,29 @@ const getProductsQuery = `
 	FROM
 		products
 	WHERE
-		id = ?;
+		id = $1;
 `
 
 const addProductsQuery = `
 	INSERT INTO
 		products (name, price)
 	VALUES
-		(?, ?);
+		($1, $2);
 `
 
 const modifyProductByIDQuery = `
 	UPDATE
 		products
 	SET
-		name = ?,
-		price = ?
+		name = $1,
+		price = $2
 	WHERE
-		id = ?;
+		id = $3;
 `
 
 const deleteProductByIDQuery = `
 	DELETE FROM
 		products
 	WHERE
-		id = ?;
+		id = $1;
 `

@@ -8,39 +8,39 @@ const getArticlesForProductQuery = `
 		articles
 		INNER JOIN product_articles ON product_articles.product_id = product.id
 	WHERE
-		product_id = ?;
+		product_id = $1;
 `
 
 const addArticlesQuery = `
 	INSERT INTO
 		articles (name)
 	VALUES
-		(?);
+		($1);
 `
 
 const addArticleStocksQuery = `
 	INSERT INTO
 		article_stocks (article_id, stock)
 	VALUES
-		(?, ?);
+		($1, $2);
 `
 
 const updateArticleByIDQuery = `
 	UPDATE
 		articles
 	SET
-		name = ?
+		name = $1
 	WHERE
-		id = ?;
+		id = $2;
 `
 
 const deleteArticleByIDQuery = `
 	DELETE FROM
 		articles
 	WHERE
-		id = ?;
+		id = $1;
 `
 
 const modifyArticleStocksByIDQuery = `
-	UPDATE article_stocks SET stock = ? WHERE article_id = ?;
+	UPDATE article_stocks SET stock = $1 WHERE article_id = $2;
 `

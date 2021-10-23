@@ -2,7 +2,7 @@ package app
 
 import (
 	"context"
-	"database/sql"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -14,8 +14,7 @@ import (
 	"github.com/averageflow/joes-warehouse/infrastructure"
 	"github.com/gin-gonic/gin"
 
-	// importing the SQLite3 driver.
-	_ "github.com/mattn/go-sqlite3"
+	"github.com/jackc/pgx/v4"
 )
 
 const (
@@ -25,7 +24,7 @@ const (
 type ApplicationState struct {
 	Handler    infrastructure.ApplicationHTTPHandler
 	HTTPServer *http.Server
-	DB         *sql.DB
+	DB         *pgx.Conn
 	Config     *ApplicationConfig
 }
 
@@ -66,9 +65,10 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 	}
 
 	if state.DB == nil {
-		db, err := sql.Open(state.Config.DatabaseType, state.Config.DatabaseConnection)
+		db, err := pgx.Connect(context.Background(), state.Config.DatabaseConnection)
 		if err != nil {
-			log.Fatal(err)
+			log.Fatalln(fmt.Sprintf("Unable to connect to database: %v\n", err))
+			os.Exit(1)
 		}
 
 		state.DB = db
