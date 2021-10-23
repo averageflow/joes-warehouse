@@ -11,33 +11,7 @@ func GetProducts() ([]infrastructure.ProductModel, error) {
 	return nil, nil
 }
 
-func AddProducts(db infrastructure.ApplicationDatabase, products []infrastructure.ProductModel) error {
-	ctx := context.Background()
-
-	tx, err := db.Begin(ctx)
-	if err != nil {
-		return err
-	}
-
-	now := time.Now().Unix()
-
-	for i := range products {
-		if _, err := tx.Exec(
-			ctx,
-			addProductsQuery,
-			products[i].Name,
-			products[i].Price,
-			now,
-			now,
-		); err != nil {
-			return err
-		}
-	}
-
-	return tx.Commit(ctx)
-}
-
-func AddLegacyProducts(db infrastructure.ApplicationDatabase, products []infrastructure.LegacyProductModel) error {
+func AddProducts(db infrastructure.ApplicationDatabase, products []infrastructure.RawProductModel) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)
@@ -80,7 +54,7 @@ func DeleteProduct(product infrastructure.ProductModel) error {
 	return nil
 }
 
-func ConvertLegacyProductToStandard(products []infrastructure.LegacyProductModel) []infrastructure.ProductModel {
+func ConvertRawProduct(products []infrastructure.RawProductModel) []infrastructure.ProductModel {
 	result := make([]infrastructure.ProductModel, len(products))
 
 	for i := range products {

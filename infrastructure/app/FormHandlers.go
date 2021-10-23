@@ -38,28 +38,28 @@ func (s *ApplicationServer) addDataFromFileHandler(itemType int) func(*gin.Conte
 		log.Println(buf.String())
 
 		if itemType == infrastructure.ItemTypeArticle {
-			var requestData infrastructure.LegacyArticleUploadRequest
+			var requestData infrastructure.RawArticleUploadRequest
 
 			if err := json.Unmarshal(buf.Bytes(), &requestData); err != nil {
 				handleBadFormSubmission(c)
 				return
 			}
 
-			if err := warehouse.AddArticlesWithPreMadeID(s.State.DB, warehouse.ConvertLegacyArticleToStandard(requestData.Inventory)); err != nil {
+			if err := warehouse.AddArticlesWithPreMadeID(s.State.DB, warehouse.ConvertRawArticle(requestData.Inventory)); err != nil {
 				log.Println(err.Error())
 				handleBadFormSubmission(c)
 				return
 			}
 
 		} else if itemType == infrastructure.ItemTypeProduct {
-			var requestData infrastructure.LegacyProductUploadRequest
+			var requestData infrastructure.RawProductUploadRequest
 
 			if err := json.Unmarshal(buf.Bytes(), &requestData); err != nil {
 				handleBadFormSubmission(c)
 				return
 			}
 
-			if err := warehouse.AddLegacyProducts(s.State.DB, requestData.Products); err != nil {
+			if err := warehouse.AddProducts(s.State.DB, requestData.Products); err != nil {
 				log.Println(err.Error())
 				handleBadFormSubmission(c)
 				return

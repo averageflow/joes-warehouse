@@ -6,20 +6,20 @@ type ArticleModel struct {
 	Stock int64  `json:"stock"`
 }
 
-type LegacyArticleModel struct {
+type RawArticleModel struct {
 	ID    string `json:"art_id"`
 	Name  string `json:"name"`
 	Stock string `json:"stock"`
 }
 
-type LegacyArticleFromProductFileModel struct {
+type RawArticleFromProductFileModel struct {
 	ID    string `json:"art_id"`
 	Name  string `json:"name"`
 	Stock string `json:"amount_of"`
 }
 
-type LegacyArticleUploadRequest struct {
-	Inventory []LegacyArticleModel `json:"inventory"`
+type RawArticleUploadRequest struct {
+	Inventory []RawArticleModel `json:"inventory"`
 }
 
 type ProductModel struct {
@@ -29,11 +29,11 @@ type ProductModel struct {
 	Articles []ArticleModel `json:"articles"`
 }
 
-type LegacyProductModel struct {
-	Name     string                              `json:"name"`
-	Articles []LegacyArticleFromProductFileModel `json:"contain_articles"`
+type RawProductModel struct {
+	Name     string                           `json:"name"`
+	Articles []RawArticleFromProductFileModel `json:"contain_articles"`
 }
 
-type LegacyProductUploadRequest struct {
-	Products []LegacyProductModel `json:"products"`
+type RawProductUploadRequest struct {
+	Products []RawProductModel `json:"products"`
 }

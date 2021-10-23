@@ -63,7 +63,7 @@ func AddArticlesWithPreMadeID(db infrastructure.ApplicationDatabase, articles []
 	return tx.Commit(ctx)
 }
 
-func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID int, articles []infrastructure.LegacyArticleFromProductFileModel) error {
+func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID int, articles []infrastructure.RawArticleFromProductFileModel) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)
@@ -106,7 +106,7 @@ const (
 	wantedConversionBits = 64
 )
 
-func ConvertLegacyArticleToStandard(articles []infrastructure.LegacyArticleModel) []infrastructure.ArticleModel {
+func ConvertRawArticle(articles []infrastructure.RawArticleModel) []infrastructure.ArticleModel {
 	result := make([]infrastructure.ArticleModel, len(articles))
 
 	for i := range articles {
@@ -123,7 +123,7 @@ func ConvertLegacyArticleToStandard(articles []infrastructure.LegacyArticleModel
 	return result
 }
 
-func ConvertLegacyArticleFromProductFileToStandard(articles []infrastructure.LegacyArticleFromProductFileModel) []infrastructure.ArticleModel {
+func ConvertRawArticleFromProductFile(articles []infrastructure.RawArticleFromProductFileModel) []infrastructure.ArticleModel {
 	result := make([]infrastructure.ArticleModel, len(articles))
 
 	for i := range articles {
