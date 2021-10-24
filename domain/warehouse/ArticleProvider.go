@@ -15,7 +15,7 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 
 	rows, err := db.Query(
 		ctx,
-		fmt.Sprintf(getArticlesForProductQuery, infrastructure.IntSliceToCommaSeparatedString(productIDs)),
+		fmt.Sprintf(articles.GetArticlesForProductQuery, infrastructure.IntSliceToCommaSeparatedString(productIDs)),
 	)
 	if err != nil {
 		return nil, err
@@ -61,7 +61,7 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 func GetArticles(db infrastructure.ApplicationDatabase) (map[int64]articles.WebArticle, []int64, error) {
 	ctx := context.Background()
 
-	rows, err := db.Query(ctx, getArticlesQuery)
+	rows, err := db.Query(ctx, articles.GetArticlesQuery)
 	if err != nil {
 		return nil, nil, err
 	}
@@ -102,7 +102,7 @@ func GetArticles(db infrastructure.ApplicationDatabase) (map[int64]articles.WebA
 	return result, sortArticleData, nil
 }
 
-func AddArticles(db infrastructure.ApplicationDatabase, articles []articles.Article) error {
+func AddArticles(db infrastructure.ApplicationDatabase, articleData []articles.Article) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)
@@ -112,12 +112,12 @@ func AddArticles(db infrastructure.ApplicationDatabase, articles []articles.Arti
 
 	now := time.Now().Unix()
 
-	for i := range articles {
+	for i := range articleData {
 		if _, err := tx.Exec(
 			ctx,
-			addArticlesWithIDQuery,
-			articles[i].ID,
-			articles[i].Name,
+			articles.AddArticlesWithIDQuery,
+			articleData[i].ID,
+			articleData[i].Name,
 			now,
 			now,
 		); err != nil {
@@ -128,7 +128,7 @@ func AddArticles(db infrastructure.ApplicationDatabase, articles []articles.Arti
 	return tx.Commit(ctx)
 }
 
-func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID int, articles []articles.ArticleProductRelation) error {
+func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID int, articleData []articles.ArticleProductRelation) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)
@@ -138,13 +138,13 @@ func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID 
 
 	now := time.Now().Unix()
 
-	for i := range articles {
+	for i := range articleData {
 		if _, err := tx.Exec(
 			ctx,
-			addArticlesForProductQuery,
-			articles[i].ID,
+			articles.AddArticlesForProductQuery,
+			articleData[i].ID,
 			productID,
-			articles[i].AmountOf,
+			articleData[i].AmountOf,
 			now,
 			now,
 		); err != nil {
@@ -155,7 +155,7 @@ func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID 
 	return tx.Commit(ctx)
 }
 
-func AddArticleStocks(db infrastructure.ApplicationDatabase, articles []articles.Article) error {
+func AddArticleStocks(db infrastructure.ApplicationDatabase, articleData []articles.Article) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)
@@ -165,12 +165,12 @@ func AddArticleStocks(db infrastructure.ApplicationDatabase, articles []articles
 
 	now := time.Now().Unix()
 
-	for i := range articles {
+	for i := range articleData {
 		if _, err := tx.Exec(
 			ctx,
-			addArticleStocksQuery,
-			articles[i].ID,
-			articles[i].Stock,
+			articles.AddArticleStocksQuery,
+			articleData[i].ID,
+			articleData[i].Stock,
 			now,
 			now,
 		); err != nil {
@@ -180,14 +180,6 @@ func AddArticleStocks(db infrastructure.ApplicationDatabase, articles []articles
 
 	return tx.Commit(ctx)
 }
-
-// func ModifyArticles() error {
-// 	return nil
-// }
-
-// func DeleteArticles() error {
-// 	return nil
-// }
 
 func UpdateArticlesStocks(db infrastructure.ApplicationDatabase, newStockMap map[int64]int64) error {
 	ctx := context.Background()
@@ -200,7 +192,7 @@ func UpdateArticlesStocks(db infrastructure.ApplicationDatabase, newStockMap map
 	for i := range newStockMap {
 		if _, err := tx.Exec(
 			ctx,
-			updateArticleStockQuery,
+			articles.UpdateArticleStockQuery,
 			newStockMap[i],
 			i,
 		); err != nil {

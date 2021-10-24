@@ -61,14 +61,14 @@ func GetFullProductsByID(db infrastructure.ApplicationDatabase, wantedProductIDs
 func GetProducts(db infrastructure.ApplicationDatabase) (map[int64]products.WebProduct, []int64, error) {
 	ctx := context.Background()
 
-	rows, err := db.Query(ctx, getProductsQuery)
+	rows, err := db.Query(ctx, products.GetProductsQuery)
 	return handleGetProductRows(rows, err)
 }
 
 func GetProductsByID(db infrastructure.ApplicationDatabase, productIDs []int64) (map[int64]products.WebProduct, []int64, error) {
 	ctx := context.Background()
 
-	rows, err := db.Query(ctx, fmt.Sprintf(getProductsByIDQuery, infrastructure.IntSliceToCommaSeparatedString(productIDs)))
+	rows, err := db.Query(ctx, fmt.Sprintf(products.GetProductsByIDQuery, infrastructure.IntSliceToCommaSeparatedString(productIDs)))
 	return handleGetProductRows(rows, err)
 }
 
@@ -130,7 +130,7 @@ func AddProducts(db infrastructure.ApplicationDatabase, productData []products.R
 
 		err = tx.QueryRow(
 			ctx,
-			addProductsQuery,
+			products.AddProductsQuery,
 			productData[i].Name,
 			0,
 			now,
@@ -205,7 +205,7 @@ func CreateTransaction(db infrastructure.ApplicationDatabase) (int64, error) {
 
 	err = tx.QueryRow(
 		ctx,
-		createTransactionQuery,
+		products.AddTransactionQuery,
 		now,
 	).Scan(&transactionID)
 	if err != nil {
@@ -215,7 +215,7 @@ func CreateTransaction(db infrastructure.ApplicationDatabase) (int64, error) {
 	return transactionID, tx.Commit(ctx)
 }
 
-func CreateTransactionProductRelation(db infrastructure.ApplicationDatabase, transactionID int64, products map[int64]int64) error {
+func CreateTransactionProductRelation(db infrastructure.ApplicationDatabase, transactionID int64, productData map[int64]int64) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)
@@ -225,13 +225,13 @@ func CreateTransactionProductRelation(db infrastructure.ApplicationDatabase, tra
 
 	now := time.Now().Unix()
 
-	for i := range products {
+	for i := range productData {
 		if _, err := tx.Exec(
 			ctx,
-			createTransactionProductRelationQuery,
+			products.AddTransactionProductRelationQuery,
 			transactionID,
 			i,
-			products[i],
+			productData[i],
 			now,
 		); err != nil {
 			return err
@@ -240,11 +240,3 @@ func CreateTransactionProductRelation(db infrastructure.ApplicationDatabase, tra
 
 	return tx.Commit(ctx)
 }
-
-// func ModifyProduct(product products.Product) error {
-// 	return nil
-// }
-
-// func DeleteProduct(product products.Product) error {
-// 	return nil
-// }

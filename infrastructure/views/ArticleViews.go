@@ -1,6 +1,9 @@
 package views
 
 import (
+	"fmt"
+
+	"github.com/averageflow/joes-warehouse/domain/articles"
 	g "github.com/maragudk/gomponents"
 	c "github.com/maragudk/gomponents/components"
 
@@ -16,7 +19,7 @@ func ArticleSubmissionView() g.Node {
 		Description: "Submit a list of new articles to be added to the warehouse.",
 		Language:    "en",
 		Head: []g.Node{
-			c.LinkStylesheet("/styles/bulma.min.css"),
+			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
 			navbar(),
@@ -35,6 +38,44 @@ func ArticleSubmissionView() g.Node {
 					),
 				),
 				submitFileForm(),
+			),
+		},
+	})
+}
+
+func ArticleView(articles map[int64]articles.WebArticle, sortArticles []int64) g.Node {
+	return c.HTML5(c.HTML5Props{
+		Title:       "Joe's Warehouse",
+		Description: "Warehouse management software made by Joe.",
+		Language:    "en",
+		Head: []g.Node{
+			c.LinkStylesheet(bulmaStyleSheet),
+		},
+		Body: []g.Node{
+			navbar(),
+			Main(
+				Class("container has-text-justified p-6"),
+				Div(
+					H2(
+						Class("title is-2 is-success"),
+						g.Text("Articles"),
+					),
+					Table(
+						Class("table is-striped"),
+						THead(Tr(
+							Th(g.Text("Name")),
+							Th(g.Text("Stock")),
+						)),
+						TBody(
+							g.Group(g.Map(len(sortArticles), func(i int) g.Node {
+								return Tr(
+									Td(g.Text(articles[sortArticles[i]].Name)),
+									Td(g.Text(fmt.Sprintf("%d", articles[sortArticles[i]].Stock))),
+								)
+							})),
+						),
+					),
+				),
 			),
 		},
 	})

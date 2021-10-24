@@ -98,15 +98,12 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 func (s *ApplicationServer) registerHandlers() {
 	s.State.Handler.Use(gin.Logger(), gin.Recovery())
 
-	s.State.Handler.StaticFile("/styles/bulma.min.css", "../../web/styles/bulma.min.css")
+	uiGroup := s.State.Handler.Group("/ui")
 
+	// UI related redirects
 	s.State.Handler.Handle(http.MethodGet, "/", func(c *gin.Context) {
 		c.Redirect(http.StatusFound, "/ui/products")
 	})
-
-	uiGroup := s.State.Handler.Group("/ui")
-
-	// HTML views
 	uiGroup.Handle(http.MethodGet, "", func(c *gin.Context) {
 		c.Redirect(http.StatusFound, "/ui/products")
 	})
@@ -114,26 +111,24 @@ func (s *ApplicationServer) registerHandlers() {
 		c.Redirect(http.StatusFound, "/ui/products")
 	})
 
+	// HTML views
 	uiGroup.Handle(http.MethodGet, "/products", s.productViewHandler())
 	uiGroup.Handle(http.MethodGet, "/articles", s.articleViewHandler())
 	uiGroup.Handle(http.MethodGet, "/products/file-submission", s.addProductsFromFileViewHandler())
 	uiGroup.Handle(http.MethodGet, "/articles/file-submission", s.addArticlesFromFileViewHandler())
+
 	// Form submissions
 	uiGroup.Handle(http.MethodPost, "/articles/file-submission", s.addArticlesFromFileHandler())
 	uiGroup.Handle(http.MethodPost, "/products/file-submission", s.addProductsFromFileHandler())
 	uiGroup.Handle(http.MethodPost, "/products/sell", s.sellProductFormHandler())
 
+	// API calls
 	headlessGroup := s.State.Handler.Group("/api")
 	headlessGroup.Handle(http.MethodGet, "/products", s.getProductsHandler())
 	headlessGroup.Handle(http.MethodPost, "/products", s.addProductsHandler())
 	headlessGroup.Handle(http.MethodGet, "/articles", s.getArticlesHandler())
 	headlessGroup.Handle(http.MethodPost, "/articles", s.addArticlesHandler())
 	headlessGroup.Handle(http.MethodPatch, "/products/sell", s.sellProductsHandler())
-
-	// s.State.Handler.Handle(http.MethodPatch, "/products/:id", s.modifyProductHandler())
-	// s.State.Handler.Handle(http.MethodDelete, "/products/:id", s.deleteProductHandler())
-	// s.State.Handler.Handle(http.MethodPatch, "/articles/:id", s.modifyArticleHandler())
-	// s.State.Handler.Handle(http.MethodDelete, "/articles/:id", s.deleteArticleHandler())
 }
 
 // TerminationSignalWatcher will wait for interrupt signal to gracefully shutdown
