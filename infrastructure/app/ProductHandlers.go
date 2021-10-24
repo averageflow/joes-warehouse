@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/averageflow/joes-warehouse/domain/products"
 	"github.com/averageflow/joes-warehouse/domain/warehouse"
 	"github.com/averageflow/joes-warehouse/infrastructure"
 	"github.com/gin-gonic/gin"
@@ -11,8 +12,8 @@ import (
 
 func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 	type getProductsHandlerResponse struct {
-		Data map[int64]infrastructure.WebProduct `json:"data"`
-		Sort []int64                             `json:"sort"`
+		Data map[int64]products.WebProduct `json:"data"`
+		Sort []int64                       `json:"sort"`
 	}
 
 	return func(c *gin.Context) {
@@ -36,7 +37,7 @@ func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 
 func (s *ApplicationServer) addProductsHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
-		var requestBody infrastructure.RawProductUploadRequest
+		var requestBody products.RawProductUploadRequest
 
 		if err := c.BindJSON(&requestBody); err != nil {
 			c.AbortWithStatusJSON(http.StatusUnprocessableEntity, ApplicationServerResponse{

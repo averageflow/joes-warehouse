@@ -1,6 +1,8 @@
 package views
 
 import (
+	"net/http"
+
 	g "github.com/maragudk/gomponents"
 
 	// Dot import is used here to avoid having to make the code unreadable
@@ -9,7 +11,35 @@ import (
 	. "github.com/maragudk/gomponents/html"
 )
 
-func Navbar() g.Node {
+func submitFileForm() g.Node {
+	return FormEl(
+		Method(http.MethodPost),
+		Action(""),
+		g.Attr("enctype", "multipart/form-data"),
+		Div(
+			Class("control"),
+			Input(
+				Name("fileData"),
+				Accept("application/json"),
+				Required(),
+				Class("input"),
+				ID("submit-file-input"),
+				Type("file"),
+			),
+		),
+		submitFormButton(),
+	)
+}
+
+func submitFormButton() g.Node {
+	return Button(
+		Type("submit"),
+		Class("mt-4 button is-dark"),
+		g.Text("Submit"),
+	)
+}
+
+func navbar() g.Node {
 	return Nav(
 		Class("navbar is-transparent"),
 		Div(

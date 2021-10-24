@@ -12,8 +12,8 @@ import (
 
 func (s *ApplicationServer) getArticlesHandler() func(*gin.Context) {
 	type getArticlesHandlerResponse struct {
-		Data map[int64]infrastructure.WebArticle `json:"data"`
-		Sort []int64                             `json:"sort"`
+		Data map[int64]articles.WebArticle `json:"data"`
+		Sort []int64                       `json:"sort"`
 	}
 
 	return func(c *gin.Context) {
@@ -37,7 +37,7 @@ func (s *ApplicationServer) getArticlesHandler() func(*gin.Context) {
 
 func (s *ApplicationServer) addArticlesHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
-		var requestBody infrastructure.RawArticleUploadRequest
+		var requestBody articles.RawArticleUploadRequest
 
 		if err := c.BindJSON(&requestBody); err != nil {
 			c.AbortWithStatusJSON(http.StatusUnprocessableEntity, ApplicationServerResponse{

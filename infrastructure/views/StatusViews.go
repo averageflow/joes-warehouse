@@ -4,7 +4,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/averageflow/joes-warehouse/infrastructure"
+	"github.com/averageflow/joes-warehouse/domain/articles"
+	"github.com/averageflow/joes-warehouse/domain/products"
 	g "github.com/maragudk/gomponents"
 	c "github.com/maragudk/gomponents/components"
 
@@ -23,7 +24,7 @@ func ErrorUploadingView() g.Node {
 			c.LinkStylesheet("/styles/bulma.min.css"),
 		},
 		Body: []g.Node{
-			Navbar(),
+			navbar(),
 			Main(
 				Class("container has-text-justified p-6"),
 				H1(
@@ -46,7 +47,7 @@ func ErrorSellingView() g.Node {
 			c.LinkStylesheet("/styles/bulma.min.css"),
 		},
 		Body: []g.Node{
-			Navbar(),
+			navbar(),
 			Main(
 				Class("container has-text-justified p-6"),
 				H1(
@@ -68,7 +69,7 @@ func SuccessUploadingView() g.Node {
 			c.LinkStylesheet("/styles/bulma.min.css"),
 		},
 		Body: []g.Node{
-			Navbar(),
+			navbar(),
 			Main(
 				Class("container has-text-justified p-6"),
 				H1(
@@ -90,7 +91,7 @@ func SuccessSellingView() g.Node {
 			c.LinkStylesheet("/styles/bulma.min.css"),
 		},
 		Body: []g.Node{
-			Navbar(),
+			navbar(),
 			Main(
 				Class("container has-text-justified p-6"),
 				H1(
@@ -103,7 +104,7 @@ func SuccessSellingView() g.Node {
 	})
 }
 
-func ProductView(products map[int64]infrastructure.WebProduct, sortProducts []int64) g.Node {
+func ProductView(products map[int64]products.WebProduct, sortProducts []int64) g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Joe's Warehouse",
 		Description: "Warehouse management software made by Joe.",
@@ -112,7 +113,7 @@ func ProductView(products map[int64]infrastructure.WebProduct, sortProducts []in
 			c.LinkStylesheet("/styles/bulma.min.css"),
 		},
 		Body: []g.Node{
-			Navbar(),
+			navbar(),
 			Main(
 				Class("container has-text-justified p-6"),
 				Div(
@@ -175,7 +176,7 @@ func ProductView(products map[int64]infrastructure.WebProduct, sortProducts []in
 	})
 }
 
-func ArticleView(articles map[int64]infrastructure.WebArticle, sortArticles []int64) g.Node {
+func ArticleView(articles map[int64]articles.WebArticle, sortArticles []int64) g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Joe's Warehouse",
 		Description: "Warehouse management software made by Joe.",
@@ -184,7 +185,7 @@ func ArticleView(articles map[int64]infrastructure.WebArticle, sortArticles []in
 			c.LinkStylesheet("/styles/bulma.min.css"),
 		},
 		Body: []g.Node{
-			Navbar(),
+			navbar(),
 			Main(
 				Class("container has-text-justified p-6"),
 				Div(

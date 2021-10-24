@@ -12,7 +12,7 @@ import (
 	"github.com/jackc/pgx/v4"
 )
 
-func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[int64]infrastructure.WebProduct, []int64, error) {
+func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[int64]products.WebProduct, []int64, error) {
 	productData, sortProducts, err := GetProducts(db)
 	if err != nil {
 		return nil, nil, err
@@ -35,7 +35,7 @@ func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[int64]in
 	return productData, sortProducts, nil
 }
 
-func GetFullProductsByID(db infrastructure.ApplicationDatabase, wantedProductIDs []int64) (map[int64]infrastructure.WebProduct, []int64, error) {
+func GetFullProductsByID(db infrastructure.ApplicationDatabase, wantedProductIDs []int64) (map[int64]products.WebProduct, []int64, error) {
 	productData, sortProducts, err := GetProductsByID(db, wantedProductIDs)
 	if err != nil {
 		return nil, nil, err
@@ -58,21 +58,21 @@ func GetFullProductsByID(db infrastructure.ApplicationDatabase, wantedProductIDs
 	return productData, sortProducts, nil
 }
 
-func GetProducts(db infrastructure.ApplicationDatabase) (map[int64]infrastructure.WebProduct, []int64, error) {
+func GetProducts(db infrastructure.ApplicationDatabase) (map[int64]products.WebProduct, []int64, error) {
 	ctx := context.Background()
 
 	rows, err := db.Query(ctx, getProductsQuery)
 	return handleGetProductRows(rows, err)
 }
 
-func GetProductsByID(db infrastructure.ApplicationDatabase, productIDs []int64) (map[int64]infrastructure.WebProduct, []int64, error) {
+func GetProductsByID(db infrastructure.ApplicationDatabase, productIDs []int64) (map[int64]products.WebProduct, []int64, error) {
 	ctx := context.Background()
 
 	rows, err := db.Query(ctx, fmt.Sprintf(getProductsByIDQuery, infrastructure.IntSliceToCommaSeparatedString(productIDs)))
 	return handleGetProductRows(rows, err)
 }
 
-func handleGetProductRows(rows pgx.Rows, err error) (map[int64]infrastructure.WebProduct, []int64, error) {
+func handleGetProductRows(rows pgx.Rows, err error) (map[int64]products.WebProduct, []int64, error) {
 	if err != nil {
 		return nil, nil, err
 	}
@@ -83,10 +83,10 @@ func handleGetProductRows(rows pgx.Rows, err error) (map[int64]infrastructure.We
 
 	defer rows.Close()
 
-	var products []infrastructure.WebProduct
+	var productData []products.WebProduct
 
 	for rows.Next() {
-		var product infrastructure.WebProduct
+		var product products.WebProduct
 
 		err := rows.Scan(
 			&product.ID,
@@ -99,26 +99,26 @@ func handleGetProductRows(rows pgx.Rows, err error) (map[int64]infrastructure.We
 			return nil, nil, err
 		}
 
-		products = append(products, product)
+		productData = append(productData, product)
 	}
 
-	result := make(map[int64]infrastructure.WebProduct, len(products))
-	orderData := make([]int64, len(products))
+	result := make(map[int64]products.WebProduct, len(productData))
+	sortProductData := make([]int64, len(productData))
 
-	for i := range products {
-		result[products[i].ID] = products[i]
-		orderData[i] = products[i].ID
+	for i := range productData {
+		result[productData[i].ID] = productData[i]
+		sortProductData[i] = productData[i].ID
 	}
 
-	return result, orderData, nil
+	return result, sortProductData, nil
 }
 
-func AddProducts(db infrastructure.ApplicationDatabase, productData []infrastructure.RawProduct) error {
+func AddProducts(db infrastructure.ApplicationDatabase, productData []products.RawProduct) error {
 	ctx := context.Background()
 
 	now := time.Now().Unix()
 
-	articleMap := make(map[int][]infrastructure.ArticleProductRelation)
+	articleMap := make(map[int][]articles.ArticleProductRelation)
 
 	for i := range productData {
 		tx, err := db.Begin(ctx)
@@ -241,10 +241,10 @@ func CreateTransactionProductRelation(db infrastructure.ApplicationDatabase, tra
 	return tx.Commit(ctx)
 }
 
-func ModifyProduct(product infrastructure.Product) error {
-	return nil
-}
+// func ModifyProduct(product products.Product) error {
+// 	return nil
+// }
 
-func DeleteProduct(product infrastructure.Product) error {
-	return nil
-}
+// func DeleteProduct(product products.Product) error {
+// 	return nil
+// }

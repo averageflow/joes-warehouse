@@ -6,10 +6,11 @@ import (
 	"log"
 	"time"
 
+	"github.com/averageflow/joes-warehouse/domain/articles"
 	"github.com/averageflow/joes-warehouse/infrastructure"
 )
 
-func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []int64) (map[int64]map[int64]infrastructure.ArticleOfProduct, error) {
+func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []int64) (map[int64]map[int64]articles.ArticleOfProduct, error) {
 	ctx := context.Background()
 
 	rows, err := db.Query(
@@ -26,10 +27,10 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 
 	defer rows.Close()
 
-	articleMap := make(map[int64]map[int64]infrastructure.ArticleOfProduct)
+	articleMap := make(map[int64]map[int64]articles.ArticleOfProduct)
 
 	for rows.Next() {
-		var article infrastructure.ArticleOfProduct
+		var article articles.ArticleOfProduct
 
 		var productID int64
 
@@ -48,7 +49,7 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 
 		_, ok := articleMap[productID]
 		if !ok {
-			articleMap[productID] = make(map[int64]infrastructure.ArticleOfProduct)
+			articleMap[productID] = make(map[int64]articles.ArticleOfProduct)
 		}
 
 		articleMap[productID][article.ID] = article
@@ -57,7 +58,7 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 	return articleMap, nil
 }
 
-func GetArticles(db infrastructure.ApplicationDatabase) (map[int64]infrastructure.WebArticle, []int64, error) {
+func GetArticles(db infrastructure.ApplicationDatabase) (map[int64]articles.WebArticle, []int64, error) {
 	ctx := context.Background()
 
 	rows, err := db.Query(ctx, getArticlesQuery)
@@ -71,10 +72,10 @@ func GetArticles(db infrastructure.ApplicationDatabase) (map[int64]infrastructur
 
 	defer rows.Close()
 
-	var articles []infrastructure.WebArticle
+	var articleData []articles.WebArticle
 
 	for rows.Next() {
-		var article infrastructure.WebArticle
+		var article articles.WebArticle
 
 		err := rows.Scan(
 			&article.ID,
@@ -87,21 +88,21 @@ func GetArticles(db infrastructure.ApplicationDatabase) (map[int64]infrastructur
 			return nil, nil, err
 		}
 
-		articles = append(articles, article)
+		articleData = append(articleData, article)
 	}
 
-	result := make(map[int64]infrastructure.WebArticle, len(articles))
-	sortArticles := make([]int64, len(articles))
+	result := make(map[int64]articles.WebArticle, len(articleData))
+	sortArticleData := make([]int64, len(articleData))
 
-	for i := range articles {
-		result[articles[i].ID] = articles[i]
-		sortArticles[i] = articles[i].ID
+	for i := range articleData {
+		result[articleData[i].ID] = articleData[i]
+		sortArticleData[i] = articleData[i].ID
 	}
 
-	return result, sortArticles, nil
+	return result, sortArticleData, nil
 }
 
-func AddArticles(db infrastructure.ApplicationDatabase, articles []infrastructure.Article) error {
+func AddArticles(db infrastructure.ApplicationDatabase, articles []articles.Article) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)
@@ -127,7 +128,7 @@ func AddArticles(db infrastructure.ApplicationDatabase, articles []infrastructur
 	return tx.Commit(ctx)
 }
 
-func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID int, articles []infrastructure.ArticleProductRelation) error {
+func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID int, articles []articles.ArticleProductRelation) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)
@@ -154,7 +155,7 @@ func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID 
 	return tx.Commit(ctx)
 }
 
-func AddArticleStocks(db infrastructure.ApplicationDatabase, articles []infrastructure.Article) error {
+func AddArticleStocks(db infrastructure.ApplicationDatabase, articles []articles.Article) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)
@@ -180,13 +181,13 @@ func AddArticleStocks(db infrastructure.ApplicationDatabase, articles []infrastr
 	return tx.Commit(ctx)
 }
 
-func ModifyArticles() error {
-	return nil
-}
+// func ModifyArticles() error {
+// 	return nil
+// }
 
-func DeleteArticles() error {
-	return nil
-}
+// func DeleteArticles() error {
+// 	return nil
+// }
 
 func UpdateArticlesStocks(db infrastructure.ApplicationDatabase, newStockMap map[int64]int64) error {
 	ctx := context.Background()

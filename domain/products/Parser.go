@@ -3,15 +3,13 @@ package products
 import (
 	"math"
 	"sort"
-
-	"github.com/averageflow/joes-warehouse/infrastructure"
 )
 
-func ConvertRawProduct(products []infrastructure.RawProduct) []infrastructure.Product {
-	result := make([]infrastructure.Product, len(products))
+func ConvertRawProduct(products []RawProduct) []Product {
+	result := make([]Product, len(products))
 
 	for i := range products {
-		result[i] = infrastructure.Product{
+		result[i] = Product{
 			Name: products[i].Name,
 		}
 	}
@@ -19,7 +17,7 @@ func ConvertRawProduct(products []infrastructure.RawProduct) []infrastructure.Pr
 	return result
 }
 
-func CollectProductIDs(products map[int64]infrastructure.WebProduct) []int64 {
+func CollectProductIDs(products map[int64]WebProduct) []int64 {
 	var result []int64
 
 	for i := range products {
@@ -39,7 +37,7 @@ func CollectProductIDsForSell(products map[int64]int64) []int64 {
 	return result
 }
 
-func ProductAmountInStock(product infrastructure.WebProduct) int64 {
+func ProductAmountInStock(product WebProduct) int64 {
 	var amounts []float64
 
 	for i := range product.Articles {

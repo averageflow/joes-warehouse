@@ -8,81 +8,11 @@ import (
 	"net/http"
 
 	"github.com/averageflow/joes-warehouse/domain/articles"
+	"github.com/averageflow/joes-warehouse/domain/products"
 	"github.com/averageflow/joes-warehouse/domain/warehouse"
-	"github.com/averageflow/joes-warehouse/infrastructure"
 	"github.com/averageflow/joes-warehouse/infrastructure/views"
 	"github.com/gin-gonic/gin"
 )
-
-func (s *ApplicationServer) addDataFromFileHandler(itemType int) func(*gin.Context) {
-	return func(c *gin.Context) {
-		file, err := c.FormFile("fileData")
-		if err != nil {
-			handleBadFormSubmission(c)
-			return
-		}
-
-		fileData, err := file.Open()
-		if err != nil {
-			handleBadFormSubmission(c)
-			return
-		}
-
-		defer fileData.Close()
-
-		buf := bytes.NewBuffer(nil)
-		if _, err := io.Copy(buf, fileData); err != nil {
-			handleBadFormSubmission(c)
-			return
-		}
-
-		log.Println(buf.String())
-
-		if itemType == infrastructure.ItemTypeArticle {
-			var requestData infrastructure.RawArticleUploadRequest
-
-			if err := json.Unmarshal(buf.Bytes(), &requestData); err != nil {
-				handleBadFormSubmission(c)
-				return
-			}
-
-			parsedArticles := articles.ConvertRawArticle(requestData.Inventory)
-
-			if err := warehouse.AddArticles(s.State.DB, parsedArticles); err != nil {
-				log.Println(err.Error())
-				handleBadFormSubmission(c)
-				return
-			}
-
-			if err := warehouse.AddArticleStocks(s.State.DB, parsedArticles); err != nil {
-				log.Println(err.Error())
-				handleBadFormSubmission(c)
-				return
-			}
-
-		} else if itemType == infrastructure.ItemTypeProduct {
-			var requestData infrastructure.RawProductUploadRequest
-
-			if err := json.Unmarshal(buf.Bytes(), &requestData); err != nil {
-				handleBadFormSubmission(c)
-				return
-			}
-
-			if err := warehouse.AddProducts(s.State.DB, requestData.Products); err != nil {
-				log.Println(err.Error())
-				handleBadFormSubmission(c)
-				return
-			}
-
-		} else {
-			handleBadFormSubmission(c)
-			return
-		}
-
-		c.Status(http.StatusOK)
-		_ = views.SuccessUploadingView().Render(c.Writer)
-	}
-}
 
 func handleBadFormSubmission(c *gin.Context) {
 	c.Status(http.StatusBadRequest)
@@ -92,6 +22,87 @@ func handleBadFormSubmission(c *gin.Context) {
 func handleBadSaleSubmission(c *gin.Context) {
 	c.Status(http.StatusBadRequest)
 	_ = views.ErrorSellingView().Render(c.Writer)
+}
+
+func getFormFileContents(c *gin.Context) ([]byte, error) {
+	file, err := c.FormFile("fileData")
+	if err != nil {
+		return nil, err
+	}
+
+	fileData, err := file.Open()
+	if err != nil {
+		return nil, err
+	}
+
+	defer fileData.Close()
+
+	buf := bytes.NewBuffer(nil)
+	if _, err := io.Copy(buf, fileData); err != nil {
+		return nil, err
+	}
+
+	return buf.Bytes(), nil
+}
+
+func (s *ApplicationServer) addArticlesFromFileHandler() func(*gin.Context) {
+	return func(c *gin.Context) {
+		formFileContents, err := getFormFileContents(c)
+		if err != nil {
+			handleBadFormSubmission(c)
+			return
+		}
+
+		var requestData articles.RawArticleUploadRequest
+
+		if err := json.Unmarshal(formFileContents, &requestData); err != nil {
+			handleBadFormSubmission(c)
+			return
+		}
+
+		parsedArticles := articles.ConvertRawArticle(requestData.Inventory)
+
+		if err := warehouse.AddArticles(s.State.DB, parsedArticles); err != nil {
+			log.Println(err.Error())
+			handleBadFormSubmission(c)
+			return
+		}
+
+		if err := warehouse.AddArticleStocks(s.State.DB, parsedArticles); err != nil {
+			log.Println(err.Error())
+			handleBadFormSubmission(c)
+			return
+		}
+
+		c.Status(http.StatusOK)
+		_ = views.SuccessUploadingView().Render(c.Writer)
+	}
+}
+
+func (s *ApplicationServer) addProductsFromFileHandler() func(*gin.Context) {
+	return func(c *gin.Context) {
+		formFileContents, err := getFormFileContents(c)
+		if err != nil {
+			handleBadFormSubmission(c)
+			return
+		}
+
+		var requestData products.RawProductUploadRequest
+
+		if err := json.Unmarshal(formFileContents, &requestData); err != nil {
+			handleBadFormSubmission(c)
+			return
+		}
+
+		if err := warehouse.AddProducts(s.State.DB, requestData.Products); err != nil {
+			log.Println(err.Error())
+			handleBadFormSubmission(c)
+			return
+		}
+
+		c.Status(http.StatusOK)
+		_ = views.SuccessUploadingView().Render(c.Writer)
+	}
 }
 
 func (s *ApplicationServer) sellProductFormHandler() func(*gin.Context) {

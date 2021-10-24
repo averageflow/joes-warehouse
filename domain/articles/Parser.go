@@ -2,8 +2,6 @@ package articles
 
 import (
 	"strconv"
-
-	"github.com/averageflow/joes-warehouse/infrastructure"
 )
 
 const (
@@ -11,16 +9,16 @@ const (
 	wantedConversionBits = 64
 )
 
-func ConvertRawArticle(articles []infrastructure.RawArticle) []infrastructure.Article {
-	result := make([]infrastructure.Article, len(articles))
+func ConvertRawArticle(articleData []RawArticle) []Article {
+	result := make([]Article, len(articleData))
 
-	for i := range articles {
-		id, _ := strconv.ParseInt(articles[i].ID, wantedConversionBase, wantedConversionBits)
-		stock, _ := strconv.ParseInt(articles[i].Stock, wantedConversionBase, wantedConversionBits)
+	for i := range articleData {
+		id, _ := strconv.ParseInt(articleData[i].ID, wantedConversionBase, wantedConversionBits)
+		stock, _ := strconv.ParseInt(articleData[i].Stock, wantedConversionBase, wantedConversionBits)
 
-		result[i] = infrastructure.Article{
+		result[i] = Article{
 			ID:    id,
-			Name:  articles[i].Name,
+			Name:  articleData[i].Name,
 			Stock: stock,
 		}
 	}
@@ -28,14 +26,14 @@ func ConvertRawArticle(articles []infrastructure.RawArticle) []infrastructure.Ar
 	return result
 }
 
-func ConvertRawArticleFromProductFile(articles []infrastructure.RawArticleFromProductFile) []infrastructure.ArticleProductRelation {
-	result := make([]infrastructure.ArticleProductRelation, len(articles))
+func ConvertRawArticleFromProductFile(articleData []RawArticleFromProductFile) []ArticleProductRelation {
+	result := make([]ArticleProductRelation, len(articleData))
 
-	for i := range articles {
-		id, _ := strconv.ParseInt(articles[i].ID, wantedConversionBase, wantedConversionBits)
-		amountOf, _ := strconv.ParseInt(articles[i].Stock, wantedConversionBase, wantedConversionBits)
+	for i := range articleData {
+		id, _ := strconv.ParseInt(articleData[i].ID, wantedConversionBase, wantedConversionBits)
+		amountOf, _ := strconv.ParseInt(articleData[i].Stock, wantedConversionBase, wantedConversionBits)
 
-		result[i] = infrastructure.ArticleProductRelation{
+		result[i] = ArticleProductRelation{
 			ID:       id,
 			AmountOf: amountOf,
 		}
