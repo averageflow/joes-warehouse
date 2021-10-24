@@ -39,8 +39,6 @@ type ApplicationServerResponse struct {
 }
 
 func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
-	ConfigSetup("config", ".")
-
 	http.DefaultClient.Timeout = 30 * time.Second
 
 	state := userOptions

@@ -1,2 +1,0 @@
-ApplicationMode = "release"
-DatabaseConnection = "postgres://warehouse_user:warehouse_user_password@localhost:5432/warehouse_db"

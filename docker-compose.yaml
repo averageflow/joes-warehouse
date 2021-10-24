@@ -12,7 +12,7 @@ services:
       POSTGRES_PASSWORD: warehouse_user_password
       POSTGRES_DB: warehouse_db
     ports:
-      - 5432:5433
+      - 5432:5432
 
   app:
     container_name: "JoesWarehouse"
@@ -25,6 +25,9 @@ services:
     - db
     ports:
       - 7000:7000
+    environment:
+      APPLICATION_MODE: release
+      DATABASE_CONNECTION: "postgres://warehouse_user:warehouse_user_password@db:5432/warehouse_db"
 
 
 volumes:

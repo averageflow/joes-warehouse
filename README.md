@@ -6,29 +6,17 @@ This project was built using:
 * [Go programming language](https://golang.org/)
     * [Gin Gonic web framework](https://github.com/gin-gonic/gin)
     * [Gomponents declarative HTML components](https://github.com/maragudk/gomponents)
-    * [Viper configuration](https://github.com/spf13/viper)
     * [PGX PostgreSQL driver](https://github.com/jackc/pgx)
 * [PostgreSQL database](https://www.postgresql.org/)
 * [Bulma CSS framework](https://bulma.io/)
 * [Docker](https://www.docker.com/)
 
 ## Running the application
-The application can be run with Docker by first building an image and then running it with:
+The application can be run with Docker with:
 
 ```sh
-docker build -t joes-warehouse-image .
-docker run -it --rm -p 7000:7000 joes-warehouse-image
+docker-compose up --build -d
 ```
-
-The application can be run on "bare metal" by opening a terminal and navigating into `cmd/joes-warehouse` and running:
-
-```sh
-go run main.go
-```
-
-The application assumes that the config file will be present in the same directory as the compiled binary, or the `main.go` file.
-
-VSCode users will find a pre-made run configuration and thus can simply run the project by hitting the play button.
 
 The application runs on port `7000`.
 

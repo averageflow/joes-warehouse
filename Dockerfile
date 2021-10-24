@@ -20,7 +20,5 @@ RUN go build -o main ./cmd/joes-warehouse
 
 EXPOSE 7000/tcp
 
-COPY ./cmd/joes-warehouse/config.toml /app/config.toml
-
 # Run/Starts the app executable binary
 CMD ["/app/main"]
