@@ -65,6 +65,41 @@ func (s *ApplicationServer) addProductsHandler() func(*gin.Context) {
 	}
 }
 
+func (s *ApplicationServer) sellProductsHandler() func(*gin.Context) {
+	type sellProductsHandlerRequest struct {
+		Data []string `json:"data"`
+	}
+
+	return func(c *gin.Context) {
+		var requestBody sellProductsHandlerRequest
+
+		if err := c.BindJSON(&requestBody); err != nil {
+			c.AbortWithStatusJSON(http.StatusUnprocessableEntity, ApplicationServerResponse{
+				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusUnprocessableEntity),
+				Error:         err.Error(),
+				UnixTimestamp: time.Now().Unix(),
+			})
+
+			return
+		}
+
+		if err := warehouse.SellProducts(s.State.DB, requestBody.Data); err != nil {
+			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
+				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
+				Error:         err.Error(),
+				UnixTimestamp: time.Now().Unix(),
+			})
+
+			return
+		}
+
+		c.JSON(http.StatusOK, ApplicationServerResponse{
+			Message:       infrastructure.GetMessageForHTTPStatus(http.StatusOK),
+			UnixTimestamp: time.Now().Unix(),
+		})
+	}
+}
+
 // func (s *ApplicationServer) modifyProductHandler() func(*gin.Context) {
 // 	return func(c *gin.Context) {}
 // }

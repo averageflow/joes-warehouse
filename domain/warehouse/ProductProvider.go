@@ -122,6 +122,10 @@ func AddProducts(db infrastructure.ApplicationDatabase, products []infrastructur
 	return nil
 }
 
+func SellProducts(db infrastructure.ApplicationDatabase, productUUIDs []string) error {
+	return nil
+}
+
 func ModifyProduct(product infrastructure.Product) error {
 	return nil
 }
