@@ -67,7 +67,7 @@ func (s *ApplicationServer) addProductsHandler() func(*gin.Context) {
 
 func (s *ApplicationServer) sellProductsHandler() func(*gin.Context) {
 	type sellProductsRequest struct {
-		Data map[string]int `json:"data"`
+		Data map[int64]int64 `json:"data"`
 	}
 
 	return func(c *gin.Context) {

@@ -118,7 +118,7 @@ func AddProducts(db infrastructure.ApplicationDatabase, products []infrastructur
 	return nil
 }
 
-func SellProducts(db infrastructure.ApplicationDatabase, products map[string]int) error {
+func SellProducts(db infrastructure.ApplicationDatabase, products map[int64]int64) error {
 	return nil
 }
 
