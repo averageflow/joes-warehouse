@@ -1,6 +1,15 @@
 # Joe's Warehouse Software
 Joe's Warehouse Software is a Go application that has the purpose of managing products and articles in your warehouse.
 
+## Running the application
+To kickstart the application and all dependencies required for its operation, you should be running on a machine with Docker installed, and from the root of the project run:
+
+```sh
+docker-compose up --build -d
+```
+
+The application runs on port `7000`.
+
 ## Tech Stack
 This project was built using:
 * [Go programming language](https://golang.org/)
@@ -11,21 +20,6 @@ This project was built using:
 * [Bulma CSS framework](https://bulma.io/)
 * [Docker](https://www.docker.com/)
 
-## Running the application
-The application can be run with Docker with:
-
-```sh
-docker-compose up --build -d
-```
-
-The application runs on port `7000`.
-
-## Dependencies
-The project includes a `docker-compose.yaml` file that will allow to run the project-specific dependencies. To kickstart the containers required for the operation of this application, you should be running on a machine with Docker installed, and from the root of the project run:
-
-```sh
-docker-compose up -d
-```
 
 ## Functionalities
 This application provides several endpoints for "headless" usage (without frontend) and also provides a frontend to ease the use.
