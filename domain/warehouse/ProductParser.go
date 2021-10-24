@@ -40,6 +40,15 @@ func CollectProductIDs(products map[int64]infrastructure.WebProduct) []int64 {
 	return result
 }
 
+func CollectProductIDsForSell(products map[int64]int64) []int64 {
+	var result []int64
+
+	for i := range products {
+		result = append(result, i)
+	}
+	return result
+}
+
 func ProductAmountInStock(product infrastructure.WebProduct) int64 {
 	var amounts []float64
 

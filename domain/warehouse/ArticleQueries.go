@@ -45,6 +45,10 @@ const addArticleStocksQuery = `
 		stock = $2, updated_at = $4;
 `
 
+const updateArticleStockQuery = `
+UPDATE articles_stocks SET stock = $1 WHERE article_id = $2;
+`
+
 // const updateArticleByUUIDQuery = `
 // 	UPDATE
 // 		articles

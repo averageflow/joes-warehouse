@@ -187,6 +187,24 @@ func DeleteArticles() error {
 	return nil
 }
 
-func ReserveArticleStock() error {
-	return nil
+func UpdateArticlesStocks(db infrastructure.ApplicationDatabase, newStockMap map[int64]int64) error {
+	ctx := context.Background()
+
+	tx, err := db.Begin(ctx)
+	if err != nil {
+		return err
+	}
+
+	for i := range newStockMap {
+		if _, err := tx.Exec(
+			ctx,
+			updateArticleStockQuery,
+			newStockMap[i],
+			i,
+		); err != nil {
+			return err
+		}
+	}
+
+	return tx.Commit(ctx)
 }
