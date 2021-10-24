@@ -2,6 +2,7 @@ package views
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/averageflow/joes-warehouse/infrastructure"
 	g "github.com/maragudk/gomponents"
@@ -90,9 +91,32 @@ func ProductView(products map[int64]infrastructure.WebProduct, sortProducts []in
 									Td(g.Text(fmt.Sprintf("%.2f", products[sortProducts[i]].Price))),
 									Td(g.Text(fmt.Sprintf("%d", products[sortProducts[i]].AmountInStock))),
 									Td(
-										Button(
-											Class("button is-dark is-small"),
-											g.Text("Book"),
+										FormEl(
+											Method(http.MethodPost),
+											Action("/ui/products/sell"),
+											g.Attr("enctype", "application/x-www-form-urlencoded"),
+											Input(
+												Type("hidden"),
+												Class("is-hidden"),
+												Name("productID"),
+												Value(fmt.Sprintf("%d", sortProducts[i])),
+												ReadOnly(),
+											),
+											Div(
+												Class("control is-flex-desktop is-flex-tablet"),
+												Input(
+													Class("input is-small"),
+													Name("amount"),
+													Type("number"),
+													Min("0"),
+													Max(fmt.Sprintf("%d", products[sortProducts[i]].AmountInStock)),
+												),
+												Button(
+													Type("submit"),
+													Class("button is-dark is-small"),
+													g.Text("Sell"),
+												),
+											),
 										),
 									),
 								)
@@ -141,39 +165,4 @@ func ArticleView(articles map[int64]infrastructure.WebArticle, sortArticles []in
 			),
 		},
 	})
-}
-
-func Navbar() g.Node {
-	return Nav(
-		Class("navbar is-transparent"),
-		Div(
-			Class("navbar-brand"),
-			A(
-				Class("navbar-item"),
-				Href("/ui/products"),
-				g.Text("Joe's Warehouse"),
-			),
-		),
-		Div(
-			Class("navbar-menu"),
-			Div(
-				Class("navbar-start"),
-				A(
-					Class("navbar-item"),
-					Href("/ui/articles"),
-					g.Text("View articles"),
-				),
-				A(
-					Class("navbar-item"),
-					Href("/ui/products/file-submission"),
-					g.Text("Add products"),
-				),
-				A(
-					Class("navbar-item"),
-					Href("/ui/articles/file-submission"),
-					g.Text("Add articles"),
-				),
-			),
-		),
-	)
 }

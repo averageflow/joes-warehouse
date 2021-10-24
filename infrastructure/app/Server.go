@@ -121,6 +121,7 @@ func (s *ApplicationServer) registerHandlers() {
 	// Form submissions
 	uiGroup.Handle(http.MethodPost, "/articles/file-submission", s.addDataFromFileHandler(infrastructure.ItemTypeArticle))
 	uiGroup.Handle(http.MethodPost, "/products/file-submission", s.addDataFromFileHandler(infrastructure.ItemTypeProduct))
+	uiGroup.Handle(http.MethodPost, "/products/sell")
 
 	headlessGroup := s.State.Handler.Group("/api")
 	headlessGroup.Handle(http.MethodGet, "/products", s.getProductsHandler())
