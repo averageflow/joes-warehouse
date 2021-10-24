@@ -46,7 +46,7 @@ const addArticleStocksQuery = `
 `
 
 const updateArticleStockQuery = `
-UPDATE articles_stocks SET stock = $1 WHERE article_id = $2;
+UPDATE article_stocks SET stock = $1 WHERE article_id = $2;
 `
 
 // const updateArticleByUUIDQuery = `

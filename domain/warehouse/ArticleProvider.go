@@ -3,6 +3,7 @@ package warehouse
 import (
 	"context"
 	"fmt"
+	"log"
 	"time"
 
 	"github.com/averageflow/joes-warehouse/infrastructure"
@@ -202,6 +203,7 @@ func UpdateArticlesStocks(db infrastructure.ApplicationDatabase, newStockMap map
 			newStockMap[i],
 			i,
 		); err != nil {
+			log.Printf("update article id %d with stock %d", i, newStockMap[i])
 			return err
 		}
 	}
