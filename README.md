@@ -10,8 +10,6 @@ docker-compose up -d
 
 The application runs on port `7000`.
 
-Before using the application please make sure to run
-
 ## Tech Stack
 This project was built using:
 * [Go programming language](https://golang.org/)
@@ -32,7 +30,6 @@ This application includes a graceful shutdown mechanics and so whenever you stop
 
 ## Why Go ?
 This application is the perfect use case for using the Go programming language:
-* Flexible enough to support JSON and forms communication
 * Connect in a seamless way to a database, nice facilities for writing queries and communicating to the database
 * Write type-safe compilable code, catch errors before they occur at runtime
 * Incredible refactoring capabilities due to awesome type-safety
