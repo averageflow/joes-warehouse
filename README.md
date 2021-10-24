@@ -2,10 +2,10 @@
 Joe's Warehouse Software is a Go application that has the purpose of managing products and articles in your warehouse.
 
 ## Running the application
-To kickstart the application and all dependencies required for its operation, you should be running on a machine with Docker installed, and from the root of the project run:
+To kickstart the application and all dependencies required for its operation, you should be running on a machine with Docker installed, and from the root of the project run (use `-d` option to run as daemon in background):
 
 ```sh
-docker-compose up --build -d
+docker-compose up -d
 ```
 
 The application runs on port `7000`.

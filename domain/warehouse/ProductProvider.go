@@ -17,6 +17,10 @@ func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[int64]pr
 		return nil, nil, err
 	}
 
+	if len(productData) == 0 {
+		return nil, nil, nil
+	}
+
 	productIDs := products.CollectProductIDs(productData)
 
 	relatedArticles, err := GetArticlesForProduct(db, productIDs)
