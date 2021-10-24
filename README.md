@@ -1,38 +1,52 @@
 # Joe's Warehouse Software
-
 Joe's Warehouse Software is a Go application that has the purpose of managing products and articles in your warehouse.
 
 ## Tech Stack
 This project was built using:
-* Go programming language
-    * Gin Gonic web framework
-    * Gomponents declarative HTML components
-* PostgreSQL database
-* Bulma CSS framework
-* Docker
+* [Go programming language](https://golang.org/)
+    * [Gin Gonic web framework](https://github.com/gin-gonic/gin)
+    * [Gomponents declarative HTML components](https://github.com/maragudk/gomponents)
+    * [Viper configuration](https://github.com/spf13/viper)
+    * [PGX PostgreSQL driver](https://github.com/jackc/pgx)
+* [PostgreSQL database](https://www.postgresql.org/)
+* [Bulma CSS framework](https://bulma.io/)
+* [Docker](https://www.docker.com/)
+
+## Running the application
+The application can be run with Docker by first building an image and then running it with:
+
+```sh
+docker build . --file Dockerfile --tag joes-warehouse-dev
+docker run -p 7000:7000 docker.io/library/joes-warehouse-dev
+```
 
 The application can be run on "bare metal" by opening a terminal and navigating into `cmd/joes-warehouse` and running:
-```
+
+```sh
 go run main.go
 ```
+
+The application assumes that the config file will be present in the same directory as the compiled binary, or the `main.go` file.
 
 VSCode users will find a pre-made run configuration and thus can simply run the project by hitting the play button.
 
 The application runs on port `7000`.
 
+## Dependencies
 The project includes a `docker-compose.yaml` file that will allow to run the project-specific dependencies. To kickstart the containers required for the operation of this application, you should be running on a machine with Docker installed, and from the root of the project run:
-```
+
+```sh
 docker-compose up -d
 ```
 
-This application includes a graceful shutdown mechanics and so whenever you stop it, or it receives a stop signal, it will first wait for any HTTP request currently being processed to be finished and then gracefully shutdown. This makes it possible to deploy it without downtime and to ensure a better experience for users.
-
+## Functionalities
 This application provides several endpoints for "headless" usage (without frontend) and also provides a frontend to ease the use.
 Thus if we want to create new products / articles via an HTTP request with JSON body we use the normal endpoint. 
 If we want to create new products / articles via uploading a file to a web-form then we use the UI.
 
-## Possible Improvements
+This application includes a graceful shutdown mechanics and so whenever you stop it, or it receives a stop signal, it will first wait for any HTTP request currently being processed to be finished and then gracefully shutdown. This makes it possible to deploy it without downtime and to ensure a better experience for users.
 
+## Possible Improvements
 Some compromises were made during development to simplify certain aspects and make the project quicker to develop, namely:
 * The files provided contain a data structure that is not ideal for the task at hand, and thus some workarounds had to be made in order to support them. This includes some choices to the database schema, as well as in the application's code. For example providing the article id on creation does not seem a correct choice. Ideally these should be auto-incremented if possible.
 * The API could have been designed to use UUIDs instead of numeric IDs since this provides several advantages, specially when clustering. It seemed to complicate things greatly though because the provided files contained numeric IDs, and then we would need to write all sorts of lookup functions, so this was deemed as out of scope for the project. The addition of UUIDs would not be too difficult though and would prove useful on a large scale system.
