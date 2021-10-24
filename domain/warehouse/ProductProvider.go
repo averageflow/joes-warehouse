@@ -6,17 +6,19 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/averageflow/joes-warehouse/domain/articles"
+	"github.com/averageflow/joes-warehouse/domain/products"
 	"github.com/averageflow/joes-warehouse/infrastructure"
 	"github.com/jackc/pgx/v4"
 )
 
 func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[int64]infrastructure.WebProduct, []int64, error) {
-	products, sortProducts, err := GetProducts(db)
+	productData, sortProducts, err := GetProducts(db)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	productIDs := CollectProductIDs(products)
+	productIDs := products.CollectProductIDs(productData)
 
 	relatedArticles, err := GetArticlesForProduct(db, productIDs)
 	if err != nil {
@@ -24,22 +26,22 @@ func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[int64]in
 	}
 
 	for i := range relatedArticles {
-		wantedProduct := products[i]
+		wantedProduct := productData[i]
 		wantedProduct.Articles = relatedArticles[i]
-		wantedProduct.AmountInStock = ProductAmountInStock(wantedProduct)
-		products[i] = wantedProduct
+		wantedProduct.AmountInStock = products.ProductAmountInStock(wantedProduct)
+		productData[i] = wantedProduct
 	}
 
-	return products, sortProducts, nil
+	return productData, sortProducts, nil
 }
 
 func GetFullProductsByID(db infrastructure.ApplicationDatabase, wantedProductIDs []int64) (map[int64]infrastructure.WebProduct, []int64, error) {
-	products, sortProducts, err := GetProductsByID(db, wantedProductIDs)
+	productData, sortProducts, err := GetProductsByID(db, wantedProductIDs)
 	if err != nil {
 		return nil, nil, err
 	}
 
-	productIDs := CollectProductIDs(products)
+	productIDs := products.CollectProductIDs(productData)
 
 	relatedArticles, err := GetArticlesForProduct(db, productIDs)
 	if err != nil {
@@ -47,13 +49,13 @@ func GetFullProductsByID(db infrastructure.ApplicationDatabase, wantedProductIDs
 	}
 
 	for i := range relatedArticles {
-		wantedProduct := products[i]
+		wantedProduct := productData[i]
 		wantedProduct.Articles = relatedArticles[i]
-		wantedProduct.AmountInStock = ProductAmountInStock(wantedProduct)
-		products[i] = wantedProduct
+		wantedProduct.AmountInStock = products.ProductAmountInStock(wantedProduct)
+		productData[i] = wantedProduct
 	}
 
-	return products, sortProducts, nil
+	return productData, sortProducts, nil
 }
 
 func GetProducts(db infrastructure.ApplicationDatabase) (map[int64]infrastructure.WebProduct, []int64, error) {
@@ -66,7 +68,7 @@ func GetProducts(db infrastructure.ApplicationDatabase) (map[int64]infrastructur
 func GetProductsByID(db infrastructure.ApplicationDatabase, productIDs []int64) (map[int64]infrastructure.WebProduct, []int64, error) {
 	ctx := context.Background()
 
-	rows, err := db.Query(ctx, fmt.Sprintf(getProductsByIDQuery, IntSliceToCommaSeparatedString(productIDs)))
+	rows, err := db.Query(ctx, fmt.Sprintf(getProductsByIDQuery, infrastructure.IntSliceToCommaSeparatedString(productIDs)))
 	return handleGetProductRows(rows, err)
 }
 
@@ -111,14 +113,14 @@ func handleGetProductRows(rows pgx.Rows, err error) (map[int64]infrastructure.We
 	return result, orderData, nil
 }
 
-func AddProducts(db infrastructure.ApplicationDatabase, products []infrastructure.RawProduct) error {
+func AddProducts(db infrastructure.ApplicationDatabase, productData []infrastructure.RawProduct) error {
 	ctx := context.Background()
 
 	now := time.Now().Unix()
 
 	articleMap := make(map[int][]infrastructure.ArticleProductRelation)
 
-	for i := range products {
+	for i := range productData {
 		tx, err := db.Begin(ctx)
 		if err != nil {
 			return err
@@ -129,7 +131,7 @@ func AddProducts(db infrastructure.ApplicationDatabase, products []infrastructur
 		err = tx.QueryRow(
 			ctx,
 			addProductsQuery,
-			products[i].Name,
+			productData[i].Name,
 			0,
 			now,
 			now,
@@ -143,7 +145,7 @@ func AddProducts(db infrastructure.ApplicationDatabase, products []infrastructur
 			return err
 		}
 
-		articleMap[productID] = ConvertRawArticleFromProductFile(products[i].Articles)
+		articleMap[productID] = articles.ConvertRawArticleFromProductFile(productData[i].Articles)
 	}
 
 	for i := range articleMap {
@@ -161,7 +163,7 @@ func SellProducts(db infrastructure.ApplicationDatabase, wantedProducts map[int6
 		return err
 	}
 
-	products, _, err := GetFullProductsByID(db, CollectProductIDsForSell(wantedProducts))
+	products, _, err := GetFullProductsByID(db, products.CollectProductIDsForSell(wantedProducts))
 	if err != nil {
 		return err
 	}

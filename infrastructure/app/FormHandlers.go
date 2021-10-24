@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/averageflow/joes-warehouse/domain/articles"
 	"github.com/averageflow/joes-warehouse/domain/warehouse"
 	"github.com/averageflow/joes-warehouse/infrastructure"
 	"github.com/averageflow/joes-warehouse/infrastructure/views"
@@ -45,7 +46,7 @@ func (s *ApplicationServer) addDataFromFileHandler(itemType int) func(*gin.Conte
 				return
 			}
 
-			parsedArticles := warehouse.ConvertRawArticle(requestData.Inventory)
+			parsedArticles := articles.ConvertRawArticle(requestData.Inventory)
 
 			if err := warehouse.AddArticles(s.State.DB, parsedArticles); err != nil {
 				log.Println(err.Error())

@@ -4,6 +4,7 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/averageflow/joes-warehouse/domain/articles"
 	"github.com/averageflow/joes-warehouse/domain/warehouse"
 	"github.com/averageflow/joes-warehouse/infrastructure"
 	"github.com/gin-gonic/gin"
@@ -48,7 +49,7 @@ func (s *ApplicationServer) addArticlesHandler() func(*gin.Context) {
 			return
 		}
 
-		parsedArticles := warehouse.ConvertRawArticle(requestBody.Inventory)
+		parsedArticles := articles.ConvertRawArticle(requestBody.Inventory)
 		if err := warehouse.AddArticles(s.State.DB, parsedArticles); err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),

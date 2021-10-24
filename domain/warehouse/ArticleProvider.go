@@ -14,7 +14,7 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 
 	rows, err := db.Query(
 		ctx,
-		fmt.Sprintf(getArticlesForProductQuery, IntSliceToCommaSeparatedString(productIDs)),
+		fmt.Sprintf(getArticlesForProductQuery, infrastructure.IntSliceToCommaSeparatedString(productIDs)),
 	)
 	if err != nil {
 		return nil, err
