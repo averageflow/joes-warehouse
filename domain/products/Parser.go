@@ -38,6 +38,12 @@ func CollectProductIDsForSell(products map[int64]int64) []int64 {
 }
 
 func ProductAmountInStock(product WebProduct) int64 {
+	if len(product.Articles) == 0 {
+		// products should always consist of articles
+		// this edge case must be still handled, and thus we return 0
+		return 0
+	}
+
 	var amounts []float64
 
 	for i := range product.Articles {
@@ -51,6 +57,8 @@ func ProductAmountInStock(product WebProduct) int64 {
 		amounts = append(amounts, ratio)
 	}
 
+	// by knowing the smallest amount of times we can use existing articles in stock
+	// we can deduce the maximum amount of products we can sell
 	sort.Float64s(amounts)
 
 	return int64(math.Floor(amounts[0]))
