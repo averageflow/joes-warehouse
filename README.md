@@ -16,8 +16,8 @@ This project was built using:
 The application can be run with Docker by first building an image and then running it with:
 
 ```sh
-docker build . --file Dockerfile --tag joes-warehouse-dev
-docker run -p 7000:7000 docker.io/library/joes-warehouse-dev
+docker build -t joes-warehouse-image .
+docker run -it --rm -p 7000:7000 joes-warehouse-image
 ```
 
 The application can be run on "bare metal" by opening a terminal and navigating into `cmd/joes-warehouse` and running:

@@ -10,11 +10,17 @@ ADD . /app
 # futher instructions should run into
 WORKDIR /app
 
+ENV CGO_ENABLED=0
+
 # Download all neededed project dependencies
 RUN go mod download
 
 # Build the project executable binary
 RUN go build -o main ./cmd/joes-warehouse
+
+EXPOSE 7000/tcp
+
+COPY ./cmd/joes-warehouse/config.toml /app/config.toml
 
 # Run/Starts the app executable binary
 CMD ["/app/main"]

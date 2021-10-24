@@ -4,10 +4,28 @@ services:
   db:
     container_name: "PostgresWarehouseDB"
     image: postgres:14.0-alpine
+    volumes:
+      - data:/var/lib/postgresql/data
     restart: always
     environment:
       POSTGRES_USER: warehouse_user
       POSTGRES_PASSWORD: warehouse_user_password
       POSTGRES_DB: warehouse_db
     ports:
-      - 5432:5432
+      - 5432:5433
+
+  app:
+    container_name: "JoesWarehouse"
+    build:
+      dockerfile: Dockerfile
+      context: .
+    links:
+    - "db:database"
+    depends_on:
+    - db
+    ports:
+      - 7000:7000
+
+
+volumes:
+  data:

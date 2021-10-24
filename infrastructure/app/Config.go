@@ -30,7 +30,8 @@ func GetConfig() *ApplicationConfig {
 	})
 
 	return &ApplicationConfig{
-		ApplicationMode:    viper.GetString("ApplicationMode"),
+		//ApplicationMode:    viper.GetString("ApplicationMode"),
+		ApplicationMode:    "postgres://warehouse_user:warehouse_user_password@localhost:5433/warehouse_db",
 		DatabaseConnection: viper.GetString("DatabaseConnection"),
 	}
 }
