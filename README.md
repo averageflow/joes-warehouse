@@ -30,6 +30,19 @@ If we want to create new products / articles via uploading a file to a web-form 
 
 This application includes a graceful shutdown mechanics and so whenever you stop it, or it receives a stop signal, it will first wait for any HTTP request currently being processed to be finished and then gracefully shutdown. This makes it possible to deploy it without downtime and to ensure a better experience for users.
 
+## Why Go ?
+This application is the perfect use case for using the Go programming language:
+* Flexible enough to support JSON and forms communication
+* Connect in a seamless way to a database, nice facilities for writing queries and communicating to the database
+* Write type-safe compilable code, catch errors before they occur at runtime
+* Incredible refactoring capabilities due to awesome type-safety
+* Code simplicity and readability is great in Go, approaching foreign codebases becomes easier
+* Testing is very powerful and baked into the language
+* Easy to deploy, single binary applications
+* Author's choice (me) by default for any project, unless good reasons justify not using it
+* Super fast applications
+* Great programming tool support
+
 ## Possible Improvements
 Some compromises were made during development to simplify certain aspects and make the project quicker to develop, namely:
 * The files provided contain a data structure that is not ideal for the task at hand, and thus some workarounds had to be made in order to support them. This includes some choices to the database schema, as well as in the application's code. For example providing the article id on creation does not seem a correct choice. Ideally these should be auto-incremented if possible.
