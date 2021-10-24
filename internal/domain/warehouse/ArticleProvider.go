@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/averageflow/joes-warehouse/domain/articles"
-	"github.com/averageflow/joes-warehouse/infrastructure"
+	"github.com/averageflow/joes-warehouse/internal/domain/articles"
+	"github.com/averageflow/joes-warehouse/internal/infrastructure"
 )
 
 func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []int64) (map[int64]map[int64]articles.ArticleOfProduct, error) {

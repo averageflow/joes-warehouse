@@ -3,7 +3,7 @@ package products
 import (
 	"errors"
 
-	"github.com/averageflow/joes-warehouse/domain/articles"
+	"github.com/averageflow/joes-warehouse/internal/domain/articles"
 )
 
 var ErrSaleFailedDueToInsufficientStock = errors.New("sale failed, did not have enough stock for wanted product")

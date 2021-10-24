@@ -7,10 +7,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/averageflow/joes-warehouse/domain/articles"
-	"github.com/averageflow/joes-warehouse/domain/products"
-	"github.com/averageflow/joes-warehouse/domain/warehouse"
-	"github.com/averageflow/joes-warehouse/infrastructure/views"
+	"github.com/averageflow/joes-warehouse/internal/domain/articles"
+	"github.com/averageflow/joes-warehouse/internal/domain/products"
+	"github.com/averageflow/joes-warehouse/internal/domain/warehouse"
+	"github.com/averageflow/joes-warehouse/internal/infrastructure/views"
 	"github.com/gin-gonic/gin"
 )
 

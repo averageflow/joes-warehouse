@@ -11,7 +11,7 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/averageflow/joes-warehouse/infrastructure"
+	"github.com/averageflow/joes-warehouse/internal/infrastructure"
 	"github.com/gin-gonic/gin"
 
 	"github.com/jackc/pgx/v4/pgxpool"

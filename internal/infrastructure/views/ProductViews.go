@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/averageflow/joes-warehouse/domain/products"
+	"github.com/averageflow/joes-warehouse/internal/domain/products"
 	g "github.com/maragudk/gomponents"
 	c "github.com/maragudk/gomponents/components"
 

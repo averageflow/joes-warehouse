@@ -3,8 +3,8 @@ package app
 import (
 	"net/http"
 
-	"github.com/averageflow/joes-warehouse/domain/warehouse"
-	"github.com/averageflow/joes-warehouse/infrastructure/views"
+	"github.com/averageflow/joes-warehouse/internal/domain/warehouse"
+	"github.com/averageflow/joes-warehouse/internal/infrastructure/views"
 	"github.com/gin-gonic/gin"
 )
 

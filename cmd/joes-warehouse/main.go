@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/averageflow/joes-warehouse/infrastructure/app"
+	"github.com/averageflow/joes-warehouse/internal/infrastructure/app"
 )
 
 func main() {

@@ -4,9 +4,9 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/averageflow/joes-warehouse/domain/products"
-	"github.com/averageflow/joes-warehouse/domain/warehouse"
-	"github.com/averageflow/joes-warehouse/infrastructure"
+	"github.com/averageflow/joes-warehouse/internal/domain/products"
+	"github.com/averageflow/joes-warehouse/internal/domain/warehouse"
+	"github.com/averageflow/joes-warehouse/internal/infrastructure"
 	"github.com/gin-gonic/gin"
 )
 

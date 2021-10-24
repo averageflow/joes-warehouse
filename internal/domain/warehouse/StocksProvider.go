@@ -5,8 +5,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/averageflow/joes-warehouse/domain/articles"
-	"github.com/averageflow/joes-warehouse/infrastructure"
+	"github.com/averageflow/joes-warehouse/internal/domain/articles"
+	"github.com/averageflow/joes-warehouse/internal/infrastructure"
 )
 
 func AddArticleStocks(db infrastructure.ApplicationDatabase, articleData []articles.Article) error {

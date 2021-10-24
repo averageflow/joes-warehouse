@@ -5,9 +5,9 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/averageflow/joes-warehouse/domain/articles"
-	"github.com/averageflow/joes-warehouse/domain/products"
-	"github.com/averageflow/joes-warehouse/infrastructure"
+	"github.com/averageflow/joes-warehouse/internal/domain/articles"
+	"github.com/averageflow/joes-warehouse/internal/domain/products"
+	"github.com/averageflow/joes-warehouse/internal/infrastructure"
 	"github.com/jackc/pgx/v4"
 )
 

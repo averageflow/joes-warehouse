@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/averageflow/joes-warehouse/domain/articles"
+	"github.com/averageflow/joes-warehouse/internal/domain/articles"
 )
 
 func TestCollectProductIDs(t *testing.T) {

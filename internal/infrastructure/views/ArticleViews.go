@@ -3,7 +3,7 @@ package views
 import (
 	"fmt"
 
-	"github.com/averageflow/joes-warehouse/domain/articles"
+	"github.com/averageflow/joes-warehouse/internal/domain/articles"
 	g "github.com/maragudk/gomponents"
 	c "github.com/maragudk/gomponents/components"
 
