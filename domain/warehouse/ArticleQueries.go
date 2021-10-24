@@ -4,7 +4,6 @@ const getArticlesForProductQuery = `
 	SELECT
 		product_articles.product_id,
 		articles.id,
-		articles.unique_id,
 		articles.item_name,
 		product_articles.amount_of,
 		article_stocks.stock,
@@ -19,7 +18,7 @@ const getArticlesForProductQuery = `
 `
 
 const getArticlesQuery = `
-select articles.id, articles.unique_id, item_name, article_stocks.stock , articles.created_at, articles.updated_at from articles
+select articles.id, item_name, article_stocks.stock , articles.created_at, articles.updated_at from articles
 inner join article_stocks on article_stocks.article_id  = articles.id;
 `
 
