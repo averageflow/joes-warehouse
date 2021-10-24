@@ -58,7 +58,7 @@ func SuccessUploadingView() g.Node {
 	})
 }
 
-func ProductView(products map[string]infrastructure.WebProduct, sortProducts []string) g.Node {
+func ProductView(products map[int64]infrastructure.WebProduct, sortProducts []int64) g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Joe's Warehouse",
 		Description: "Warehouse management software made by Joe.",
@@ -105,7 +105,7 @@ func ProductView(products map[string]infrastructure.WebProduct, sortProducts []s
 	})
 }
 
-func ArticleView(articles map[string]infrastructure.WebArticle, sortArticles []string) g.Node {
+func ArticleView(articles map[int64]infrastructure.WebArticle, sortArticles []int64) g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Joe's Warehouse",
 		Description: "Warehouse management software made by Joe.",

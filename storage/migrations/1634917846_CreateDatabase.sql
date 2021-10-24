@@ -1,8 +1,5 @@
-CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
-
 CREATE TABLE IF NOT EXISTS articles (
     id SERIAL PRIMARY KEY,
-    unique_id uuid DEFAULT uuid_generate_v4(),
     item_name VARCHAR NOT NULL,
     created_at BIGINT NOT NULL,
     updated_at BIGINT NOT NULL
@@ -10,7 +7,6 @@ CREATE TABLE IF NOT EXISTS articles (
 
 CREATE TABLE IF NOT EXISTS article_stocks (
     id SERIAL PRIMARY KEY,
-    unique_id uuid DEFAULT uuid_generate_v4(),
     article_id INT NOT NULL UNIQUE,
     stock BIGINT NOT NULL,
     created_at BIGINT NOT NULL,
@@ -20,7 +16,6 @@ CREATE TABLE IF NOT EXISTS article_stocks (
 
 CREATE TABLE IF NOT EXISTS products (
     id SERIAL PRIMARY KEY,
-    unique_id uuid DEFAULT uuid_generate_v4(),
     item_name VARCHAR NOT NULL,
     price FLOAT8 NOT NULL,
     created_at BIGINT NOT NULL,
@@ -29,7 +24,6 @@ CREATE TABLE IF NOT EXISTS products (
 
 CREATE TABLE IF NOT EXISTS product_articles (
     id SERIAL PRIMARY KEY,
-    unique_id uuid DEFAULT uuid_generate_v4(),
     product_id INT NOT NULL,
     article_id INT NOT NULL,
     amount_of BIGINT NOT NULL,
@@ -41,13 +35,11 @@ CREATE TABLE IF NOT EXISTS product_articles (
 
 CREATE TABLE IF NOT EXISTS transactions (
     id SERIAL PRIMARY KEY,
-    unique_id uuid DEFAULT uuid_generate_v4(),
     created_at BIGINT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS transaction_products (
     id SERIAL PRIMARY KEY,
-    unique_id uuid DEFAULT uuid_generate_v4(),
     transaction_id INT NOT NULL,
     product_id INT NOT NULL,
     amount_of BIGINT NOT NULL,

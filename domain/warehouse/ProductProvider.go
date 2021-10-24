@@ -7,7 +7,7 @@ import (
 	"github.com/averageflow/joes-warehouse/infrastructure"
 )
 
-func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebProduct, []string, error) {
+func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[int64]infrastructure.WebProduct, []int64, error) {
 	products, sortProducts, err := GetProducts(db)
 	if err != nil {
 		return nil, nil, err
@@ -15,25 +15,22 @@ func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[string]i
 
 	productIDs := CollectProductIDs(products)
 
-	idtoUniqueIdMap := CollectProductIDsToUniqueIDs(products)
-
 	relatedArticles, err := GetArticlesForProduct(db, productIDs)
 	if err != nil {
 		return nil, nil, err
 	}
 
 	for i := range relatedArticles {
-		wantedUUID := idtoUniqueIdMap[i]
-		wantedProduct := products[wantedUUID]
+		wantedProduct := products[i]
 		wantedProduct.Articles = relatedArticles[i]
 		wantedProduct.AmountInStock = ProductAmountInStock(wantedProduct)
-		products[wantedUUID] = wantedProduct
+		products[i] = wantedProduct
 	}
 
 	return products, sortProducts, nil
 }
 
-func GetProducts(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebProduct, []string, error) {
+func GetProducts(db infrastructure.ApplicationDatabase) (map[int64]infrastructure.WebProduct, []int64, error) {
 	ctx := context.Background()
 
 	rows, err := db.Query(ctx, getProductsQuery)
@@ -54,7 +51,6 @@ func GetProducts(db infrastructure.ApplicationDatabase) (map[string]infrastructu
 
 		err := rows.Scan(
 			&product.ID,
-			&product.UniqueID,
 			&product.Name,
 			&product.Price,
 			&product.CreatedAt,
@@ -67,12 +63,12 @@ func GetProducts(db infrastructure.ApplicationDatabase) (map[string]infrastructu
 		products = append(products, product)
 	}
 
-	result := make(map[string]infrastructure.WebProduct, len(products))
-	orderData := make([]string, len(products))
+	result := make(map[int64]infrastructure.WebProduct, len(products))
+	orderData := make([]int64, len(products))
 
 	for i := range products {
-		result[products[i].UniqueID] = products[i]
-		orderData[i] = products[i].UniqueID
+		result[products[i].ID] = products[i]
+		orderData[i] = products[i].ID
 	}
 
 	return result, orderData, nil
@@ -122,7 +118,7 @@ func AddProducts(db infrastructure.ApplicationDatabase, products []infrastructur
 	return nil
 }
 
-func SellProducts(db infrastructure.ApplicationDatabase, productUUIDs []string) error {
+func SellProducts(db infrastructure.ApplicationDatabase, products map[string]int) error {
 	return nil
 }
 

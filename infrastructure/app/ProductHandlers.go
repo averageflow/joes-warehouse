@@ -11,8 +11,8 @@ import (
 
 func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 	type getProductsHandlerResponse struct {
-		Data map[string]infrastructure.WebProduct `json:"data"`
-		Sort []string                             `json:"sort"`
+		Data map[int64]infrastructure.WebProduct `json:"data"`
+		Sort []int64                             `json:"sort"`
 	}
 
 	return func(c *gin.Context) {
@@ -66,12 +66,12 @@ func (s *ApplicationServer) addProductsHandler() func(*gin.Context) {
 }
 
 func (s *ApplicationServer) sellProductsHandler() func(*gin.Context) {
-	type sellProductsHandlerRequest struct {
-		Data []string `json:"data"`
+	type sellProductsRequest struct {
+		Data map[string]int `json:"data"`
 	}
 
 	return func(c *gin.Context) {
-		var requestBody sellProductsHandlerRequest
+		var requestBody sellProductsRequest
 
 		if err := c.BindJSON(&requestBody); err != nil {
 			c.AbortWithStatusJSON(http.StatusUnprocessableEntity, ApplicationServerResponse{

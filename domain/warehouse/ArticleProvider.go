@@ -8,7 +8,7 @@ import (
 	"github.com/averageflow/joes-warehouse/infrastructure"
 )
 
-func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []int64) (map[int64]map[string]infrastructure.ArticleOfProduct, error) {
+func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []int64) (map[int64]map[int64]infrastructure.ArticleOfProduct, error) {
 	ctx := context.Background()
 
 	rows, err := db.Query(
@@ -25,7 +25,7 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 
 	defer rows.Close()
 
-	articleMap := make(map[int64]map[string]infrastructure.ArticleOfProduct)
+	articleMap := make(map[int64]map[int64]infrastructure.ArticleOfProduct)
 
 	for rows.Next() {
 		var article infrastructure.ArticleOfProduct
@@ -35,7 +35,6 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 		err := rows.Scan(
 			&productID,
 			&article.ID,
-			&article.UniqueID,
 			&article.Name,
 			&article.AmountOf,
 			&article.Stock,
@@ -48,16 +47,16 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 
 		_, ok := articleMap[productID]
 		if !ok {
-			articleMap[productID] = make(map[string]infrastructure.ArticleOfProduct)
+			articleMap[productID] = make(map[int64]infrastructure.ArticleOfProduct)
 		}
 
-		articleMap[productID][article.UniqueID] = article
+		articleMap[productID][article.ID] = article
 	}
 
 	return articleMap, nil
 }
 
-func GetArticles(db infrastructure.ApplicationDatabase) (map[string]infrastructure.WebArticle, []string, error) {
+func GetArticles(db infrastructure.ApplicationDatabase) (map[int64]infrastructure.WebArticle, []int64, error) {
 	ctx := context.Background()
 
 	rows, err := db.Query(ctx, getArticlesQuery)
@@ -78,7 +77,6 @@ func GetArticles(db infrastructure.ApplicationDatabase) (map[string]infrastructu
 
 		err := rows.Scan(
 			&article.ID,
-			&article.UniqueID,
 			&article.Name,
 			&article.Stock,
 			&article.CreatedAt,
@@ -91,12 +89,12 @@ func GetArticles(db infrastructure.ApplicationDatabase) (map[string]infrastructu
 		articles = append(articles, article)
 	}
 
-	result := make(map[string]infrastructure.WebArticle, len(articles))
-	sortArticles := make([]string, len(articles))
+	result := make(map[int64]infrastructure.WebArticle, len(articles))
+	sortArticles := make([]int64, len(articles))
 
 	for i := range articles {
-		result[articles[i].UniqueID] = articles[i]
-		sortArticles[i] = articles[i].UniqueID
+		result[articles[i].ID] = articles[i]
+		sortArticles[i] = articles[i].ID
 	}
 
 	return result, sortArticles, nil

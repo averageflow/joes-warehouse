@@ -11,8 +11,8 @@ import (
 
 func (s *ApplicationServer) getArticlesHandler() func(*gin.Context) {
 	type getArticlesHandlerResponse struct {
-		Data map[string]infrastructure.WebArticle `json:"data"`
-		Sort []string                             `json:"sort"`
+		Data map[int64]infrastructure.WebArticle `json:"data"`
+		Sort []int64                             `json:"sort"`
 	}
 
 	return func(c *gin.Context) {
