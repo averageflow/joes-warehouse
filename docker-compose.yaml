@@ -4,8 +4,6 @@ services:
   db:
     container_name: "PostgresWarehouseDB"
     image: postgres:14.0-alpine
-    volumes:
-      - data:/var/lib/postgresql/data
     restart: always
     environment:
       POSTGRES_USER: warehouse_user
@@ -28,7 +26,3 @@ services:
     environment:
       APPLICATION_MODE: release
       DATABASE_CONNECTION: "postgres://warehouse_user:warehouse_user_password@db:5432/warehouse_db"
-
-
-volumes:
-  data:

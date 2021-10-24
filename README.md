@@ -10,6 +10,8 @@ docker-compose up --build -d
 
 The application runs on port `7000`.
 
+Before using the application please make sure to run
+
 ## Tech Stack
 This project was built using:
 * [Go programming language](https://golang.org/)

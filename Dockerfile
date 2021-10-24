@@ -6,6 +6,9 @@ RUN mkdir /app
 # Move everything from root to the newly created app directory
 ADD . /app
 
+# Move DB migrations
+ADD ./storage/migrations/init.sql /docker-entrypoint-initdb.d/init.sql
+
 # Specifying app as our work directory in which
 # futher instructions should run into
 WORKDIR /app
