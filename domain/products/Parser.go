@@ -5,18 +5,6 @@ import (
 	"sort"
 )
 
-func ConvertRawProduct(products []RawProduct) []Product {
-	result := make([]Product, len(products))
-
-	for i := range products {
-		result[i] = Product{
-			Name: products[i].Name,
-		}
-	}
-
-	return result
-}
-
 func CollectProductIDs(products map[int64]WebProduct) []int64 {
 	var result []int64
 
@@ -40,8 +28,8 @@ func CollectProductIDsForSell(products map[int64]int64) []int64 {
 func ProductAmountInStock(product WebProduct) int64 {
 	if len(product.Articles) == 0 {
 		// products should always consist of articles
-		// this edge case must be still handled, and thus we return 0
-		return 0
+		// this edge case must be still handled, and thus we return max infinity
+		return int64(math.Inf(1))
 	}
 
 	var amounts []float64
