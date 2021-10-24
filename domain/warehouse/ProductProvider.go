@@ -2,7 +2,6 @@ package warehouse
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"time"
 
@@ -163,80 +162,30 @@ func SellProducts(db infrastructure.ApplicationDatabase, wantedProducts map[int6
 		return err
 	}
 
-	products, _, err := GetFullProductsByID(db, products.CollectProductIDsForSell(wantedProducts))
+	productData, _, err := GetFullProductsByID(db, products.CollectProductIDsForSell(wantedProducts))
 	if err != nil {
 		return err
 	}
 
-	for i := range products {
-		if products[i].AmountInStock < wantedProducts[i] {
-			return errors.New("did not have enough stock for wanted product")
+	for i := range productData {
+		if productData[i].AmountInStock < wantedProducts[i] {
+			return products.ErrSaleFailedDueToInsufficientStock
 		}
 	}
 
 	newStockMap := make(map[int64]int64)
-	for i := range products {
-		for j := range products[i].Articles {
-			requiredArticleAmountForSale := products[i].Articles[j].AmountOf * wantedProducts[i]
-			newArticleStock := products[i].Articles[j].Stock - requiredArticleAmountForSale
+
+	for i := range productData {
+		for j := range productData[i].Articles {
+			requiredArticleAmountForSale := productData[i].Articles[j].AmountOf * wantedProducts[i]
+			newArticleStock := productData[i].Articles[j].Stock - requiredArticleAmountForSale
 			newStockMap[j] = newArticleStock
 		}
 	}
 
-	err = UpdateArticlesStocks(db, newStockMap)
-	if err != nil {
+	if err := UpdateArticlesStocks(db, newStockMap); err != nil {
 		return err
 	}
 
 	return CreateTransactionProductRelation(db, transactionID, wantedProducts)
-}
-
-func CreateTransaction(db infrastructure.ApplicationDatabase) (int64, error) {
-	ctx := context.Background()
-
-	tx, err := db.Begin(ctx)
-	if err != nil {
-		return 0, err
-	}
-
-	now := time.Now().Unix()
-
-	var transactionID int64
-
-	err = tx.QueryRow(
-		ctx,
-		products.AddTransactionQuery,
-		now,
-	).Scan(&transactionID)
-	if err != nil {
-		return 0, err
-	}
-
-	return transactionID, tx.Commit(ctx)
-}
-
-func CreateTransactionProductRelation(db infrastructure.ApplicationDatabase, transactionID int64, productData map[int64]int64) error {
-	ctx := context.Background()
-
-	tx, err := db.Begin(ctx)
-	if err != nil {
-		return err
-	}
-
-	now := time.Now().Unix()
-
-	for i := range productData {
-		if _, err := tx.Exec(
-			ctx,
-			products.AddTransactionProductRelationQuery,
-			transactionID,
-			i,
-			productData[i],
-			now,
-		); err != nil {
-			return err
-		}
-	}
-
-	return tx.Commit(ctx)
 }

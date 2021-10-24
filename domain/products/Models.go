@@ -1,6 +1,12 @@
 package products
 
-import "github.com/averageflow/joes-warehouse/domain/articles"
+import (
+	"errors"
+
+	"github.com/averageflow/joes-warehouse/domain/articles"
+)
+
+var ErrSaleFailedDueToInsufficientStock = errors.New("sale failed, did not have enough stock for wanted product")
 
 type Product struct {
 	ID       int64              `json:"id"`
