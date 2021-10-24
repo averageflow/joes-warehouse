@@ -14,17 +14,18 @@ services:
     volumes:
       - ./storage/migrations:/docker-entrypoint-initdb.d/
 
-  # app:
-  #   container_name: "JoesWarehouse"
-  #   build:
-  #     dockerfile: Dockerfile
-  #     context: .
-  #   links:
-  #   - "db:database"
-  #   depends_on:
-  #   - db
-  #   ports:
-  #     - 7000:7000
-  #   environment:
-  #     APPLICATION_MODE: release
-  #     DATABASE_CONNECTION: "postgres://warehouse_user:warehouse_user_password@db:5432/warehouse_db"
+  app:
+    container_name: "JoesWarehouse"
+    build:
+      dockerfile: Dockerfile
+      context: .
+    links:
+      - "db:database"
+    depends_on:
+      - db
+    ports:
+      - 7000:7000
+    command: sh -c '/wait-for.sh db:5432 -- /app/main'
+    environment:
+      APPLICATION_MODE: release
+      DATABASE_CONNECTION: "postgres://warehouse_user:warehouse_user_password@db:5432/warehouse_db"

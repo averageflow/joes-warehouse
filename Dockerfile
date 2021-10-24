@@ -6,6 +6,8 @@ RUN mkdir /app
 # Move everything from root to the newly created app directory
 ADD . /app
 
+COPY ./scripts/wait-for.sh /wait-for.sh
+
 # Specifying app as our work directory in which
 # futher instructions should run into
 WORKDIR /app
@@ -21,4 +23,4 @@ RUN go build -o main ./cmd/joes-warehouse
 EXPOSE 7000/tcp
 
 # Run/Starts the app executable binary
-CMD ["/app/main"]
+# CMD ["/app/main"]
