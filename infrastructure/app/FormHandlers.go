@@ -88,3 +88,33 @@ func handleBadFormSubmission(c *gin.Context) {
 	c.Status(http.StatusBadRequest)
 	_ = views.ErrorUploadingView().Render(c.Writer)
 }
+
+func handleBadSaleSubmission(c *gin.Context) {
+	c.Status(http.StatusBadRequest)
+	_ = views.ErrorSellingView().Render(c.Writer)
+}
+
+func (s *ApplicationServer) sellProductFormHandler() func(*gin.Context) {
+	type sellProductFormRequest struct {
+		Amount    int64 `form:"amount"`
+		ProductID int64 `form:"productID"`
+	}
+
+	return func(c *gin.Context) {
+		var requestBody sellProductFormRequest
+
+		if err := c.Bind(&requestBody); err != nil {
+			handleBadSaleSubmission(c)
+			return
+		}
+
+		convertedData := map[int64]int64{requestBody.ProductID: requestBody.Amount}
+		if err := warehouse.SellProducts(s.State.DB, convertedData); err != nil {
+			handleBadSaleSubmission(c)
+			return
+		}
+
+		c.Status(http.StatusOK)
+		_ = views.SuccessSellingView().Render(c.Writer)
+	}
+}

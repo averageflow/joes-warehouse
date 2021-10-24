@@ -37,6 +37,28 @@ func ErrorUploadingView() g.Node {
 	})
 }
 
+func ErrorSellingView() g.Node {
+	return c.HTML5(c.HTML5Props{
+		Title:       "Error selling | Joe's Warehouse",
+		Description: "An error occurred while selling the product, please try again.",
+		Language:    "en",
+		Head: []g.Node{
+			c.LinkStylesheet("/styles/bulma.min.css"),
+		},
+		Body: []g.Node{
+			Navbar(),
+			Main(
+				Class("container has-text-justified p-6"),
+				H1(
+					Class("title is-2 is-danger"),
+					g.Text("Error selling"),
+				),
+				P(g.Text("An error occurred while selling the product, please try again.")),
+			),
+		},
+	})
+}
+
 func SuccessUploadingView() g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Success uploading | Joe's Warehouse",
@@ -54,6 +76,28 @@ func SuccessUploadingView() g.Node {
 					g.Text("Success uploading"),
 				),
 				P(g.Text("Uploaded file to the server successfully.")),
+			),
+		},
+	})
+}
+
+func SuccessSellingView() g.Node {
+	return c.HTML5(c.HTML5Props{
+		Title:       "Success selling | Joe's Warehouse",
+		Description: "Sold products successfully.",
+		Language:    "en",
+		Head: []g.Node{
+			c.LinkStylesheet("/styles/bulma.min.css"),
+		},
+		Body: []g.Node{
+			Navbar(),
+			Main(
+				Class("container has-text-justified p-6"),
+				H1(
+					Class("title is-2 is-success"),
+					g.Text("Success selling"),
+				),
+				P(g.Text("Sold products successfully.")),
 			),
 		},
 	})
@@ -98,6 +142,7 @@ func ProductView(products map[int64]infrastructure.WebProduct, sortProducts []in
 											Input(
 												Type("hidden"),
 												Class("is-hidden"),
+												Required(),
 												Name("productID"),
 												Value(fmt.Sprintf("%d", sortProducts[i])),
 												ReadOnly(),
@@ -106,6 +151,7 @@ func ProductView(products map[int64]infrastructure.WebProduct, sortProducts []in
 												Class("control is-flex-desktop is-flex-tablet"),
 												Input(
 													Class("input is-small"),
+													Required(),
 													Name("amount"),
 													Type("number"),
 													Min("0"),

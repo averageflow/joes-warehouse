@@ -38,8 +38,13 @@ func Navbar() g.Node {
 				Class("navbar-start"),
 				A(
 					Class("navbar-item"),
+					Href("/ui/products"),
+					g.Text("Products"),
+				),
+				A(
+					Class("navbar-item"),
 					Href("/ui/articles"),
-					g.Text("View articles"),
+					g.Text("Articles"),
 				),
 				A(
 					Class("navbar-item"),

@@ -22,6 +22,7 @@ func submitFileForm() g.Node {
 			Input(
 				Name("fileData"),
 				Accept("application/json"),
+				Required(),
 				Class("input"),
 				ID("submit-file-input"),
 				Type("file"),
