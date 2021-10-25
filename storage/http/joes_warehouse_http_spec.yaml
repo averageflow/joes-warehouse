@@ -1,14 +1,294 @@
 _type: export
 __export_format: 4
-__export_date: 2021-10-25T14:48:30.963Z
+__export_date: 2021-10-25T17:50:06.813Z
 __export_source: insomnia.desktop.app:v2021.5.3
 resources:
-  - _id: req_b33e3e33d91744738bb4c0d1bc9344c7
+  - _id: req_bbba59c685da4ec6a923248604c4b591
+    parentId: fld_86fed7c334d14f8496847f2368825551
+    modified: 1635183775090
+    created: 1635183725162
+    url: "{{ _.protocol }}://{{ _.host }}/ui/products/sell"
+    name: Sell products form
+    description: ""
+    method: POST
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1635183725162
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_86fed7c334d14f8496847f2368825551
     parentId: wrk_0a1f343a01d147dfa61c5a4646358989
-    modified: 1635173149467
+    modified: 1635183699245
+    created: 1635183699245
+    name: Forms
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1635183699245
+    _type: request_group
+  - _id: wrk_0a1f343a01d147dfa61c5a4646358989
+    parentId: null
+    modified: 1635173019366
+    created: 1635173004483
+    name: Joe's Warehouse
+    description: ""
+    scope: collection
+    _type: workspace
+  - _id: req_f8ea322466b64ec6bc98bc03d3c9dd34
+    parentId: fld_86fed7c334d14f8496847f2368825551
+    modified: 1635183788728
+    created: 1635183749415
+    url: "{{ _.protocol }}://{{ _.host }}/ui/products/file-submission"
+    name: Upload products file
+    description: ""
+    method: POST
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1635181030501.25
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_890571b4b8b04bb19685b83849d12364
+    parentId: fld_86fed7c334d14f8496847f2368825551
+    modified: 1635183797483
+    created: 1635183752600
+    url: "{{ _.protocol }}://{{ _.host }}/ui/articles/file-submission"
+    name: Upload articles file
+    description: ""
+    method: POST
+    body: {}
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1635179683170.875
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_147378d82cc84e6081c2751f0364404a
+    parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
+    modified: 1635183809454
+    created: 1635173010240
+    url: "{{ _.protocol }}://{{ _.host }}/api/products"
+    name: Get products
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - value: application/json; charset=utf-8
+        name: Content-Type
+        id: pair_32ff7cb328f34895a59ccb2f88281d31
+      - name: Host
+        value: localhost:7000
+        id: pair_c5697abbe4f54f68a40340b5af5f3b6e
+      - name: Connection
+        value: close
+        id: pair_5191f06dce3549dc84ba5f8cf36dba65
+      - value: Paw/3.3.1 (Macintosh; OS X/11.6.0) GCDHTTPRequest
+        name: User-Agent
+        id: pair_45cbdeb140df4e12be6b8c8f59f83fa5
+    authentication: {}
+    metaSortKey: -1635178335840.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: fld_5dfb8cb4c3ba4d33a003a3caf356090c
+    parentId: wrk_0a1f343a01d147dfa61c5a4646358989
+    modified: 1635183661237
+    created: 1635183661237
+    name: JSON
+    description: ""
+    environment: {}
+    environmentPropertyOrder: null
+    metaSortKey: -1635183661237
+    _type: request_group
+  - _id: req_dbe5912e35c84de0a26b5b360bcd30d8
+    parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
+    modified: 1635183863678
+    created: 1635173010237
+    url: "{{ _.protocol }}://{{ _.host }}/api/articles"
+    name: Get articles
+    description: ""
+    method: GET
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers:
+      - value: application/json; charset=utf-8
+        name: Content-Type
+        id: pair_cc623060d4d443b5b1d1da2fcb3eb91c
+      - value: localhost:7000
+        name: Host
+        id: pair_b1c29af618cf4e4993715b608ac75bf8
+      - value: close
+        name: Connection
+        id: pair_fe59d39b90c840ec9455351d4f97f8eb
+      - name: User-Agent
+        value: Paw/3.3.1 (Macintosh; OS X/11.6.0) GCDHTTPRequest
+        id: pair_b930dd6d715b45e89874e4f05007555d
+    authentication: {}
+    metaSortKey: -1635178335815.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_fc5c6c2e9e904e0ca8a8a2c50744c75a
+    parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
+    modified: 1635183822842
+    created: 1635173010223
+    url: "{{ _.protocol }}://{{ _.host }}/api/articles"
+    name: Add articles
+    description: ""
+    method: POST
+    body:
+      mimeType: application/json
+      text: '{"inventory":[{"art_id":"1","name":"leg","stock":"12"},{"art_id":"2","name":"screw","stock":"17"},{"art_id":"3","name":"seat","stock":"2"},{"art_id":"4","name":"table
+        top","stock":"1"}]}'
+    parameters: []
+    headers:
+      - value: application/json; charset=utf-8
+        name: Content-Type
+        id: pair_5d2ceddcb5fa413c886ecedf360adb83
+      - name: Host
+        value: localhost:7000
+        id: pair_f2b3749fe86740ca90fb1220c91a6dd7
+      - name: Connection
+        value: close
+        id: pair_79189d0937cc49ec8ecaf3e835ecc697
+      - value: Paw/3.3.1 (Macintosh; OS X/11.6.0) GCDHTTPRequest
+        name: User-Agent
+        id: pair_49fb18d860f849f4950b039e5be841a7
+      - value: "186"
+        name: Content-Length
+        id: pair_f444caf728c449d899ba2b9630c18548
+    authentication: {}
+    metaSortKey: -1635178335803
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_98a638b7c0c94b49bac9b0817f2af088
+    parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
+    modified: 1635184162997
+    created: 1635173010242
+    url: "{{ _.protocol }}://{{ _.host }}/api/products/sell"
+    name: Sell products
+    description: >-
+      Sell a given amount of products. `data` is a `map[string]int64` where the
+      keys are product IDs and the values are the amount of products to be sold
+      for given ID. This request will only be successful if enough stock is
+      present to perform the sale transaction.
+
+
+      Example request body:
+
+      ```json
+
+      {
+        "data":{
+          "3":1
+        }
+      }
+
+      ```
+
+
+      Example successful response body:
+
+      ```json
+
+      {
+        "message": "ok",
+        "unix_timestamp": 1635183965
+      }
+
+      ```
+
+
+      Example error response body:
+
+      ```json
+
+      {
+        "message": "error ocurred while processing the request",
+        "error": "sale failed, did not have enough stock for wanted product",
+        "unix_timestamp": 1635184124
+      }
+
+      ```
+    method: PATCH
+    body:
+      mimeType: application/json
+      text: '{"data":{"3":1}}'
+    parameters: []
+    headers:
+      - value: application/json; charset=utf-8
+        name: Content-Type
+        id: pair_db834180cf4f4f27b1ee84c45779235e
+      - value: localhost:7000
+        name: Host
+        id: pair_0e984a78a8134edebd8065ac9987ece5
+      - value: close
+        name: Connection
+        id: pair_be4430ecce8f4d37999f4d3b611f2e7b
+      - name: User-Agent
+        value: Paw/3.3.1 (Macintosh; OS X/11.6.0) GCDHTTPRequest
+        id: pair_4f34560d63234824bba63472e5e07480
+      - value: "16"
+        name: Content-Length
+        id: pair_ea3822897d384c47bbd0ba66a50d801c
+    authentication: {}
+    metaSortKey: -1635178335790.5
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_b33e3e33d91744738bb4c0d1bc9344c7
+    parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
+    modified: 1635183858109
     created: 1635173010244
     url: "{{ _.protocol }}://{{ _.host }}/api/products"
-    name: http://localhost:7000/api/products
+    name: Add products
     description: ""
     method: POST
     body:
@@ -34,162 +314,7 @@ resources:
         value: "291"
         id: pair_3117f065fb404f92997cfc38c43a3ec6
     authentication: {}
-    metaSortKey: -1635173010244
-    isPrivate: false
-    settingStoreCookies: true
-    settingSendCookies: true
-    settingDisableRenderRequestBody: false
-    settingEncodeUrl: true
-    settingRebuildPath: true
-    settingFollowRedirects: global
-    _type: request
-  - _id: wrk_0a1f343a01d147dfa61c5a4646358989
-    parentId: null
-    modified: 1635173019366
-    created: 1635173004483
-    name: Joe's Warehouse
-    description: ""
-    scope: collection
-    _type: workspace
-  - _id: req_98a638b7c0c94b49bac9b0817f2af088
-    parentId: wrk_0a1f343a01d147dfa61c5a4646358989
-    modified: 1635173165353
-    created: 1635173010242
-    url: "{{ _.protocol }}://{{ _.host }}/api/products/sell"
-    name: http://localhost:7000/api/products/sell
-    description: ""
-    method: PATCH
-    body:
-      mimeType: application/json
-      text: '{"data":{"3":1}}'
-    parameters: []
-    headers:
-      - value: application/json; charset=utf-8
-        name: Content-Type
-        id: pair_db834180cf4f4f27b1ee84c45779235e
-      - value: localhost:7000
-        name: Host
-        id: pair_0e984a78a8134edebd8065ac9987ece5
-      - value: close
-        name: Connection
-        id: pair_be4430ecce8f4d37999f4d3b611f2e7b
-      - name: User-Agent
-        value: Paw/3.3.1 (Macintosh; OS X/11.6.0) GCDHTTPRequest
-        id: pair_4f34560d63234824bba63472e5e07480
-      - value: "16"
-        name: Content-Length
-        id: pair_ea3822897d384c47bbd0ba66a50d801c
-    authentication: {}
-    metaSortKey: -1635173010242
-    isPrivate: false
-    settingStoreCookies: true
-    settingSendCookies: true
-    settingDisableRenderRequestBody: false
-    settingEncodeUrl: true
-    settingRebuildPath: true
-    settingFollowRedirects: global
-    _type: request
-  - _id: req_147378d82cc84e6081c2751f0364404a
-    parentId: wrk_0a1f343a01d147dfa61c5a4646358989
-    modified: 1635173140922
-    created: 1635173010240
-    url: "{{ _.protocol }}://{{ _.host }}/api/products"
-    name: http://localhost:7000/api/products
-    description: ""
-    method: GET
-    body:
-      mimeType: application/json
-      text: ""
-    parameters: []
-    headers:
-      - value: application/json; charset=utf-8
-        name: Content-Type
-        id: pair_32ff7cb328f34895a59ccb2f88281d31
-      - name: Host
-        value: localhost:7000
-        id: pair_c5697abbe4f54f68a40340b5af5f3b6e
-      - name: Connection
-        value: close
-        id: pair_5191f06dce3549dc84ba5f8cf36dba65
-      - value: Paw/3.3.1 (Macintosh; OS X/11.6.0) GCDHTTPRequest
-        name: User-Agent
-        id: pair_45cbdeb140df4e12be6b8c8f59f83fa5
-    authentication: {}
-    metaSortKey: -1635173010240
-    isPrivate: false
-    settingStoreCookies: true
-    settingSendCookies: true
-    settingDisableRenderRequestBody: false
-    settingEncodeUrl: true
-    settingRebuildPath: true
-    settingFollowRedirects: global
-    _type: request
-  - _id: req_dbe5912e35c84de0a26b5b360bcd30d8
-    parentId: wrk_0a1f343a01d147dfa61c5a4646358989
-    modified: 1635173123021
-    created: 1635173010237
-    url: "{{ _.protocol }}://{{ _.host }}/api/articles"
-    name: http://localhost:7000/api/articles
-    description: ""
-    method: GET
-    body:
-      mimeType: application/json
-      text: ""
-    parameters: []
-    headers:
-      - value: application/json; charset=utf-8
-        name: Content-Type
-        id: pair_cc623060d4d443b5b1d1da2fcb3eb91c
-      - value: localhost:7000
-        name: Host
-        id: pair_b1c29af618cf4e4993715b608ac75bf8
-      - value: close
-        name: Connection
-        id: pair_fe59d39b90c840ec9455351d4f97f8eb
-      - name: User-Agent
-        value: Paw/3.3.1 (Macintosh; OS X/11.6.0) GCDHTTPRequest
-        id: pair_b930dd6d715b45e89874e4f05007555d
-    authentication: {}
-    metaSortKey: -1635173010237
-    isPrivate: false
-    settingStoreCookies: true
-    settingSendCookies: true
-    settingDisableRenderRequestBody: false
-    settingEncodeUrl: true
-    settingRebuildPath: true
-    settingFollowRedirects: global
-    _type: request
-  - _id: req_fc5c6c2e9e904e0ca8a8a2c50744c75a
-    parentId: wrk_0a1f343a01d147dfa61c5a4646358989
-    modified: 1635173134796
-    created: 1635173010223
-    url: "{{ _.protocol }}://{{ _.host }}/api/articles"
-    name: http://localhost:7000/api/articles
-    description: ""
-    method: POST
-    body:
-      mimeType: application/json
-      text: '{"inventory":[{"art_id":"1","name":"leg","stock":"12"},{"art_id":"2","name":"screw","stock":"17"},{"art_id":"3","name":"seat","stock":"2"},{"art_id":"4","name":"table
-        top","stock":"1"}]}'
-    parameters: []
-    headers:
-      - value: application/json; charset=utf-8
-        name: Content-Type
-        id: pair_5d2ceddcb5fa413c886ecedf360adb83
-      - name: Host
-        value: localhost:7000
-        id: pair_f2b3749fe86740ca90fb1220c91a6dd7
-      - name: Connection
-        value: close
-        id: pair_79189d0937cc49ec8ecaf3e835ecc697
-      - value: Paw/3.3.1 (Macintosh; OS X/11.6.0) GCDHTTPRequest
-        name: User-Agent
-        id: pair_49fb18d860f849f4950b039e5be841a7
-      - value: "186"
-        name: Content-Length
-        id: pair_f444caf728c449d899ba2b9630c18548
-    authentication: {}
-    metaSortKey: -1635173010223
+    metaSortKey: -1635178335740.5
     isPrivate: false
     settingStoreCookies: true
     settingSendCookies: true
