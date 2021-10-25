@@ -10,6 +10,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// getArticlesHandler will return a list of articles in the warehouse in JSON.
 func (s *ApplicationServer) getArticlesHandler() func(*gin.Context) {
 	type getArticlesHandlerResponse struct {
 		Data map[int64]articles.WebArticle `json:"data"`
@@ -35,6 +36,7 @@ func (s *ApplicationServer) getArticlesHandler() func(*gin.Context) {
 	}
 }
 
+// addArticlesHandler adds articles to the warehouse from a JSON request body.
 func (s *ApplicationServer) addArticlesHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
 		var requestBody articles.RawArticleUploadRequest

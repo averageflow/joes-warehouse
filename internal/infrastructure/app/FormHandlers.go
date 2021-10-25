@@ -26,7 +26,7 @@ func handleBadSaleSubmission(c *gin.Context) {
 	_ = views.ErrorSellingView().Render(c.Writer)
 }
 
-// getFormFileContents is
+// getFormFileContents will extract data from multipart upload file forms into []byte.
 func getFormFileContents(c *gin.Context) ([]byte, error) {
 	file, err := c.FormFile("fileData")
 	if err != nil {
@@ -48,6 +48,7 @@ func getFormFileContents(c *gin.Context) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
+// addArticlesFromFileHandler will process the upload form of an articles file.
 func (s *ApplicationServer) addArticlesFromFileHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
 		formFileContents, err := getFormFileContents(c)
@@ -82,6 +83,7 @@ func (s *ApplicationServer) addArticlesFromFileHandler() func(*gin.Context) {
 	}
 }
 
+// addProductsFromFileHandler will process the upload form of a product file.
 func (s *ApplicationServer) addProductsFromFileHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
 		formFileContents, err := getFormFileContents(c)
@@ -108,6 +110,7 @@ func (s *ApplicationServer) addProductsFromFileHandler() func(*gin.Context) {
 	}
 }
 
+// sellProductFormHandler will process the sell product form.
 func (s *ApplicationServer) sellProductFormHandler() func(*gin.Context) {
 	type sellProductFormRequest struct {
 		Amount    int64 `form:"amount"`

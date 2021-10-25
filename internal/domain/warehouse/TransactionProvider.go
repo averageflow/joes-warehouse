@@ -8,11 +8,13 @@ import (
 	"github.com/averageflow/joes-warehouse/internal/infrastructure"
 )
 
+// CreateTransaction will create a new record in the `transactions` table and return its ID.
 func CreateTransaction(db infrastructure.ApplicationDatabase) (int64, error) {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)
 	if err != nil {
+		_ = tx.Rollback(ctx)
 		return 0, err
 	}
 
@@ -26,17 +28,20 @@ func CreateTransaction(db infrastructure.ApplicationDatabase) (int64, error) {
 		now,
 	).Scan(&transactionID)
 	if err != nil {
+		_ = tx.Rollback(ctx)
 		return 0, err
 	}
 
 	return transactionID, tx.Commit(ctx)
 }
 
+// CreateTransactionProductRelation will create a new record in the `transaction_products` table.
 func CreateTransactionProductRelation(db infrastructure.ApplicationDatabase, transactionID int64, productData map[int64]int64) error {
 	ctx := context.Background()
 
 	tx, err := db.Begin(ctx)
 	if err != nil {
+		_ = tx.Rollback(ctx)
 		return err
 	}
 
@@ -51,6 +56,7 @@ func CreateTransactionProductRelation(db infrastructure.ApplicationDatabase, tra
 			productData[i],
 			now,
 		); err != nil {
+			_ = tx.Rollback(ctx)
 			return err
 		}
 	}

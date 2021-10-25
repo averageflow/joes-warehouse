@@ -11,23 +11,18 @@ import (
 	"github.com/jackc/pgx/v4"
 )
 
+// GetFullProductResponse will return a list of products in the warehouse.
 func GetFullProductResponse(db infrastructure.ApplicationDatabase) (*products.ProductResponseData, error) {
-	productData, sortProducts, err := GetProducts(db)
+	productData, err := GetProducts(db)
 	if err != nil {
 		return nil, err
 	}
 
-	if len(productData) == 0 {
+	if len(productData.Data) == 0 {
 		return nil, products.ErrNoProductsEmptyWarehouse
 	}
 
-	result, err := prepareProductDataResponse(
-		db,
-		products.ProductResponseData{
-			Data: productData,
-			Sort: sortProducts,
-		},
-	)
+	result, err := prepareProductDataResponse(db, productData)
 	if err != nil {
 		return nil, err
 	}
@@ -35,19 +30,14 @@ func GetFullProductResponse(db infrastructure.ApplicationDatabase) (*products.Pr
 	return result, nil
 }
 
+// GetFullProductsByID will return a list of product information for the requested product IDs.
 func GetFullProductsByID(db infrastructure.ApplicationDatabase, wantedProductIDs []int64) (*products.ProductResponseData, error) {
-	productData, sortProducts, err := GetProductsByID(db, wantedProductIDs)
+	productData, err := GetProductsByID(db, wantedProductIDs)
 	if err != nil {
 		return nil, err
 	}
 
-	result, err := prepareProductDataResponse(
-		db,
-		products.ProductResponseData{
-			Data: productData,
-			Sort: sortProducts,
-		},
-	)
+	result, err := prepareProductDataResponse(db, productData)
 	if err != nil {
 		return nil, err
 	}
@@ -55,7 +45,11 @@ func GetFullProductsByID(db infrastructure.ApplicationDatabase, wantedProductIDs
 	return result, nil
 }
 
-func prepareProductDataResponse(db infrastructure.ApplicationDatabase, productData products.ProductResponseData) (*products.ProductResponseData, error) {
+// prepareProductDataResponse takes raw results from database rows of products,
+// load the articles for each product and calculate the stock of each product and
+// update the data set.
+func prepareProductDataResponse(db infrastructure.ApplicationDatabase,
+	productData *products.ProductResponseData) (*products.ProductResponseData, error) {
 	productIDs := products.CollectProductIDs(productData.Data)
 
 	relatedArticles, err := GetArticlesForProduct(db, productIDs)
@@ -78,27 +72,36 @@ func prepareProductDataResponse(db infrastructure.ApplicationDatabase, productDa
 	return &result, nil
 }
 
-func GetProducts(db infrastructure.ApplicationDatabase) (map[int64]products.WebProduct, []int64, error) {
+func GetProducts(db infrastructure.ApplicationDatabase) (*products.ProductResponseData, error) {
 	ctx := context.Background()
+	rows, err := db.Query(
+		ctx,
+		products.GetProductsQuery,
+	)
 
-	rows, err := db.Query(ctx, products.GetProductsQuery)
 	return handleGetProductRows(rows, err)
 }
 
-func GetProductsByID(db infrastructure.ApplicationDatabase, productIDs []int64) (map[int64]products.WebProduct, []int64, error) {
+func GetProductsByID(db infrastructure.ApplicationDatabase, productIDs []int64) (*products.ProductResponseData, error) {
 	ctx := context.Background()
+	rows, err := db.Query(
+		ctx,
+		fmt.Sprintf(
+			products.GetProductsByIDQuery,
+			infrastructure.IntSliceToCommaSeparatedString(productIDs),
+		),
+	)
 
-	rows, err := db.Query(ctx, fmt.Sprintf(products.GetProductsByIDQuery, infrastructure.IntSliceToCommaSeparatedString(productIDs)))
 	return handleGetProductRows(rows, err)
 }
 
-func handleGetProductRows(rows pgx.Rows, err error) (map[int64]products.WebProduct, []int64, error) {
+func handleGetProductRows(rows pgx.Rows, err error) (*products.ProductResponseData, error) {
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	if rows.Err() != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	defer rows.Close()
@@ -108,29 +111,33 @@ func handleGetProductRows(rows pgx.Rows, err error) (map[int64]products.WebProdu
 	for rows.Next() {
 		var product products.WebProduct
 
-		err := rows.Scan(
+		if err := rows.Scan(
 			&product.ID,
 			&product.Name,
 			&product.Price,
 			&product.CreatedAt,
 			&product.UpdatedAt,
-		)
-		if err != nil {
-			return nil, nil, err
+		); err != nil {
+			return nil, err
 		}
 
 		productData = append(productData, product)
 	}
 
-	result := make(map[int64]products.WebProduct, len(productData))
+	resultingProducts := make(map[int64]products.WebProduct, len(productData))
 	sortProductData := make([]int64, len(productData))
 
 	for i := range productData {
-		result[productData[i].ID] = productData[i]
+		resultingProducts[productData[i].ID] = productData[i]
 		sortProductData[i] = productData[i].ID
 	}
 
-	return result, sortProductData, nil
+	result := products.ProductResponseData{
+		Data: resultingProducts,
+		Sort: sortProductData,
+	}
+
+	return &result, nil
 }
 
 func AddProducts(db infrastructure.ApplicationDatabase, productData []products.RawProduct) error {
@@ -143,6 +150,7 @@ func AddProducts(db infrastructure.ApplicationDatabase, productData []products.R
 	for i := range productData {
 		tx, err := db.Begin(ctx)
 		if err != nil {
+			_ = tx.Rollback(ctx)
 			return err
 		}
 
@@ -157,11 +165,12 @@ func AddProducts(db infrastructure.ApplicationDatabase, productData []products.R
 			now,
 		).Scan(&productID)
 		if err != nil {
+			_ = tx.Rollback(ctx)
 			return err
 		}
 
-		err = tx.Commit(ctx)
-		if err != nil {
+		if err := tx.Commit(ctx); err != nil {
+			_ = tx.Rollback(ctx)
 			return err
 		}
 

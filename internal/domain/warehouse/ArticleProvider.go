@@ -36,7 +36,7 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 
 		var productID int64
 
-		err := rows.Scan(
+		if err := rows.Scan(
 			&productID,
 			&article.ID,
 			&article.Name,
@@ -44,13 +44,11 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 			&article.Stock,
 			&article.CreatedAt,
 			&article.UpdatedAt,
-		)
-		if err != nil {
+		); err != nil {
 			return nil, err
 		}
 
-		_, ok := articleMap[productID]
-		if !ok {
+		if _, ok := articleMap[productID]; !ok {
 			articleMap[productID] = make(map[int64]articles.ArticleOfProduct)
 		}
 
@@ -79,14 +77,13 @@ func GetArticles(db infrastructure.ApplicationDatabase) (*articles.ArticleRespon
 	for rows.Next() {
 		var article articles.WebArticle
 
-		err := rows.Scan(
+		if err := rows.Scan(
 			&article.ID,
 			&article.Name,
 			&article.Stock,
 			&article.CreatedAt,
 			&article.UpdatedAt,
-		)
-		if err != nil {
+		); err != nil {
 			return nil, err
 		}
 
@@ -114,6 +111,7 @@ func AddArticles(db infrastructure.ApplicationDatabase, articleData []articles.A
 
 	tx, err := db.Begin(ctx)
 	if err != nil {
+		_ = tx.Rollback(ctx)
 		return err
 	}
 
@@ -128,6 +126,7 @@ func AddArticles(db infrastructure.ApplicationDatabase, articleData []articles.A
 			now,
 			now,
 		); err != nil {
+			_ = tx.Rollback(ctx)
 			return err
 		}
 	}
@@ -140,6 +139,7 @@ func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID 
 
 	tx, err := db.Begin(ctx)
 	if err != nil {
+		_ = tx.Rollback(ctx)
 		return err
 	}
 
@@ -155,6 +155,7 @@ func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID 
 			now,
 			now,
 		); err != nil {
+			_ = tx.Rollback(ctx)
 			return err
 		}
 	}
