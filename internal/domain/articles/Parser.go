@@ -9,6 +9,8 @@ const (
 	wantedConversionBits = 64
 )
 
+// ConvertRawArticle will convert articles originating from a request into
+// database ready articles.
 func ConvertRawArticle(articleData []RawArticle) []Article {
 	result := make([]Article, len(articleData))
 
@@ -26,6 +28,8 @@ func ConvertRawArticle(articleData []RawArticle) []Article {
 	return result
 }
 
+// ConvertRawArticleFromProductFile will convert articles originating from a product data into
+// database ready articles.
 func ConvertRawArticleFromProductFile(articleData []RawArticleFromProductFile) []ArticleProductRelation {
 	result := make([]ArticleProductRelation, len(articleData))
 

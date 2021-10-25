@@ -5,6 +5,7 @@ import (
 	"sort"
 )
 
+// CollectProductIDs will return the product IDs from a map of products.
 func CollectProductIDs(products map[int64]WebProduct) []int64 {
 	var result []int64
 
@@ -15,6 +16,7 @@ func CollectProductIDs(products map[int64]WebProduct) []int64 {
 	return result
 }
 
+// CollectProductIDs will return the product IDs from a map of product and stocks in a sale request.
 func CollectProductIDsForSell(products map[int64]int64) []int64 {
 	var result []int64
 
@@ -25,6 +27,8 @@ func CollectProductIDsForSell(products map[int64]int64) []int64 {
 	return result
 }
 
+// ProductAmountInStock will calculate the amount of stock for a product
+// based on the stock of the different articles that constitute a product.
 func ProductAmountInStock(product WebProduct) int64 {
 	if len(product.Articles) == 0 {
 		// products should always consist of articles

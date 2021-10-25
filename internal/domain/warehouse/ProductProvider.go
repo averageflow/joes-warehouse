@@ -13,7 +13,7 @@ import (
 
 // GetFullProductResponse will return a list of products in the warehouse.
 func GetFullProductResponse(db infrastructure.ApplicationDatabase) (*products.ProductResponseData, error) {
-	productData, err := GetProducts(db)
+	productData, err := getProducts(db)
 	if err != nil {
 		return nil, err
 	}
@@ -32,7 +32,7 @@ func GetFullProductResponse(db infrastructure.ApplicationDatabase) (*products.Pr
 
 // GetFullProductsByID will return a list of product information for the requested product IDs.
 func GetFullProductsByID(db infrastructure.ApplicationDatabase, wantedProductIDs []int64) (*products.ProductResponseData, error) {
-	productData, err := GetProductsByID(db, wantedProductIDs)
+	productData, err := getProductsByID(db, wantedProductIDs)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func prepareProductDataResponse(db infrastructure.ApplicationDatabase,
 	productData *products.ProductResponseData) (*products.ProductResponseData, error) {
 	productIDs := products.CollectProductIDs(productData.Data)
 
-	relatedArticles, err := GetArticlesForProduct(db, productIDs)
+	relatedArticles, err := getArticlesForProduct(db, productIDs)
 	if err != nil {
 		return nil, err
 	}
@@ -72,7 +72,8 @@ func prepareProductDataResponse(db infrastructure.ApplicationDatabase,
 	return &result, nil
 }
 
-func GetProducts(db infrastructure.ApplicationDatabase) (*products.ProductResponseData, error) {
+// getProducts will return a list of products in the warehouse.
+func getProducts(db infrastructure.ApplicationDatabase) (*products.ProductResponseData, error) {
 	ctx := context.Background()
 	rows, err := db.Query(
 		ctx,
@@ -82,7 +83,8 @@ func GetProducts(db infrastructure.ApplicationDatabase) (*products.ProductRespon
 	return handleGetProductRows(rows, err)
 }
 
-func GetProductsByID(db infrastructure.ApplicationDatabase, productIDs []int64) (*products.ProductResponseData, error) {
+// getProductsByID will return a list of product information for the requested product IDs.
+func getProductsByID(db infrastructure.ApplicationDatabase, productIDs []int64) (*products.ProductResponseData, error) {
 	ctx := context.Background()
 	rows, err := db.Query(
 		ctx,
@@ -95,6 +97,7 @@ func GetProductsByID(db infrastructure.ApplicationDatabase, productIDs []int64) 
 	return handleGetProductRows(rows, err)
 }
 
+// handleGetProductRows is the common logic to handle scanning rows from the `products` table.
 func handleGetProductRows(rows pgx.Rows, err error) (*products.ProductResponseData, error) {
 	if err != nil {
 		return nil, err
@@ -140,6 +143,7 @@ func handleGetProductRows(rows pgx.Rows, err error) (*products.ProductResponseDa
 	return &result, nil
 }
 
+// AddProducts will create new records in the `products` table.
 func AddProducts(db infrastructure.ApplicationDatabase, productData []products.RawProduct) error {
 	ctx := context.Background()
 
@@ -186,6 +190,8 @@ func AddProducts(db infrastructure.ApplicationDatabase, productData []products.R
 	return nil
 }
 
+// SellProducts will coordinate a product sale. This decreases stocks of the several articles
+// and creates a transaction record to log the sale event.
 func SellProducts(db infrastructure.ApplicationDatabase, wantedProducts map[int64]int64) error {
 	for i := range wantedProducts {
 		if wantedProducts[i] < 1 {

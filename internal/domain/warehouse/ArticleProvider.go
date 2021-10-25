@@ -9,7 +9,8 @@ import (
 	"github.com/averageflow/joes-warehouse/internal/infrastructure"
 )
 
-func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []int64) (articles.ArticlesOfProductMap, error) {
+// getArticlesForProduct will return the associated articles per product, for the given product IDs.
+func getArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []int64) (articles.ArticlesOfProductMap, error) {
 	ctx := context.Background()
 
 	rows, err := db.Query(
@@ -58,6 +59,7 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 	return articleMap, nil
 }
 
+// GetArticles will return a list of products in the warehouse.
 func GetArticles(db infrastructure.ApplicationDatabase) (*articles.ArticleResponseData, error) {
 	ctx := context.Background()
 
@@ -106,6 +108,7 @@ func GetArticles(db infrastructure.ApplicationDatabase) (*articles.ArticleRespon
 	return &result, nil
 }
 
+// AddArticles will create new records in the `articles` database.
 func AddArticles(db infrastructure.ApplicationDatabase, articleData []articles.Article) error {
 	ctx := context.Background()
 
@@ -134,6 +137,7 @@ func AddArticles(db infrastructure.ApplicationDatabase, articleData []articles.A
 	return tx.Commit(ctx)
 }
 
+// AddArticleProductRelation will create new records in the `product_articles` table.
 func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID int, articleData []articles.ArticleProductRelation) error {
 	ctx := context.Background()
 
