@@ -1,7 +1,8 @@
 {
   "products": [
     {
-      "name": "Dining Chair",
+      "name": "BJÖRN table",
+      "price": 799.99,
       "contain_articles": [
         {
           "art_id": "8",
@@ -19,6 +20,7 @@
     },
     {
       "name": "ALVE laptop table",
+      "price": 29.99,
       "contain_articles": [
         {
           "art_id": "5",
@@ -36,10 +38,12 @@
     },
     {
       "name": "AINA cushion cover",
+      "price": 10.99,
       "contain_articles": []
     },
     {
       "name": "FÖRSIKTIG children's stool",
+      "price": 49.99,
       "contain_articles": [
         {
           "art_id": "11",
