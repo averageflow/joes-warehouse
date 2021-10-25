@@ -28,6 +28,8 @@ If we want to create new products / articles via uploading a file to a web-form 
 
 Some data files are present in `/storage/payload-files` that can be directly uploaded using the web forms. Bear in mind if you want to add new products (products.json files), the articles which compose the product should obviously already be present in the database (using inventory.json files).
 
+You can view the API specification by using the open source API client [Insomnia](https://insomnia.rest/) and opening the file at `/storage/http/joes_warehouse_http_spec.yaml`.
+
 This application includes a graceful shutdown mechanics and so whenever you stop it, or it receives a stop signal, it will first wait for any HTTP request currently being processed to be finished and then gracefully shutdown. This makes it possible to deploy it without downtime and to ensure a better experience for users.
 
 ## Why Go ?
