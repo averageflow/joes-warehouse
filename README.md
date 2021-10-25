@@ -43,9 +43,11 @@ This application provides several endpoints for "headless" usage (without fronte
 Thus if we want to create new products / articles via an HTTP request with JSON body we use the normal endpoint. 
 If we want to create new products / articles via uploading a file to a web-form then we use the UI.
 
-Some data files are present in `/storage/payload-files` that can be directly uploaded using the web forms. Bear in mind if you want to add new products (products.json files), the articles which compose the product should obviously already be present in the database (using inventory.json files).
+You can view the API specification by using the open source API client [Insomnia](https://insomnia.rest/) and opening the file at `/storage/http/joes_warehouse_http_spec.yaml` and learn how to use the application endpoints.
 
-You can view the API specification by using the open source API client [Insomnia](https://insomnia.rest/) and opening the file at `/storage/http/joes_warehouse_http_spec.yaml`.
+In order to use the UI you can simply visit [http://localhost:7000](http://localhost:7000) in your browser.
+
+Some data files are present in `/storage/payload-files` that can be directly uploaded using the web forms. Bear in mind if you want to add new products (products.json files), the articles which compose the product should obviously already be present in the database (using inventory.json files).
 
 This application includes a graceful shutdown mechanics and so whenever you stop it, or it receives a stop signal, it will first wait for any HTTP request currently being processed to be finished and then gracefully shutdown. This makes it possible to deploy it without downtime and to ensure a better experience for users.
 
