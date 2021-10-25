@@ -1,6 +1,7 @@
 package app
 
 import (
+	"errors"
 	"net/http"
 	"time"
 
@@ -85,11 +86,22 @@ func (s *ApplicationServer) sellProductsHandler() func(*gin.Context) {
 		}
 
 		if err := warehouse.SellProducts(s.State.DB, requestBody.Data); err != nil {
-			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
-				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
-				Error:         err.Error(),
-				UnixTimestamp: time.Now().Unix(),
-			})
+			isUnprocessableEntityError := errors.Is(err, products.ErrSaleFailedDueToIncorrectAmount) ||
+				errors.Is(err, products.ErrSaleFailedDueToInsufficientStock)
+
+			if isUnprocessableEntityError {
+				c.AbortWithStatusJSON(http.StatusUnprocessableEntity, ApplicationServerResponse{
+					Message:       infrastructure.GetMessageForHTTPStatus(http.StatusUnprocessableEntity),
+					Error:         err.Error(),
+					UnixTimestamp: time.Now().Unix(),
+				})
+			} else {
+				c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
+					Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
+					Error:         err.Error(),
+					UnixTimestamp: time.Now().Unix(),
+				})
+			}
 
 			return
 		}

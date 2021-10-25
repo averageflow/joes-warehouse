@@ -161,6 +161,12 @@ func AddProducts(db infrastructure.ApplicationDatabase, productData []products.R
 }
 
 func SellProducts(db infrastructure.ApplicationDatabase, wantedProducts map[int64]int64) error {
+	for i := range wantedProducts {
+		if wantedProducts[i] < 1 {
+			return products.ErrSaleFailedDueToIncorrectAmount
+		}
+	}
+
 	transactionID, err := CreateTransaction(db)
 	if err != nil {
 		return err
