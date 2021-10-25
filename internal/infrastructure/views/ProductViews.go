@@ -71,22 +71,29 @@ func ProductView(productData *products.ProductResponseData) g.Node {
 							Th(g.Text("Stock")),
 							Th(),
 						)),
-						TBody(
-							g.Group(g.Map(len(productData.Sort), func(i int) g.Node {
-								productItem := productData.Data[productData.Sort[i]]
-								return Tr(
-									Td(g.Text(productItem.Name)),
-									Td(g.Text(fmt.Sprintf("%.2f", productItem.Price))),
-									Td(g.Text(fmt.Sprintf("%d", productItem.AmountInStock))),
-									Td(sellProductForm(productItem.ID, productItem.AmountInStock)),
-								)
-							})),
-						),
+						TBody(productTableBody(productData)),
 					),
 				),
 			),
 		},
 	})
+}
+
+// productTableBody will create the product table body to be shown in the view.
+func productTableBody(productData *products.ProductResponseData) g.Node {
+	if productData == nil {
+		return Div()
+	}
+
+	return g.Group(g.Map(len(productData.Sort), func(i int) g.Node {
+		productItem := productData.Data[productData.Sort[i]]
+		return Tr(
+			Td(g.Text(productItem.Name)),
+			Td(g.Text(fmt.Sprintf("%.2f", productItem.Price))),
+			Td(g.Text(fmt.Sprintf("%d", productItem.AmountInStock))),
+			Td(sellProductForm(productItem.ID, productItem.AmountInStock)),
+		)
+	}))
 }
 
 // sellProductForm is the re-usable form used to submit a sell product request.

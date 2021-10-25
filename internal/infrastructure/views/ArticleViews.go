@@ -68,17 +68,24 @@ func ArticleView(articleData *articles.ArticleResponseData) g.Node {
 							Th(g.Text("Name")),
 							Th(g.Text("Stock")),
 						)),
-						TBody(
-							g.Group(g.Map(len(articleData.Sort), func(i int) g.Node {
-								return Tr(
-									Td(g.Text(articleData.Data[articleData.Sort[i]].Name)),
-									Td(g.Text(fmt.Sprintf("%d", articleData.Data[articleData.Sort[i]].Stock))),
-								)
-							})),
-						),
+						TBody(articleTableBody(articleData)),
 					),
 				),
 			),
 		},
 	})
+}
+
+// articleTableBody will create the article table body to be shown in the view.
+func articleTableBody(articleData *articles.ArticleResponseData) g.Node {
+	if articleData == nil {
+		return Div()
+	}
+
+	return g.Group(g.Map(len(articleData.Sort), func(i int) g.Node {
+		return Tr(
+			Td(g.Text(articleData.Data[articleData.Sort[i]].Name)),
+			Td(g.Text(fmt.Sprintf("%d", articleData.Data[articleData.Sort[i]].Stock))),
+		)
+	}))
 }
