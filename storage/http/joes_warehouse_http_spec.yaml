@@ -1,19 +1,38 @@
 _type: export
 __export_format: 4
-__export_date: 2021-10-25T17:50:06.813Z
+__export_date: 2021-10-25T18:07:41.318Z
 __export_source: insomnia.desktop.app:v2021.5.3
 resources:
   - _id: req_bbba59c685da4ec6a923248604c4b591
     parentId: fld_86fed7c334d14f8496847f2368825551
-    modified: 1635183775090
+    modified: 1635185183999
     created: 1635183725162
     url: "{{ _.protocol }}://{{ _.host }}/ui/products/sell"
     name: Sell products form
-    description: ""
+    description: >-
+      Sell a given amount of products. This request will only be successful if
+      enough stock is present to perform the sale transaction.
+
+
+      Success or error responses will be returned in HTML form but HTTP statuses will still be respected.
     method: POST
-    body: {}
+    body:
+      mimeType: application/x-www-form-urlencoded
+      params:
+        - id: pair_f57f89a2a51a4917a7815707de847b7d
+          name: productID
+          value: "1"
+          description: ""
+        - id: pair_0cb3857427eb4b7db8666c8cf03b59b0
+          name: amount
+          value: "1"
+          description: ""
     parameters: []
-    headers: []
+    headers:
+      - id: pair_9494d7fbb85a4e4d953014c2bacc344d
+        name: Content-Type
+        value: application/x-www-form-urlencoded
+        description: ""
     authentication: {}
     metaSortKey: -1635183725162
     isPrivate: false
@@ -44,15 +63,34 @@ resources:
     _type: workspace
   - _id: req_f8ea322466b64ec6bc98bc03d3c9dd34
     parentId: fld_86fed7c334d14f8496847f2368825551
-    modified: 1635183788728
+    modified: 1635185214562
     created: 1635183749415
     url: "{{ _.protocol }}://{{ _.host }}/ui/products/file-submission"
     name: Upload products file
-    description: ""
+    description: >-
+      Add products to the warehouse by uploading a `json` file.. The articles
+      included per product must already be present in the warehouse.
+
+
+      Success or error responses will be returned in HTML form but HTTP statuses will still be respected.
     method: POST
-    body: {}
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_404b8d2d35ce474baf6199f628ed33da
+          name: fileData
+          value: ""
+          description: ""
+          type: file
+          multiline: null
+          fileName: /Users/joe/Development/Personal/Repositories/joes-warehouse/storage/payload-files/products.json
+          disabled: false
     parameters: []
-    headers: []
+    headers:
+      - id: pair_539ffe0b0f0b460983f655a642f259a0
+        name: Content-Type
+        value: multipart/form-data
+        description: ""
     authentication: {}
     metaSortKey: -1635181030501.25
     isPrivate: false
@@ -65,15 +103,32 @@ resources:
     _type: request
   - _id: req_890571b4b8b04bb19685b83849d12364
     parentId: fld_86fed7c334d14f8496847f2368825551
-    modified: 1635183797483
+    modified: 1635185205678
     created: 1635183752600
     url: "{{ _.protocol }}://{{ _.host }}/ui/articles/file-submission"
     name: Upload articles file
-    description: ""
+    description: >-
+      Add articles to the warehouse by uploading a `json` file.
+
+
+      Success or error responses will be returned in HTML form but HTTP statuses will still be respected.
     method: POST
-    body: {}
+    body:
+      mimeType: multipart/form-data
+      params:
+        - id: pair_685783081b3348a7a3860c209a6cf939
+          name: fileData
+          value: ""
+          description: ""
+          type: file
+          multiline: null
+          fileName: /Users/joe/Development/Personal/Repositories/joes-warehouse/storage/payload-files/inventory.json
     parameters: []
-    headers: []
+    headers:
+      - id: pair_316786046d884afdb177975d4661f472
+        name: Content-Type
+        value: multipart/form-data
+        description: ""
     authentication: {}
     metaSortKey: -1635179683170.875
     isPrivate: false
@@ -86,11 +141,46 @@ resources:
     _type: request
   - _id: req_147378d82cc84e6081c2751f0364404a
     parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
-    modified: 1635183809454
+    modified: 1635185016241
     created: 1635173010240
     url: "{{ _.protocol }}://{{ _.host }}/api/products"
     name: Get products
-    description: ""
+    description: >-
+      Get a list of products present in the warehouse including the related
+      articles.
+
+
+      Example successful response:
+
+      ```json
+
+      {
+          "data": {
+            "1": {
+              "id": 1,
+              "name": "Dining Chair",
+              "price": 0,
+              "amount_in_stock": 1,
+              "articles": {
+                "1": {
+                  "id": 1,
+                  "name": "leg",
+                  "amount_of": 4,
+                  "stock": 8,
+                  "created_at": 1635105413,
+                  "updated_at": 1635105413
+                }
+              },
+              "created_at": 1635105417,
+              "updated_at": 1635105417
+            }
+          },
+          "sort": [
+              1
+            ]
+      }
+
+      ```
     method: GET
     body:
       mimeType: application/json
@@ -100,15 +190,6 @@ resources:
       - value: application/json; charset=utf-8
         name: Content-Type
         id: pair_32ff7cb328f34895a59ccb2f88281d31
-      - name: Host
-        value: localhost:7000
-        id: pair_c5697abbe4f54f68a40340b5af5f3b6e
-      - name: Connection
-        value: close
-        id: pair_5191f06dce3549dc84ba5f8cf36dba65
-      - value: Paw/3.3.1 (Macintosh; OS X/11.6.0) GCDHTTPRequest
-        name: User-Agent
-        id: pair_45cbdeb140df4e12be6b8c8f59f83fa5
     authentication: {}
     metaSortKey: -1635178335840.5
     isPrivate: false
@@ -131,11 +212,30 @@ resources:
     _type: request_group
   - _id: req_dbe5912e35c84de0a26b5b360bcd30d8
     parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
-    modified: 1635183863678
+    modified: 1635185043185
     created: 1635173010237
     url: "{{ _.protocol }}://{{ _.host }}/api/articles"
     name: Get articles
-    description: ""
+    description: |-
+      Get a list of articles present in the warehouse.
+
+      Example successful response:
+      ```json
+      {
+          "data": {
+              "1": {
+                  "id": 1,
+                  "name": "leg",
+                  "stock": 12,
+                  "created_at": 1635105413,
+                  "updated_at": 1635184929
+              }
+          },
+          "sort": [
+              1
+          ]
+      }
+      ```
     method: GET
     body:
       mimeType: application/json
@@ -145,15 +245,6 @@ resources:
       - value: application/json; charset=utf-8
         name: Content-Type
         id: pair_cc623060d4d443b5b1d1da2fcb3eb91c
-      - value: localhost:7000
-        name: Host
-        id: pair_b1c29af618cf4e4993715b608ac75bf8
-      - value: close
-        name: Connection
-        id: pair_fe59d39b90c840ec9455351d4f97f8eb
-      - name: User-Agent
-        value: Paw/3.3.1 (Macintosh; OS X/11.6.0) GCDHTTPRequest
-        id: pair_b930dd6d715b45e89874e4f05007555d
     authentication: {}
     metaSortKey: -1635178335815.5
     isPrivate: false
@@ -166,33 +257,87 @@ resources:
     _type: request
   - _id: req_fc5c6c2e9e904e0ca8a8a2c50744c75a
     parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
-    modified: 1635183822842
+    modified: 1635184928974
     created: 1635173010223
     url: "{{ _.protocol }}://{{ _.host }}/api/articles"
     name: Add articles
-    description: ""
+    description: >-
+      Add articles to the warehouse.
+
+
+      Example request body:
+
+      ```json
+
+      {
+          "inventory": [
+              {
+                  "art_id": "1",
+                  "name": "leg",
+                  "stock": "12"
+              }
+          ]
+      }
+
+      ```
+
+
+      Example successful response:
+
+      ```json
+
+      {
+        "message": "ok",
+        "unix_timestamp": 1635184841
+      }
+
+      ```
+
+
+      Example error response:
+
+      ```json
+
+      {
+        "message": "unprocessable entity, likely due to an invalid payload",
+        "error": "json: cannot unmarshal object into Go struct field RawArticleUploadRequest.inventory of type []articles.RawArticle",
+        "unix_timestamp": 1635184905
+      }
+
+      ```
     method: POST
     body:
       mimeType: application/json
-      text: '{"inventory":[{"art_id":"1","name":"leg","stock":"12"},{"art_id":"2","name":"screw","stock":"17"},{"art_id":"3","name":"seat","stock":"2"},{"art_id":"4","name":"table
-        top","stock":"1"}]}'
+      text: |-
+        {
+            "inventory": [
+                {
+                    "art_id": "1",
+                    "name": "leg",
+                    "stock": "12"
+                },
+                {
+                    "art_id": "2",
+                    "name": "screw",
+                    "stock": "17"
+                },
+                {
+                    "art_id": "3",
+                    "name": "seat",
+                    "stock": "2"
+                },
+                {
+                    "art_id": "4",
+                    "name": "table top",
+                    "stock": "1"
+                }
+            ]
+        }
     parameters: []
     headers:
       - value: application/json; charset=utf-8
         name: Content-Type
         id: pair_5d2ceddcb5fa413c886ecedf360adb83
-      - name: Host
-        value: localhost:7000
-        id: pair_f2b3749fe86740ca90fb1220c91a6dd7
-      - name: Connection
-        value: close
-        id: pair_79189d0937cc49ec8ecaf3e835ecc697
-      - value: Paw/3.3.1 (Macintosh; OS X/11.6.0) GCDHTTPRequest
-        name: User-Agent
-        id: pair_49fb18d860f849f4950b039e5be841a7
-      - value: "186"
-        name: Content-Length
-        id: pair_f444caf728c449d899ba2b9630c18548
     authentication: {}
     metaSortKey: -1635178335803
     isPrivate: false
@@ -205,7 +350,7 @@ resources:
     _type: request
   - _id: req_98a638b7c0c94b49bac9b0817f2af088
     parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
-    modified: 1635184162997
+    modified: 1635184500792
     created: 1635173010242
     url: "{{ _.protocol }}://{{ _.host }}/api/products/sell"
     name: Sell products
@@ -255,24 +400,17 @@ resources:
     method: PATCH
     body:
       mimeType: application/json
-      text: '{"data":{"3":1}}'
+      text: |-
+        {
+            "data": {
+                "3": 1
+            }
+        }
     parameters: []
     headers:
       - value: application/json; charset=utf-8
         name: Content-Type
         id: pair_db834180cf4f4f27b1ee84c45779235e
-      - value: localhost:7000
-        name: Host
-        id: pair_0e984a78a8134edebd8065ac9987ece5
-      - value: close
-        name: Connection
-        id: pair_be4430ecce8f4d37999f4d3b611f2e7b
-      - name: User-Agent
-        value: Paw/3.3.1 (Macintosh; OS X/11.6.0) GCDHTTPRequest
-        id: pair_4f34560d63234824bba63472e5e07480
-      - value: "16"
-        name: Content-Length
-        id: pair_ea3822897d384c47bbd0ba66a50d801c
     authentication: {}
     metaSortKey: -1635178335790.5
     isPrivate: false
@@ -285,34 +423,106 @@ resources:
     _type: request
   - _id: req_b33e3e33d91744738bb4c0d1bc9344c7
     parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
-    modified: 1635183858109
+    modified: 1635184504825
     created: 1635173010244
     url: "{{ _.protocol }}://{{ _.host }}/api/products"
     name: Add products
-    description: ""
+    description: >-
+      Add products to the warehouse. The articles included per product must
+      already be present in the warehouse.
+
+
+      Example request body:
+
+      ```json
+
+      {
+          "products": [
+              {
+                  "name": "Dining Chair",
+                  "contain_articles": [
+                      {
+                          "art_id": "1",
+                          "amount_of": "4"
+                      }
+                  ]
+              }
+          ]
+      }
+
+      ```
+
+
+      Example successful response:
+
+      ```json
+
+      {
+        "message": "ok",
+        "unix_timestamp": 1635184379
+      }
+
+      ```
+
+
+      Example error response:
+
+      ```json
+
+      {
+        "message": "error ocurred while processing the request",
+        "error": "ERROR: insert or update on table \"product_articles\" violates foreign key constraint \"fk_product_articles_article\" (SQLSTATE 23503)",
+        "unix_timestamp": 1635184411
+      }
+
+      ```
     method: POST
     body:
       mimeType: application/json
-      text: '{"products":[{"name":"Dining
-        Chair","contain_articles":[{"art_id":"1","amount_of":"4"},{"art_id":"2","amount_of":"8"},{"art_id":"3","amount_of":"1"}]},{"name":"Dinning
-        Table","contain_articles":[{"art_id":"1","amount_of":"4"},{"art_id":"2","amount_of":"8"},{"art_id":"4","amount_of":"1"}]}]}'
+      text: |-
+        {
+            "products": [
+                {
+                    "name": "Dining Chair",
+                    "contain_articles": [
+                        {
+                            "art_id": "1",
+                            "amount_of": "4"
+                        },
+                        {
+                            "art_id": "2",
+                            "amount_of": "8"
+                        },
+                        {
+                            "art_id": "3",
+                            "amount_of": "1"
+                        }
+                    ]
+                },
+                {
+                    "name": "Dinning Table",
+                    "contain_articles": [
+                        {
+                            "art_id": "1",
+                            "amount_of": "4"
+                        },
+                        {
+                            "art_id": "2",
+                            "amount_of": "8"
+                        },
+                        {
+                            "art_id": "4",
+                            "amount_of": "1"
+                        }
+                    ]
+                }
+            ]
+        }
     parameters: []
     headers:
       - value: application/json; charset=utf-8
         name: Content-Type
         id: pair_b33063293d98443cab234b8369200f6c
-      - value: localhost:7000
-        name: Host
-        id: pair_8d490d709d5e462ea1664c863e3d1a1d
-      - name: Connection
-        value: close
-        id: pair_e12bd03974d14fc09d6cdc60931353bb
-      - name: User-Agent
-        value: Paw/3.3.1 (Macintosh; OS X/11.6.0) GCDHTTPRequest
-        id: pair_09f3d853076a4f28bcb308ab6d02a9f8
-      - name: Content-Length
-        value: "291"
-        id: pair_3117f065fb404f92997cfc38c43a3ec6
     authentication: {}
     metaSortKey: -1635178335740.5
     isPrivate: false

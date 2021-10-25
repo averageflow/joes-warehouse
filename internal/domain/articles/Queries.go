@@ -14,7 +14,8 @@ const GetArticlesForProductQuery = `
 		INNER JOIN product_articles ON product_articles.article_id = articles.id
 		INNER JOIN article_stocks ON article_stocks.article_id = articles.id
 	WHERE
-		product_articles.product_id IN (%s);
+		product_articles.product_id IN (%s) 
+		ORDER BY articles.created_at;
 `
 
 const GetArticlesQuery = `
@@ -26,7 +27,8 @@ const GetArticlesQuery = `
 		articles.updated_at
 	FROM
 		articles
-		INNER JOIN article_stocks ON article_stocks.article_id = articles.id;
+		INNER JOIN article_stocks ON article_stocks.article_id = articles.id
+		ORDER BY articles.created_at;
 `
 
 const AddArticlesForProductQuery = `

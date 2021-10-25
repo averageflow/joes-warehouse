@@ -8,7 +8,9 @@ const GetProductsQuery = `
 		created_at,
 		updated_at
 	FROM
-		products;
+		products
+	ORDER BY
+		created_at;
 `
 
 const GetProductsByIDQuery = `
@@ -21,7 +23,9 @@ const GetProductsByIDQuery = `
 	FROM
 		products
 	WHERE
-		id IN (%s);
+		id IN (%s)
+	ORDER BY
+		created_At;
 `
 
 const AddProductsQuery = `
