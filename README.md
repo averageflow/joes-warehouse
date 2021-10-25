@@ -62,6 +62,13 @@ This application is the perfect use case for using the Go programming language:
 * Super fast applications
 * Great programming tool support
 
+## Unit tests
+You can run the unit tests for this project if you have Go installed, by at the root of the project executing:
+
+```sh
+go test ./...
+```
+
 ## Possible Improvements
 Some compromises were made during development to simplify certain aspects and make the project quicker to develop, namely:
 * The files provided contain a data structure that is not ideal for the task at hand, and thus some workarounds had to be made in order to support them. This includes some choices to the database schema, as well as in the application's code. For example providing the article id on creation does not seem a correct choice. Ideally these should be auto-incremented if possible.
