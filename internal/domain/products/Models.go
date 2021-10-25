@@ -27,6 +27,7 @@ type WebProduct struct {
 
 type RawProduct struct {
 	Name     string                               `json:"name"`
+	Price    float32                              `json:"price"`
 	Articles []articles.RawArticleFromProductFile `json:"contain_articles"`
 }
 

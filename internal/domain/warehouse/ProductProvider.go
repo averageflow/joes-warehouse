@@ -135,7 +135,7 @@ func AddProducts(db infrastructure.ApplicationDatabase, productData []products.R
 			ctx,
 			products.AddProductsQuery,
 			productData[i].Name,
-			0,
+			productData[i].Price,
 			now,
 			now,
 		).Scan(&productID)
