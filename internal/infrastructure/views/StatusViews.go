@@ -57,6 +57,29 @@ func ErrorSellingView() g.Node {
 	})
 }
 
+// ErrorLoadingView will return the view to be shown when an unspecified error occurred.
+func ErrorLoadingView() g.Node {
+	return c.HTML5(c.HTML5Props{
+		Title:       "Error loading | Joe's Warehouse",
+		Description: "An error occurred while loading, please try again.",
+		Language:    "en",
+		Head: []g.Node{
+			c.LinkStylesheet(bulmaStyleSheet),
+		},
+		Body: []g.Node{
+			navbar(),
+			Main(
+				Class("container has-text-justified p-6"),
+				H1(
+					Class("title is-2 is-danger"),
+					g.Text("Error loading"),
+				),
+				P(g.Text("An error occurred while loading, please try again.")),
+			),
+		},
+	})
+}
+
 // SuccessUploadingView will return the view to be shown when a data file is uploaded and processed successfully.
 func SuccessUploadingView() g.Node {
 	return c.HTML5(c.HTML5Props{
