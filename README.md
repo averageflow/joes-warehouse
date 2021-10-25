@@ -10,6 +10,23 @@ docker-compose up -d
 
 The application runs on port `7000`.
 
+You can force the images to be re-built with:
+
+```sh
+docker-compose up --build -d
+```
+
+### Running for development
+If you would like to actively develop the application then you can run the application manually from source by running `go run main.go` from the `/cmd/joes-warehouse` folder, but you should still run the database provided in the Docker image. Keep in mind the application expects environment variables to be present, and thus you should consider having a `.env` file with the correct values, e.g.:
+
+```sh
+export APPLICATION_MODE="release"
+export DATABASE_CONNECTION="postgres://user:pass@localhost:5432/db"
+```
+
+You can load these variables into your environment with `source .env`. 
+VSCode users will find a pre-made run and debug configuration and thus can run and debug the project from the IDE.
+
 ## Tech Stack
 This project was built using:
 * [Go programming language](https://golang.org/)
