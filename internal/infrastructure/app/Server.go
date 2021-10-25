@@ -18,9 +18,12 @@ import (
 )
 
 const (
+	// gracefulShutdownRequestGraceSeconds is the time the application waits to close
+	// any currently processing HTTP requests will gracefully shutting down.
 	gracefulShutdownRequestGraceSeconds = 10
 )
 
+// ApplicationState is the application's state in a centralized manner.
 type ApplicationState struct {
 	Handler    infrastructure.ApplicationHTTPHandler
 	HTTPServer *http.Server
@@ -28,16 +31,20 @@ type ApplicationState struct {
 	Config     *ApplicationConfig
 }
 
+// ApplicationServer is the core application's handler,
+// the contact surface with outside world.
 type ApplicationServer struct {
 	State ApplicationState
 }
 
+// ApplicationServerResponse is the standard response the server returns when using JSON.
 type ApplicationServerResponse struct {
 	Message       string `json:"message,omitempty"`
 	Error         string `json:"error,omitempty"`
 	UnixTimestamp int64  `json:"unix_timestamp"`
 }
 
+// NewApplicationServer will return a fully configured ApplicationServer.
 func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 	http.DefaultClient.Timeout = 30 * time.Second
 
@@ -75,7 +82,6 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 			os.Exit(1)
 		}
 
-		//db.Query()
 		state.DB = db
 	}
 
@@ -93,6 +99,7 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 	return &srv
 }
 
+// registerHandlers will prepare the HTTP handler and associate routes to handling methods.
 func (s *ApplicationServer) registerHandlers() {
 	s.State.Handler.Use(gin.Logger(), gin.Recovery())
 

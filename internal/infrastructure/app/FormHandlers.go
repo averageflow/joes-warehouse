@@ -14,16 +14,19 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// handleBadFormSubmission will show an error view on bad upload forms.
 func handleBadFormSubmission(c *gin.Context) {
 	c.Status(http.StatusBadRequest)
 	_ = views.ErrorUploadingView().Render(c.Writer)
 }
 
+// handleBadSaleSubmission will show an error view on bad sale forms.
 func handleBadSaleSubmission(c *gin.Context) {
 	c.Status(http.StatusBadRequest)
 	_ = views.ErrorSellingView().Render(c.Writer)
 }
 
+// getFormFileContents is
 func getFormFileContents(c *gin.Context) ([]byte, error) {
 	file, err := c.FormFile("fileData")
 	if err != nil {

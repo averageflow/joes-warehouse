@@ -11,6 +11,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// getProductsHandler returns a list of products in the warehouse in JSON format.
 func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 	type getProductsHandlerResponse struct {
 		Data map[int64]products.WebProduct `json:"data"`
@@ -36,6 +37,7 @@ func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 	}
 }
 
+// addProductsHandler adds products to the warehouse from a JSON request body.
 func (s *ApplicationServer) addProductsHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
 		var requestBody products.RawProductUploadRequest
@@ -67,6 +69,7 @@ func (s *ApplicationServer) addProductsHandler() func(*gin.Context) {
 	}
 }
 
+// sellProductsHandler performs a product sale from a JSON request body.
 func (s *ApplicationServer) sellProductsHandler() func(*gin.Context) {
 	type sellProductsRequest struct {
 		Data map[int64]int64 `json:"data"`
@@ -112,11 +115,3 @@ func (s *ApplicationServer) sellProductsHandler() func(*gin.Context) {
 		})
 	}
 }
-
-// func (s *ApplicationServer) modifyProductHandler() func(*gin.Context) {
-// 	return func(c *gin.Context) {}
-// }
-
-// func (s *ApplicationServer) deleteProductHandler() func(*gin.Context) {
-// 	return func(c *gin.Context) {}
-// }

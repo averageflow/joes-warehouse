@@ -27,17 +27,6 @@ export DATABASE_CONNECTION="postgres://user:pass@localhost:5432/db"
 You can load these variables into your environment with `source .env`. 
 VSCode users will find a pre-made run and debug configuration and thus can run and debug the project from the IDE.
 
-## Tech Stack
-This project was built using:
-* [Go programming language](https://golang.org/)
-    * [Gin Gonic web framework](https://github.com/gin-gonic/gin)
-    * [Gomponents declarative HTML components](https://github.com/maragudk/gomponents)
-    * [PGX PostgreSQL driver](https://github.com/jackc/pgx)
-* [PostgreSQL database](https://www.postgresql.org/)
-* [Bulma CSS framework](https://bulma.io/)
-* [Docker](https://www.docker.com/)
-
-
 ## Functionalities
 This application provides several endpoints for "headless" usage (without frontend) and also provides a frontend to ease the use.
 Thus if we want to create new products / articles via an HTTP request with JSON body we use the normal endpoint. 
@@ -50,6 +39,16 @@ In order to use the UI you can simply visit [http://localhost:7000](http://local
 Some data files are present in `/storage/payload-files` that can be directly uploaded using the web forms. Bear in mind if you want to add new products (products.json files), the articles which compose the product should obviously already be present in the database (using inventory.json files).
 
 This application includes a graceful shutdown mechanics and so whenever you stop it, or it receives a stop signal, it will first wait for any HTTP request currently being processed to be finished and then gracefully shutdown. This makes it possible to deploy it without downtime and to ensure a better experience for users.
+
+## Tech Stack
+This project was built using:
+* [Go programming language](https://golang.org/)
+    * [Gin Gonic web framework](https://github.com/gin-gonic/gin)
+    * [Gomponents declarative HTML components](https://github.com/maragudk/gomponents)
+    * [PGX PostgreSQL driver](https://github.com/jackc/pgx)
+* [PostgreSQL database](https://www.postgresql.org/)
+* [Bulma CSS framework](https://bulma.io/)
+* [Docker](https://www.docker.com/)
 
 ## Why Go ?
 This application is the perfect use case for using the Go programming language:

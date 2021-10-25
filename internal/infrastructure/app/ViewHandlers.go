@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// productViewHandler will render the view that shows a product list.
 func (s *ApplicationServer) productViewHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
 		productData, err := warehouse.GetFullProductResponse(s.State.DB)
@@ -20,6 +21,7 @@ func (s *ApplicationServer) productViewHandler() func(*gin.Context) {
 	}
 }
 
+// articleViewHandler will render the view that shows an article list.
 func (s *ApplicationServer) articleViewHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
 		articleData, err := warehouse.GetArticles(s.State.DB)
@@ -32,6 +34,7 @@ func (s *ApplicationServer) articleViewHandler() func(*gin.Context) {
 	}
 }
 
+// addProductsFromFileViewHandler will render the view that shows the product file upload form.
 func (s *ApplicationServer) addProductsFromFileViewHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
 		c.Status(http.StatusOK)
@@ -39,6 +42,7 @@ func (s *ApplicationServer) addProductsFromFileViewHandler() func(*gin.Context) 
 	}
 }
 
+// addArticlesFromFileViewHandler will render the view that shows the article file upload form.
 func (s *ApplicationServer) addArticlesFromFileViewHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
 		c.Status(http.StatusOK)
