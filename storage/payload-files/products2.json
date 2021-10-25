@@ -1,0 +1,59 @@
+{
+  "products": [
+    {
+      "name": "Dining Chair",
+      "contain_articles": [
+        {
+          "art_id": "8",
+          "amount_of": "4"
+        },
+        {
+          "art_id": "9",
+          "amount_of": "8"
+        },
+        {
+          "art_id": "10",
+          "amount_of": "1"
+        }
+      ]
+    },
+    {
+      "name": "ALVE laptop table",
+      "contain_articles": [
+        {
+          "art_id": "5",
+          "amount_of": "4"
+        },
+        {
+          "art_id": "6",
+          "amount_of": "8"
+        },
+        {
+          "art_id": "7",
+          "amount_of": "1"
+        }
+      ]
+    },
+    {
+      "name": "AINA cushion cover",
+      "contain_articles": []
+    },
+    {
+      "name": "FÖRSIKTIG children's stool",
+      "contain_articles": [
+        {
+          "art_id": "11",
+          "amount_of": "4"
+        },
+        {
+          "art_id": "12",
+          "amount_of": "8"
+        },
+        {
+          "art_id": "13",
+          "amount_of": "1"
+        }
+      ]
+    }
+  ]
+}

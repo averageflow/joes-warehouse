@@ -1,0 +1,54 @@
+{
+  "inventory": [
+    {
+      "art_id": "5",
+      "name": "screw 5mm",
+      "stock": "76"
+    },
+    {
+      "art_id": "6",
+      "name": "screw 6mm",
+      "stock": "999"
+    },
+    {
+      "art_id": "7",
+      "name": "nut 5mm",
+      "stock": "0"
+    },
+    {
+      "art_id": "8",
+      "name": "nut 6mm",
+      "stock": "123"
+    },
+    {
+      "art_id": "9",
+      "name": "allan key 5mm",
+      "stock": "567"
+    },
+    {
+      "art_id": "10",
+      "name": "allan key 6mm",
+      "stock": "2"
+    },
+    {
+      "art_id": "11",
+      "name": "nail 3mm",
+      "stock": "3"
+    },
+    {
+      "art_id": "12",
+      "name": "nail 4mm",
+      "stock": "0"
+    },
+    {
+      "art_id": "13",
+      "name": "glue 50ml",
+      "stock": "0"
+    },
+    {
+      "art_id": "14",
+      "name": "glue 300ml",
+      "stock": "23"
+    }
+  ]
+}
