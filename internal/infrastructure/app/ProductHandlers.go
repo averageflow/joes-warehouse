@@ -18,7 +18,7 @@ func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 	}
 
 	return func(c *gin.Context) {
-		productData, sortProducts, err := warehouse.GetFullProductResponse(s.State.DB)
+		productData, err := warehouse.GetFullProductResponse(s.State.DB)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
@@ -30,8 +30,8 @@ func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 		}
 
 		c.JSON(http.StatusOK, getProductsHandlerResponse{
-			Data: productData,
-			Sort: sortProducts,
+			Data: productData.Data,
+			Sort: productData.Sort,
 		})
 	}
 }

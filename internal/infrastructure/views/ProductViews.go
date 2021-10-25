@@ -44,7 +44,7 @@ func ProductSubmissionView() g.Node {
 	})
 }
 
-func ProductView(products map[int64]products.WebProduct, sortProducts []int64) g.Node {
+func ProductView(productData *products.ProductResponseData) g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Joe's Warehouse",
 		Description: "Warehouse management software made by Joe.",
@@ -70,11 +70,11 @@ func ProductView(products map[int64]products.WebProduct, sortProducts []int64) g
 							Th(),
 						)),
 						TBody(
-							g.Group(g.Map(len(sortProducts), func(i int) g.Node {
+							g.Group(g.Map(len(productData.Sort), func(i int) g.Node {
 								return Tr(
-									Td(g.Text(products[sortProducts[i]].Name)),
-									Td(g.Text(fmt.Sprintf("%.2f", products[sortProducts[i]].Price))),
-									Td(g.Text(fmt.Sprintf("%d", products[sortProducts[i]].AmountInStock))),
+									Td(g.Text(productData.Data[productData.Sort[i]].Name)),
+									Td(g.Text(fmt.Sprintf("%.2f", productData.Data[productData.Sort[i]].Price))),
+									Td(g.Text(fmt.Sprintf("%d", productData.Data[productData.Sort[i]].AmountInStock))),
 									Td(
 										FormEl(
 											Method(http.MethodPost),
@@ -85,7 +85,7 @@ func ProductView(products map[int64]products.WebProduct, sortProducts []int64) g
 												Class("is-hidden"),
 												Required(),
 												Name("productID"),
-												Value(fmt.Sprintf("%d", sortProducts[i])),
+												Value(fmt.Sprintf("%d", productData.Sort[i])),
 												ReadOnly(),
 											),
 											Div(
@@ -96,7 +96,7 @@ func ProductView(products map[int64]products.WebProduct, sortProducts []int64) g
 													Name("amount"),
 													Type("number"),
 													Min("0"),
-													Max(fmt.Sprintf("%d", products[sortProducts[i]].AmountInStock)),
+													Max(fmt.Sprintf("%d", productData.Data[productData.Sort[i]].AmountInStock)),
 												),
 												Button(
 													Type("submit"),

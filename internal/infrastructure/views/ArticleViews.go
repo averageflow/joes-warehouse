@@ -43,7 +43,7 @@ func ArticleSubmissionView() g.Node {
 	})
 }
 
-func ArticleView(articles map[int64]articles.WebArticle, sortArticles []int64) g.Node {
+func ArticleView(articleData *articles.ArticleResponseData) g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Joe's Warehouse",
 		Description: "Warehouse management software made by Joe.",
@@ -67,10 +67,10 @@ func ArticleView(articles map[int64]articles.WebArticle, sortArticles []int64) g
 							Th(g.Text("Stock")),
 						)),
 						TBody(
-							g.Group(g.Map(len(sortArticles), func(i int) g.Node {
+							g.Group(g.Map(len(articleData.Sort), func(i int) g.Node {
 								return Tr(
-									Td(g.Text(articles[sortArticles[i]].Name)),
-									Td(g.Text(fmt.Sprintf("%d", articles[sortArticles[i]].Stock))),
+									Td(g.Text(articleData.Data[articleData.Sort[i]].Name)),
+									Td(g.Text(fmt.Sprintf("%d", articleData.Data[articleData.Sort[i]].Stock))),
 								)
 							})),
 						),

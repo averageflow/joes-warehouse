@@ -9,12 +9,15 @@ import (
 	"github.com/averageflow/joes-warehouse/internal/infrastructure"
 )
 
-func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []int64) (map[int64]map[int64]articles.ArticleOfProduct, error) {
+func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []int64) (articles.ArticlesOfProductMap, error) {
 	ctx := context.Background()
 
 	rows, err := db.Query(
 		ctx,
-		fmt.Sprintf(articles.GetArticlesForProductQuery, infrastructure.IntSliceToCommaSeparatedString(productIDs)),
+		fmt.Sprintf(
+			articles.GetArticlesForProductQuery,
+			infrastructure.IntSliceToCommaSeparatedString(productIDs),
+		),
 	)
 	if err != nil {
 		return nil, err
@@ -26,7 +29,7 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 
 	defer rows.Close()
 
-	articleMap := make(map[int64]map[int64]articles.ArticleOfProduct)
+	articleMap := make(articles.ArticlesOfProductMap)
 
 	for rows.Next() {
 		var article articles.ArticleOfProduct
@@ -57,16 +60,16 @@ func GetArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 	return articleMap, nil
 }
 
-func GetArticles(db infrastructure.ApplicationDatabase) (map[int64]articles.WebArticle, []int64, error) {
+func GetArticles(db infrastructure.ApplicationDatabase) (*articles.ArticleResponseData, error) {
 	ctx := context.Background()
 
 	rows, err := db.Query(ctx, articles.GetArticlesQuery)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	if rows.Err() != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	defer rows.Close()
@@ -84,21 +87,26 @@ func GetArticles(db infrastructure.ApplicationDatabase) (map[int64]articles.WebA
 			&article.UpdatedAt,
 		)
 		if err != nil {
-			return nil, nil, err
+			return nil, err
 		}
 
 		articleData = append(articleData, article)
 	}
 
-	result := make(map[int64]articles.WebArticle, len(articleData))
+	resultingArticles := make(map[int64]articles.WebArticle, len(articleData))
 	sortArticleData := make([]int64, len(articleData))
 
 	for i := range articleData {
-		result[articleData[i].ID] = articleData[i]
+		resultingArticles[articleData[i].ID] = articleData[i]
 		sortArticleData[i] = articleData[i].ID
 	}
 
-	return result, sortArticleData, nil
+	result := articles.ArticleResponseData{
+		Data: resultingArticles,
+		Sort: sortArticleData,
+	}
+
+	return &result, nil
 }
 
 func AddArticles(db infrastructure.ApplicationDatabase, articleData []articles.Article) error {

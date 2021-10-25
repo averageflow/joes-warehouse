@@ -10,26 +10,25 @@ import (
 
 func (s *ApplicationServer) productViewHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
-		products, sortProducts, err := warehouse.GetFullProductResponse(s.State.DB)
+		productData, err := warehouse.GetFullProductResponse(s.State.DB)
 		if err != nil {
 			panic(err.Error())
 		}
 
 		c.Status(http.StatusOK)
-		_ = views.ProductView(products, sortProducts).Render(c.Writer)
+		_ = views.ProductView(productData).Render(c.Writer)
 	}
 }
 
 func (s *ApplicationServer) articleViewHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
-
-		articles, sortArticles, err := warehouse.GetArticles(s.State.DB)
+		articleData, err := warehouse.GetArticles(s.State.DB)
 		if err != nil {
 			panic(err.Error())
 		}
 
 		c.Status(http.StatusOK)
-		_ = views.ArticleView(articles, sortArticles).Render(c.Writer)
+		_ = views.ArticleView(articleData).Render(c.Writer)
 	}
 }
 

@@ -8,6 +8,13 @@ type WebArticle struct {
 	UpdatedAt int64  `json:"updated_at"`
 }
 
+type ArticleResponseData struct {
+	Data map[int64]WebArticle
+	Sort []int64
+}
+
+type ArticlesOfProductMap map[int64]map[int64]ArticleOfProduct
+
 type Article struct {
 	ID    int64  `json:"id"`
 	Name  string `json:"name"`

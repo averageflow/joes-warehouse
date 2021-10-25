@@ -11,54 +11,71 @@ import (
 	"github.com/jackc/pgx/v4"
 )
 
-func GetFullProductResponse(db infrastructure.ApplicationDatabase) (map[int64]products.WebProduct, []int64, error) {
+func GetFullProductResponse(db infrastructure.ApplicationDatabase) (*products.ProductResponseData, error) {
 	productData, sortProducts, err := GetProducts(db)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	if len(productData) == 0 {
-		return nil, nil, nil
+		return nil, products.ErrNoProductsEmptyWarehouse
 	}
 
-	productIDs := products.CollectProductIDs(productData)
-
-	relatedArticles, err := GetArticlesForProduct(db, productIDs)
+	result, err := prepareProductDataResponse(
+		db,
+		products.ProductResponseData{
+			Data: productData,
+			Sort: sortProducts,
+		},
+	)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	for i := range relatedArticles {
-		wantedProduct := productData[i]
-		wantedProduct.Articles = relatedArticles[i]
-		wantedProduct.AmountInStock = products.ProductAmountInStock(wantedProduct)
-		productData[i] = wantedProduct
-	}
-
-	return productData, sortProducts, nil
+	return result, nil
 }
 
-func GetFullProductsByID(db infrastructure.ApplicationDatabase, wantedProductIDs []int64) (map[int64]products.WebProduct, []int64, error) {
+func GetFullProductsByID(db infrastructure.ApplicationDatabase, wantedProductIDs []int64) (*products.ProductResponseData, error) {
 	productData, sortProducts, err := GetProductsByID(db, wantedProductIDs)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
-	productIDs := products.CollectProductIDs(productData)
+	result, err := prepareProductDataResponse(
+		db,
+		products.ProductResponseData{
+			Data: productData,
+			Sort: sortProducts,
+		},
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	return result, nil
+}
+
+func prepareProductDataResponse(db infrastructure.ApplicationDatabase, productData products.ProductResponseData) (*products.ProductResponseData, error) {
+	productIDs := products.CollectProductIDs(productData.Data)
 
 	relatedArticles, err := GetArticlesForProduct(db, productIDs)
 	if err != nil {
-		return nil, nil, err
+		return nil, err
 	}
 
 	for i := range relatedArticles {
-		wantedProduct := productData[i]
+		wantedProduct := productData.Data[i]
 		wantedProduct.Articles = relatedArticles[i]
 		wantedProduct.AmountInStock = products.ProductAmountInStock(wantedProduct)
-		productData[i] = wantedProduct
+		productData.Data[i] = wantedProduct
 	}
 
-	return productData, sortProducts, nil
+	result := products.ProductResponseData{
+		Data: productData.Data,
+		Sort: productData.Sort,
+	}
+
+	return &result, nil
 }
 
 func GetProducts(db infrastructure.ApplicationDatabase) (map[int64]products.WebProduct, []int64, error) {
@@ -172,23 +189,25 @@ func SellProducts(db infrastructure.ApplicationDatabase, wantedProducts map[int6
 		return err
 	}
 
-	productData, _, err := GetFullProductsByID(db, products.CollectProductIDsForSell(wantedProducts))
+	productData, err := GetFullProductsByID(db, products.CollectProductIDsForSell(wantedProducts))
 	if err != nil {
 		return err
 	}
 
-	for i := range productData {
-		if productData[i].AmountInStock < wantedProducts[i] {
+	for i := range productData.Data {
+		if productData.Data[i].AmountInStock < wantedProducts[i] {
 			return products.ErrSaleFailedDueToInsufficientStock
 		}
 	}
 
 	newStockMap := make(map[int64]int64)
 
-	for i := range productData {
-		for j := range productData[i].Articles {
-			requiredArticleAmountForSale := productData[i].Articles[j].AmountOf * wantedProducts[i]
-			newArticleStock := productData[i].Articles[j].Stock - requiredArticleAmountForSale
+	for i := range productData.Data {
+		for j := range productData.Data[i].Articles {
+			productArticle := productData.Data[i].Articles[j]
+
+			requiredArticleAmountForSale := productArticle.AmountOf * wantedProducts[i]
+			newArticleStock := productArticle.Stock - requiredArticleAmountForSale
 			newStockMap[j] = newArticleStock
 		}
 	}

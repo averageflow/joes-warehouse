@@ -17,7 +17,7 @@ func (s *ApplicationServer) getArticlesHandler() func(*gin.Context) {
 	}
 
 	return func(c *gin.Context) {
-		articles, sortArticles, err := warehouse.GetArticles(s.State.DB)
+		articleData, err := warehouse.GetArticles(s.State.DB)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
@@ -29,8 +29,8 @@ func (s *ApplicationServer) getArticlesHandler() func(*gin.Context) {
 		}
 
 		c.JSON(http.StatusOK, getArticlesHandlerResponse{
-			Data: articles,
-			Sort: sortArticles,
+			Data: articleData.Data,
+			Sort: articleData.Sort,
 		})
 	}
 }
@@ -76,11 +76,3 @@ func (s *ApplicationServer) addArticlesHandler() func(*gin.Context) {
 		})
 	}
 }
-
-// func (s *ApplicationServer) modifyArticleHandler() func(*gin.Context) {
-// 	return func(c *gin.Context) {}
-// }
-
-// func (s *ApplicationServer) deleteArticleHandler() func(*gin.Context) {
-// 	return func(c *gin.Context) {}
-// }
