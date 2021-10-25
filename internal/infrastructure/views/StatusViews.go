@@ -10,6 +10,7 @@ import (
 	. "github.com/maragudk/gomponents/html"
 )
 
+// ErrorUploadingView will return the view to be shown when an error uploading and processing a data file occurred.
 func ErrorUploadingView() g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Error uploading | Joe's Warehouse",
@@ -33,6 +34,7 @@ func ErrorUploadingView() g.Node {
 	})
 }
 
+// ErrorSellingView will return the view to be shown when an error selling an article occurred.
 func ErrorSellingView() g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Error selling | Joe's Warehouse",
@@ -55,6 +57,7 @@ func ErrorSellingView() g.Node {
 	})
 }
 
+// SuccessUploadingView will return the view to be shown when a data file is uploaded and processed successfully.
 func SuccessUploadingView() g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Success uploading | Joe's Warehouse",
@@ -77,6 +80,7 @@ func SuccessUploadingView() g.Node {
 	})
 }
 
+// SuccessSellingView will return the view to be shown when the sale of a product is successful.
 func SuccessSellingView() g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Success selling | Joe's Warehouse",

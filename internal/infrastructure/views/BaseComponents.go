@@ -11,6 +11,7 @@ import (
 	. "github.com/maragudk/gomponents/html"
 )
 
+// submitFileForm is the re-usable file upload form.
 func submitFileForm() g.Node {
 	return FormEl(
 		Method(http.MethodPost),
@@ -31,6 +32,7 @@ func submitFileForm() g.Node {
 	)
 }
 
+// submitFormButton is a re-usable component to be used to submit any form.
 func submitFormButton() g.Node {
 	return Button(
 		Type("submit"),
@@ -39,6 +41,7 @@ func submitFormButton() g.Node {
 	)
 }
 
+// navbar is the application's navigation bar as re-usable component.
 func navbar() g.Node {
 	return Nav(
 		Class("navbar is-transparent"),
@@ -50,7 +53,6 @@ func navbar() g.Node {
 				g.Text("Joe's Warehouse"),
 			),
 			A(
-
 				g.Attr("onclick", `document.getElementById("navbar-menu").classList.toggle("is-active");document.getElementById("navbar-burger").classList.toggle("is-active");`),
 				ID("navbar-burger"),
 				Class("navbar-burger"),

@@ -14,6 +14,7 @@ import (
 	. "github.com/maragudk/gomponents/html"
 )
 
+// ProductSubmissionView will return the view to be shown to upload data files containing products.
 func ProductSubmissionView() g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Add Products | Joe's Warehouse",
@@ -44,6 +45,7 @@ func ProductSubmissionView() g.Node {
 	})
 }
 
+// ProductView will return the view to be shown with a list of products in the warehouse.
 func ProductView(productData *products.ProductResponseData) g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Joe's Warehouse",
@@ -71,41 +73,12 @@ func ProductView(productData *products.ProductResponseData) g.Node {
 						)),
 						TBody(
 							g.Group(g.Map(len(productData.Sort), func(i int) g.Node {
+								productItem := productData.Data[productData.Sort[i]]
 								return Tr(
-									Td(g.Text(productData.Data[productData.Sort[i]].Name)),
-									Td(g.Text(fmt.Sprintf("%.2f", productData.Data[productData.Sort[i]].Price))),
-									Td(g.Text(fmt.Sprintf("%d", productData.Data[productData.Sort[i]].AmountInStock))),
-									Td(
-										FormEl(
-											Method(http.MethodPost),
-											Action("/ui/products/sell"),
-											g.Attr("enctype", "application/x-www-form-urlencoded"),
-											Input(
-												Type("hidden"),
-												Class("is-hidden"),
-												Required(),
-												Name("productID"),
-												Value(fmt.Sprintf("%d", productData.Sort[i])),
-												ReadOnly(),
-											),
-											Div(
-												Class("control is-flex-desktop is-flex-tablet"),
-												Input(
-													Class("input is-small"),
-													Required(),
-													Name("amount"),
-													Type("number"),
-													Min("0"),
-													Max(fmt.Sprintf("%d", productData.Data[productData.Sort[i]].AmountInStock)),
-												),
-												Button(
-													Type("submit"),
-													Class("button is-dark is-small"),
-													g.Text("Sell"),
-												),
-											),
-										),
-									),
+									Td(g.Text(productItem.Name)),
+									Td(g.Text(fmt.Sprintf("%.2f", productItem.Price))),
+									Td(g.Text(fmt.Sprintf("%d", productItem.AmountInStock))),
+									Td(sellProductForm(productItem.ID, productItem.AmountInStock)),
 								)
 							})),
 						),
@@ -114,4 +87,37 @@ func ProductView(productData *products.ProductResponseData) g.Node {
 			),
 		},
 	})
+}
+
+// sellProductForm is the re-usable form used to submit a sell product request.
+func sellProductForm(productID, amountInStock int64) g.Node {
+	return FormEl(
+		Method(http.MethodPost),
+		Action("/ui/products/sell"),
+		g.Attr("enctype", "application/x-www-form-urlencoded"),
+		Input(
+			Type("hidden"),
+			Class("is-hidden"),
+			Required(),
+			Name("productID"),
+			Value(fmt.Sprintf("%d", productID)),
+			ReadOnly(),
+		),
+		Div(
+			Class("control is-flex-desktop is-flex-tablet"),
+			Input(
+				Class("input is-small"),
+				Required(),
+				Name("amount"),
+				Type("number"),
+				Min("0"),
+				Max(fmt.Sprintf("%d", amountInStock)),
+			),
+			Button(
+				Type("submit"),
+				Class("button is-dark is-small"),
+				g.Text("Sell"),
+			),
+		),
+	)
 }

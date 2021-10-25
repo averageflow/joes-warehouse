@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
+// IntSliceToCommaSeparatedString will convert a slice of int64 items into
+// a comma separated string.
 func IntSliceToCommaSeparatedString(data []int64) string {
 	tmp := make([]string, len(data))
 

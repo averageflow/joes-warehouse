@@ -9,6 +9,8 @@ import (
 	"github.com/jackc/pgx/v4"
 )
 
+// ApplicationHTTPHandler represents the application's router contract, any object implementing
+// the contract can be used as the application's HTTP router.
 type ApplicationHTTPHandler interface {
 	Handle(httpMethod, relativePath string, handlers ...gin.HandlerFunc) gin.IRoutes
 	ServeHTTP(http.ResponseWriter, *http.Request)
@@ -17,6 +19,8 @@ type ApplicationHTTPHandler interface {
 	Group(relativePath string, handlers ...gin.HandlerFunc) *gin.RouterGroup
 }
 
+// ApplicationDatabase represents the application's database contract, any object implementing
+// the contract can be used as the application's database.
 type ApplicationDatabase interface {
 	Exec(ctx context.Context, sql string, arguments ...interface{}) (pgconn.CommandTag, error)
 	Begin(ctx context.Context) (pgx.Tx, error)

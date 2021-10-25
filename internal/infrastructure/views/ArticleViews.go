@@ -13,6 +13,7 @@ import (
 	. "github.com/maragudk/gomponents/html"
 )
 
+// ArticleSubmissionView will return the view to be shown to upload data files containing articles.
 func ArticleSubmissionView() g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Add Articles | Joe's Warehouse",
@@ -43,6 +44,7 @@ func ArticleSubmissionView() g.Node {
 	})
 }
 
+// ArticleView will return the view to be shown to list articles in the warehouse.
 func ArticleView(articleData *articles.ArticleResponseData) g.Node {
 	return c.HTML5(c.HTML5Props{
 		Title:       "Joe's Warehouse",
