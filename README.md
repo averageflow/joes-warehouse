@@ -47,7 +47,7 @@ This application includes a graceful shutdown mechanics and so whenever you stop
 
 A simple pagination system was added to the GET calls and works by using URL parameters, e.g. `http://localhost:7000/api/products?limit=100&offset=0`. The default pagination limit if not specified is 100 items. The default pagination limit for the frontend is 500 items.
 
-The code has been written in an attempt to achieve as clean code as possible, in a testable manner, with some dependency injection of key components and with simplicity in mind, with no global state.
+The code has been written in an attempt to achieve as clean code as possible, with dependency injection of key components and with simplicity in mind, with no global state.
 
 ## Tech Stack
 This project was built using:
