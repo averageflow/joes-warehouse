@@ -25,7 +25,7 @@ func ArticleSubmissionView() g.Node {
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
-			navbar(),
+			applicationNavbar(),
 			Main(
 				Class("container section"),
 				H1(
@@ -57,16 +57,16 @@ func ArticleView(articleData *articles.ArticleResponseData) g.Node {
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
-			navbar(),
+			applicationNavbar(),
 			Main(
 				Class("container section"),
 				Div(
 					H2(
 						Class("title is-2 is-success"),
-						g.Text("Articles"),
+						g.Text("Articles in Warehouse"),
 					),
 					Table(
-						Class("table is-striped"),
+						Class("table is-striped has-text-centered"),
 						THead(Tr(
 							Th(g.Text("ID")),
 							Th(g.Text("Name")),

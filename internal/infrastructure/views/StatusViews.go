@@ -21,7 +21,7 @@ func ErrorUploadingView() g.Node {
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
-			navbar(),
+			applicationNavbar(),
 			Main(
 				Class("container section"),
 				H1(
@@ -46,7 +46,7 @@ func ErrorSellingView() g.Node {
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
-			navbar(),
+			applicationNavbar(),
 			Main(
 				Class("container section"),
 				H1(
@@ -70,7 +70,7 @@ func ErrorLoadingView() g.Node {
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
-			navbar(),
+			applicationNavbar(),
 			Main(
 				Class("container section"),
 				H1(
@@ -94,7 +94,7 @@ func SuccessUploadingView() g.Node {
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
-			navbar(),
+			applicationNavbar(),
 			Main(
 				Class("container section"),
 				H1(
@@ -118,7 +118,7 @@ func SuccessSellingView() g.Node {
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
-			navbar(),
+			applicationNavbar(),
 			Main(
 				Class("container section"),
 				H1(

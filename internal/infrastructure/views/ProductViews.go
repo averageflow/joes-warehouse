@@ -26,7 +26,7 @@ func ProductSubmissionView() g.Node {
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
-			navbar(),
+			applicationNavbar(),
 			Main(
 				Class("container section"),
 				H1(
@@ -58,16 +58,16 @@ func ProductView(productData *products.ProductResponseData) g.Node {
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
-			navbar(),
+			applicationNavbar(),
 			Main(
 				Class("container section"),
 				Div(
 					H2(
 						Class("title is-2 is-success"),
-						g.Text("Products"),
+						g.Text("Products in Warehouse"),
 					),
 					Table(
-						Class("table is-striped"),
+						Class("table is-striped has-text-centered"),
 						THead(Tr(
 							Th(g.Text("ID")),
 							Th(g.Text("Name")),
@@ -121,19 +121,25 @@ func sellProductForm(product products.WebProduct) g.Node {
 			ReadOnly(),
 		),
 		Div(
-			Class("control is-flex-desktop is-flex-tablet"),
-			Input(
-				Class("input is-small"),
-				Required(),
-				Name("amount"),
-				Type("number"),
-				Min("0"),
-				g.If(!product.IsInfiniteStock, Max(fmt.Sprintf("%d", product.AmountInStock))),
+			Class("field has-addons is-block-mobile"),
+			Div(
+				Class("control"),
+				Input(
+					Class("input is-small"),
+					Required(),
+					Name("amount"),
+					Type("number"),
+					Min("0"),
+					g.If(!product.IsInfiniteStock, Max(fmt.Sprintf("%d", product.AmountInStock))),
+				),
 			),
-			Button(
-				Type("submit"),
-				Class("button is-dark is-small"),
-				g.Text("Sell"),
+			Div(
+				Class("control"),
+				Button(
+					Type("submit"),
+					Class("button is-dark is-small"),
+					g.Text("Sell"),
+				),
 			),
 		),
 	)

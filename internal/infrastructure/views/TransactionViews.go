@@ -23,7 +23,7 @@ func TransactionView(transactionData *transactions.TransactionResponse) g.Node {
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
-			navbar(),
+			applicationNavbar(),
 			Main(
 				Class("container section"),
 				Div(
@@ -32,7 +32,7 @@ func TransactionView(transactionData *transactions.TransactionResponse) g.Node {
 						g.Text("Transactions"),
 					),
 					Table(
-						Class("table is-striped"),
+						Class("table is-striped has-text-centered"),
 						THead(Tr(
 							Th(g.Text("ID")),
 							Th(g.Text("ProductID")),

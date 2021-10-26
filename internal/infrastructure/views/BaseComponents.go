@@ -18,17 +18,23 @@ func submitFileForm() g.Node {
 		Action(""),
 		g.Attr("enctype", "multipart/form-data"),
 		Div(
-			Class("control"),
-			Input(
-				Name("fileData"),
-				Accept("application/json"),
-				Required(),
-				Class("input"),
-				ID("submit-file-input"),
-				Type("file"),
+			Class("field has-addons"),
+			Div(
+				Class("control"),
+				Input(
+					Name("fileData"),
+					Accept("application/json"),
+					Required(),
+					Class("input"),
+					ID("submit-file-input"),
+					Type("file"),
+				),
+			),
+			Div(
+				Class("control"),
+				submitFormButton(),
 			),
 		),
-		submitFormButton(),
 	)
 }
 
@@ -36,26 +42,28 @@ func submitFileForm() g.Node {
 func submitFormButton() g.Node {
 	return Button(
 		Type("submit"),
-		Class("mt-4 button is-dark"),
+		Class("button is-dark"),
 		g.Text("Submit"),
 	)
 }
 
 // navbar is the application's navigation bar as re-usable component.
-func navbar() g.Node {
+func applicationNavbar() g.Node {
 	return Nav(
-		Class("navbar is-transparent"),
+		Class("navbar is-transparent has-background-white-ter"),
 		Div(
 			Class("navbar-brand"),
 			A(
 				Class("navbar-item"),
 				Href("/ui/products"),
-				g.Text("Joe's Warehouse"),
+				Img(
+					Src("/assets/favicon/apple-icon-120x120.png"),
+				),
 			),
 			A(
 				g.Attr("onclick", `document.getElementById("navbar-menu").classList.toggle("is-active");document.getElementById("navbar-burger").classList.toggle("is-active");`),
 				ID("navbar-burger"),
-				Class("navbar-burger"),
+				Class("navbar-burger has-text-weight-bold"),
 				Aria("label", "menu"),
 				Aria("expanded", "false"),
 				Span(Aria("hidden", "true")),
@@ -65,33 +73,33 @@ func navbar() g.Node {
 		),
 		Div(
 			ID("navbar-menu"),
-			Class("navbar-menu"),
+			Class("navbar-menu has-background-white-ter"),
 			Div(
 				Class("navbar-start"),
 				A(
-					Class("navbar-item"),
+					Class("navbar-item has-text-weight-bold"),
 					Href("/ui/products"),
 					g.Text("Products"),
 				),
 				A(
-					Class("navbar-item"),
+					Class("navbar-item has-text-weight-bold"),
 					Href("/ui/articles"),
 					g.Text("Articles"),
 				),
 				A(
-					Class("navbar-item"),
+					Class("navbar-item has-text-weight-bold"),
 					Href("/ui/transactions"),
 					g.Text("Transactions"),
 				),
 				A(
-					Class("navbar-item"),
+					Class("navbar-item has-text-weight-bold"),
 					Href("/ui/products/file-submission"),
-					g.Text("Add products"),
+					g.Text("+ Products"),
 				),
 				A(
-					Class("navbar-item"),
+					Class("navbar-item has-text-weight-bold"),
 					Href("/ui/articles/file-submission"),
-					g.Text("Add articles"),
+					g.Text("+ Articles"),
 				),
 			),
 		),
