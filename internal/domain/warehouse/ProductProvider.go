@@ -108,7 +108,7 @@ func handleGetProductRows(rows pgx.Rows, err error) (*products.ProductResponseDa
 	}
 
 	if rows.Err() != nil {
-		return nil, err
+		return nil, rows.Err()
 	}
 
 	defer rows.Close()

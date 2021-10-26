@@ -5,6 +5,7 @@ import (
 	"time"
 
 	"github.com/averageflow/joes-warehouse/internal/domain/products"
+	"github.com/averageflow/joes-warehouse/internal/domain/transactions"
 	"github.com/averageflow/joes-warehouse/internal/infrastructure"
 )
 
@@ -62,4 +63,59 @@ func CreateTransactionProductRelation(db infrastructure.ApplicationDatabase, tra
 	}
 
 	return tx.Commit(ctx)
+}
+
+// GetTransactions will return a list of transactions in the warehouse.
+func GetTransactions(db infrastructure.ApplicationDatabase, limit, offset int64) (*transactions.TransactionResponse, error) {
+	ctx := context.Background()
+
+	rows, err := db.Query(
+		ctx,
+		transactions.GetTransactionsQuery,
+		limit,
+		offset,
+	)
+	if err != nil {
+		return nil, err
+	}
+
+	if rows.Err() != nil {
+		return nil, rows.Err()
+	}
+
+	defer rows.Close()
+
+	var items []transactions.TransactionDetails
+
+	for rows.Next() {
+		var item transactions.TransactionDetails
+
+		if err := rows.Scan(
+			&item.ID,
+			&item.ProductID,
+			&item.ProductName,
+			&item.ProductAmount,
+			&item.CreatedAt,
+		); err != nil {
+			return nil, err
+		}
+
+		items = append(items, item)
+	}
+
+	transactionData := make(map[int64][]transactions.TransactionDetails)
+
+	sort := []int64{}
+
+	for i := range items {
+		sort = infrastructure.AppendIfMissingInt64(sort, items[i].ID)
+		transactionData[items[i].ID] = append(transactionData[items[i].ID], items[i])
+	}
+
+	result := transactions.TransactionResponse{
+		Data: transactionData,
+		Sort: sort,
+	}
+
+	return &result, nil
 }

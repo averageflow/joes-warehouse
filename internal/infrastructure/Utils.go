@@ -22,3 +22,14 @@ func IntSliceToCommaSeparatedString(data []int64) string {
 func EpochToHumanReadable(epoch int64) string {
 	return time.Unix(epoch, 0).Format(time.RFC850)
 }
+
+// AppendIfMissingInt64 will append to an int64 slice if the wanted element is missing.
+func AppendIfMissingInt64(slice []int64, i int64) []int64 {
+	for _, ele := range slice {
+		if ele == i {
+			return slice
+		}
+	}
+
+	return append(slice, i)
+}

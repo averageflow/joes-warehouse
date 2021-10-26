@@ -135,10 +135,15 @@ func (s *ApplicationServer) registerHandlers() {
 
 	// API calls
 	headlessGroup := s.State.Handler.Group("/api")
+
 	headlessGroup.Handle(http.MethodGet, "/products", s.getProductsHandler())
 	headlessGroup.Handle(http.MethodPost, "/products", s.addProductsHandler())
+
 	headlessGroup.Handle(http.MethodGet, "/articles", s.getArticlesHandler())
 	headlessGroup.Handle(http.MethodPost, "/articles", s.addArticlesHandler())
+
+	headlessGroup.Handle(http.MethodGet, "/transactions", s.getTransactionsHandler())
+
 	headlessGroup.Handle(http.MethodPatch, "/products/sell", s.sellProductsHandler())
 }
 

@@ -25,7 +25,7 @@ func getArticlesForProducts(db infrastructure.ApplicationDatabase, productIDs []
 	}
 
 	if rows.Err() != nil {
-		return nil, err
+		return nil, rows.Err()
 	}
 
 	defer rows.Close()
@@ -74,7 +74,7 @@ func GetArticles(db infrastructure.ApplicationDatabase, limit, offset int64) (*a
 	}
 
 	if rows.Err() != nil {
-		return nil, err
+		return nil, rows.Err()
 	}
 
 	defer rows.Close()
