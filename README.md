@@ -8,6 +8,11 @@ Joe's Warehouse Software is a Go application that has the purpose of managing pr
 
 ![https://github.com/averageflow/joes-warehouse/raw/main/web/assets/favicon/android-icon-144x144.png](https://github.com/averageflow/joes-warehouse/raw/main/web/assets/favicon/android-icon-144x144.png)
 
+## Table of contents
+
+* [Running the application](#running-the-application)
+* [Running for development](#running-for-development)
+
 ## Running the application
 To kickstart the application and all dependencies required for its operation, you should be running on a machine with Docker installed, and from the root of the project run (use `-d` option to run as daemon in background):
 
