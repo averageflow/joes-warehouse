@@ -17,6 +17,9 @@ ENV CGO_ENABLED=0
 # Download all neededed project dependencies
 RUN go mod download
 
+# Run all unit tests
+RUN go test ./...
+
 # Build the project executable binary
 RUN go build -o main ./cmd/joes-warehouse
 

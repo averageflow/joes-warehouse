@@ -4,6 +4,7 @@ import (
 	"context"
 
 	"github.com/jackc/pgconn"
+	"github.com/jackc/pgproto3/v2"
 	"github.com/jackc/pgx/v4"
 )
 
@@ -26,7 +27,7 @@ func (mdb *MockApplicationDatabase) Query(ctx context.Context, sql string, args 
 	mdb.callParams = []interface{}{sql}
 	mdb.callParams = append(mdb.callParams, args...)
 
-	return nil, nil
+	return MockRows{}, nil
 }
 
 func (mdb *MockApplicationDatabase) CalledWith() []interface{} {
@@ -72,7 +73,7 @@ func (mtx MockTx) Exec(ctx context.Context, sql string, arguments ...interface{}
 }
 
 func (mtx MockTx) Query(ctx context.Context, sql string, args ...interface{}) (pgx.Rows, error) {
-	return nil, nil
+	return MockRows{}, nil
 }
 
 func (mtx MockTx) QueryRow(ctx context.Context, sql string, args ...interface{}) pgx.Row {
@@ -90,5 +91,37 @@ func (mtx MockTx) Conn() *pgx.Conn {
 type MockRow struct{}
 
 func (mr MockRow) Scan(dest ...interface{}) error {
+	return nil
+}
+
+type MockRows struct{}
+
+func (mr MockRows) Err() error {
+	return nil
+}
+
+func (mr MockRows) Close() {}
+
+func (mr MockRows) CommandTag() pgconn.CommandTag {
+	return nil
+}
+
+func (mr MockRows) FieldDescriptions() []pgproto3.FieldDescription {
+	return nil
+}
+
+func (mr MockRows) Next() bool {
+	return false
+}
+
+func (mr MockRows) Scan(dest ...interface{}) error {
+	return nil
+}
+
+func (mr MockRows) Values() ([]interface{}, error) {
+	return nil, nil
+}
+
+func (mr MockRows) RawValues() [][]byte {
 	return nil
 }

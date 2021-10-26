@@ -8,6 +8,8 @@ import (
 )
 
 func TestAddArticleStocks(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		db          infrastructure.ApplicationDatabase
 		articleData []articles.Article
@@ -44,6 +46,8 @@ func TestAddArticleStocks(t *testing.T) {
 }
 
 func TestUpdateArticlesStocks(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		db          infrastructure.ApplicationDatabase
 		newStockMap map[int64]int64

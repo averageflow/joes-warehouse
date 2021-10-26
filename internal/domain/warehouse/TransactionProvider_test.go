@@ -7,6 +7,8 @@ import (
 )
 
 func TestCreateTransaction(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		db infrastructure.ApplicationDatabase
 	}
@@ -43,6 +45,8 @@ func TestCreateTransaction(t *testing.T) {
 }
 
 func TestCreateTransactionProductRelation(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		db            infrastructure.ApplicationDatabase
 		transactionID int64

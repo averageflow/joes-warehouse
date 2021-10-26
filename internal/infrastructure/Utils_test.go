@@ -3,6 +3,8 @@ package infrastructure
 import "testing"
 
 func TestIntSliceToCommaSeparatedString(t *testing.T) {
+	t.Parallel()
+
 	type args struct {
 		data []int64
 	}
