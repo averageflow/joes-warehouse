@@ -80,6 +80,11 @@ func navbar() g.Node {
 				),
 				A(
 					Class("navbar-item"),
+					Href("/ui/transactions"),
+					g.Text("Transactions"),
+				),
+				A(
+					Class("navbar-item"),
 					Href("/ui/products/file-submission"),
 					g.Text("Add products"),
 				),

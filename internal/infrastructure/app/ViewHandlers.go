@@ -49,6 +49,23 @@ func (s *ApplicationServer) articleViewHandler() func(*gin.Context) {
 	}
 }
 
+// transactionViewHandler will render the view that shows a transaction list.
+func (s *ApplicationServer) transactionViewHandler() func(*gin.Context) {
+	return func(c *gin.Context) {
+		transactionData, err := warehouse.GetTransactions(s.State.DB, defaultFrontendPaginationLimit, 0)
+		if err != nil {
+			log.Println(err.Error())
+			c.Status(http.StatusInternalServerError)
+			_ = views.ErrorLoadingView().Render(c.Writer)
+
+			return
+		}
+
+		c.Status(http.StatusOK)
+		_ = views.TransactionView(transactionData).Render(c.Writer)
+	}
+}
+
 // addProductsFromFileViewHandler will render the view that shows the product file upload form.
 func (s *ApplicationServer) addProductsFromFileViewHandler() func(*gin.Context) {
 	return func(c *gin.Context) {

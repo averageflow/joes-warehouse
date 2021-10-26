@@ -39,6 +39,8 @@ If we want to create new products / articles via uploading a file to a web-form 
 
 Products are composed of 0 or more articles. Products that are composed of articles can be sold only if they are in stock. Products that are not composed of any article can always be sold. This is in order to take into account that the product is of "infinite stock".
 
+A list of transactions performed (sales) that have occurred can be obtained via the API and with the frontend.
+
 You can view the API specification by using the open source API client [Insomnia](https://insomnia.rest/) and opening the file at `/storage/http/joes_warehouse_http_spec.yaml` and learn how to use the application endpoints.
 
 In order to use the UI you can simply visit [http://localhost:7000](http://localhost:7000) in your browser.
@@ -80,6 +82,8 @@ You can run the unit tests for this project if you have Go installed, by at the 
 go test ./...
 ```
 
+The unit tests will also be run every time the Docker image is rebuilt.
+
 ## Possible Improvements
 Some compromises were made during development to simplify certain aspects and make the project quicker to develop. Find some suggestions for improvements below. When better defined, these should be turned into GitHub issues to better keep track of the progress and create separate branches for the features.
 
@@ -90,7 +94,6 @@ Some compromises were made during development to simplify certain aspects and ma
 * Some more security should be added in the upload forms, some CSRF token in the form if server side rendered as it currently is and perhaps some honeypot field to avoid any sort of bot.
 * Authorization and Authentication would really be important, you don't want anyone to be able to edit the warehouse's items. The suggestion would be to have both API tokens for headless usage and Cookie based authentication for the web interface. This makes sense specially for the sale of items. This should also be added as a column (perhaps user_id) to the "transactions" database table in order to be able to view who performed a transaction.
 * A SPA (single page application) seemed as a lot of overhead for this simple project. It should be considered if more complicated behavior and state were to be added to the UI. For the scale of this project SSR (server side rendering) seemed like the natural choice and simplified the development, without compromising functionality. This is also in many ways more secure and compatible across browsers, simple HTML and forms. This frontend should be improved and should be showing more data than it does now, for a more useful system.
-* A good functionality to add to the application would be to make use of the `transactions` and `transaction_products` database tables to create a GET endpoint and an HTML view where we can see what product transactions (sales) have occurred. The data is already being added to those tables on every transaction, so it would be a relatively simple addition.
 * The frontend might benefit from adding the related article list on a per product basis. The information is present so it is a matter of deciding the best way to show it.
 * The addition of PATCH endpoints to modify some resources would be useful, then we could for example rename products and articles.
 * The addition of DELETE endpoints to remove some resources would be useful.

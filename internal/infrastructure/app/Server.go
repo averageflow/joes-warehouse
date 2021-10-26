@@ -125,6 +125,8 @@ func (s *ApplicationServer) registerHandlers() {
 	// HTML views
 	uiGroup.Handle(http.MethodGet, "/products", s.productViewHandler())
 	uiGroup.Handle(http.MethodGet, "/articles", s.articleViewHandler())
+	uiGroup.Handle(http.MethodGet, "/transactions", s.transactionViewHandler())
+
 	uiGroup.Handle(http.MethodGet, "/products/file-submission", s.addProductsFromFileViewHandler())
 	uiGroup.Handle(http.MethodGet, "/articles/file-submission", s.addArticlesFromFileViewHandler())
 
