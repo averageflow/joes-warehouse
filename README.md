@@ -12,6 +12,13 @@ Joe's Warehouse Software is a Go application that has the purpose of managing pr
 
 * [Running the application](#running-the-application)
 * [Running for development](#running-for-development)
+* [Functionalities](#functionalities)
+* [Additional information](#additional-information)
+* [Technologies used](#technologies-used)
+* [Why Go ?](#why-go-)
+* [Unit tests](#unit-tests)
+* [Possible Improvements](#possible-improvements)
+* [Credits](#credits)
 
 ## Running the application
 To kickstart the application and all dependencies required for its operation, you should be running on a machine with Docker installed, and from the root of the project run (use `-d` option to run as daemon in background):
@@ -71,7 +78,7 @@ A simple pagination system was added to the GET calls and works by using URL par
 
 The code has been written in an attempt to achieve as clean code as possible, with dependency injection of key components and with simplicity in mind, with no global state.
 
-### Tech Stack
+### Technologies used
 This project was built using:
 * [Go programming language](https://golang.org/)
     * [Gin Gonic web framework](https://github.com/gin-gonic/gin)
