@@ -8,22 +8,22 @@
     {
       "art_id": "6",
       "name": "screw 6mm",
-      "stock": "999"
+      "stock": "99"
     },
     {
       "art_id": "7",
       "name": "nut 5mm",
-      "stock": "0"
+      "stock": "22"
     },
     {
       "art_id": "8",
       "name": "nut 6mm",
-      "stock": "123"
+      "stock": "12"
     },
     {
       "art_id": "9",
       "name": "allan key 5mm",
-      "stock": "567"
+      "stock": "56"
     },
     {
       "art_id": "10",
@@ -38,12 +38,12 @@
     {
       "art_id": "12",
       "name": "nail 4mm",
-      "stock": "0"
+      "stock": "67"
     },
     {
       "art_id": "13",
       "name": "glue 50ml",
-      "stock": "0"
+      "stock": "99"
     },
     {
       "art_id": "14",
