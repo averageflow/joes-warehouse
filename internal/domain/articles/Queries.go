@@ -28,7 +28,7 @@ const GetArticlesQuery = `
 	FROM
 		articles
 		INNER JOIN article_stocks ON article_stocks.article_id = articles.id
-		ORDER BY articles.created_at;
+		ORDER BY articles.created_at LIMIT $1 OFFSET $2;
 `
 
 const AddArticlesForProductQuery = `

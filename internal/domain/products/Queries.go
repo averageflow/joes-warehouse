@@ -10,7 +10,8 @@ const GetProductsQuery = `
 	FROM
 		products
 	ORDER BY
-		created_at;
+		created_at 
+	LIMIT $1 OFFSET $2;
 `
 
 const GetProductsByIDQuery = `

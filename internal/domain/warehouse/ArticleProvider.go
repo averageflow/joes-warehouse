@@ -60,10 +60,15 @@ func getArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []i
 }
 
 // GetArticles will return a list of products in the warehouse.
-func GetArticles(db infrastructure.ApplicationDatabase) (*articles.ArticleResponseData, error) {
+func GetArticles(db infrastructure.ApplicationDatabase, limit, offset int64) (*articles.ArticleResponseData, error) {
 	ctx := context.Background()
 
-	rows, err := db.Query(ctx, articles.GetArticlesQuery)
+	rows, err := db.Query(
+		ctx,
+		articles.GetArticlesQuery,
+		limit,
+		offset,
+	)
 	if err != nil {
 		return nil, err
 	}

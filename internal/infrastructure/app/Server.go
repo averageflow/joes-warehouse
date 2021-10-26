@@ -11,6 +11,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/averageflow/joes-warehouse/internal/domain/warehouse"
 	"github.com/averageflow/joes-warehouse/internal/infrastructure"
 	"github.com/gin-gonic/gin"
 
@@ -21,6 +22,11 @@ const (
 	// gracefulShutdownRequestGraceSeconds is the time the application waits to close
 	// any currently processing HTTP requests will gracefully shutting down.
 	gracefulShutdownRequestGraceSeconds = 10
+)
+
+const (
+	defaultPaginationLimit         = 100
+	defaultFrontendPaginationLimit = 500
 )
 
 // ApplicationState is the application's state in a centralized manner.
@@ -134,6 +140,22 @@ func (s *ApplicationServer) registerHandlers() {
 	headlessGroup.Handle(http.MethodGet, "/articles", s.getArticlesHandler())
 	headlessGroup.Handle(http.MethodPost, "/articles", s.addArticlesHandler())
 	headlessGroup.Handle(http.MethodPatch, "/products/sell", s.sellProductsHandler())
+}
+
+// getPaginationDetails will extract the pagination details from the URL parameters in a GET endpoint.
+func (s *ApplicationServer) getPaginationDetails(c *gin.Context) warehouse.PaginationInQueryParams {
+	var paginationDetails warehouse.PaginationInQueryParams
+
+	// ignore the error since the values for pagination will default to 0
+	// making the application more resilient
+	_ = c.BindQuery(&paginationDetails)
+
+	if paginationDetails.Limit == 0 {
+		// default pagination limit if it was not specified
+		paginationDetails.Limit = defaultPaginationLimit
+	}
+
+	return paginationDetails
 }
 
 // TerminationSignalWatcher will wait for interrupt signal to gracefully shutdown

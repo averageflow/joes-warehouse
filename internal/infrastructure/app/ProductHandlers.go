@@ -13,13 +13,10 @@ import (
 
 // getProductsHandler returns a list of products in the warehouse in JSON format.
 func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
-	type getProductsHandlerResponse struct {
-		Data map[int64]products.WebProduct `json:"data"`
-		Sort []int64                       `json:"sort"`
-	}
-
 	return func(c *gin.Context) {
-		productData, err := warehouse.GetFullProductResponse(s.State.DB)
+		paginationDetails := s.getPaginationDetails(c)
+
+		productData, err := warehouse.GetFullProductResponse(s.State.DB, paginationDetails.Limit, paginationDetails.Offset)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
@@ -30,7 +27,7 @@ func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 			return
 		}
 
-		c.JSON(http.StatusOK, getProductsHandlerResponse{
+		c.JSON(http.StatusOK, products.GetProductsHandlerResponse{
 			Data: productData.Data,
 			Sort: productData.Sort,
 		})

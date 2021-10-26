@@ -50,3 +50,8 @@ type RawArticleFromProductFile struct {
 type RawArticleUploadRequest struct {
 	Inventory []RawArticle `json:"inventory"`
 }
+
+type GetArticlesHandlerResponse struct {
+	Data map[int64]WebArticle `json:"data"`
+	Sort []int64              `json:"sort"`
+}

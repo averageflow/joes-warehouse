@@ -45,6 +45,8 @@ Some data files are present in `/storage/payload-files` that can be directly upl
 
 This application includes a graceful shutdown mechanics and so whenever you stop it, or it receives a stop signal, it will first wait for any HTTP request currently being processed to be finished and then gracefully shutdown. This makes it possible to deploy it without downtime and to ensure a better experience for users.
 
+A simple pagination system was added to the GET calls and works by using URL parameters, e.g. `http://localhost:7000/api/products?limit=100&offset=0`. The default pagination limit if not specified is 100 items. The default pagination limit for the frontend is 500 items.
+
 ## Tech Stack
 This project was built using:
 * [Go programming language](https://golang.org/)
@@ -77,6 +79,7 @@ go test ./...
 ## Possible Improvements
 Some compromises were made during development to simplify certain aspects and make the project quicker to develop. Find some suggestions for improvements below. When better defined, these should be turned into GitHub issues to better keep track of the progress and create separate branches for the features.
 
+* Frontend pagination was deemed as out of scope for this project, but is a great improvement to consider. Currently the frontend is capped at 500 items.
 * The files provided contain a data structure that is not ideal for the task at hand, and thus some workarounds had to be made in order to support them. This includes some choices to the database schema, as well as in the application's code. For example providing the article id on creation does not seem a correct choice. Ideally these should be auto-incremented if possible.
 * The API could have been designed to use UUIDs instead of numeric IDs since this provides several advantages, specially when clustering. It seemed to complicate things greatly though because the provided files contained numeric IDs, and then we would need to write all sorts of lookup functions, so this was deemed as out of scope for the project. The addition of UUIDs would not be too difficult though and would prove useful on a large scale system.
 * The docker compose file contains "secrets" which for a production-ready application is not great. Either the file should be encrypted in a certain fashion or the secrets should be obtained from a Vault (Hashicorp Vault comes to mind).
@@ -89,4 +92,3 @@ Some compromises were made during development to simplify certain aspects and ma
 * The addition of DELETE endpoints to remove some resources would be useful.
 * Distributed tracing would be a good addition to the application specially if it were to communicate with more services in its operations. Personal choice would be [Jaeger](https://www.jaegertracing.io/).
 * Some structured logging on errors would be a good addition, also in combination to adding the logs into the spans for tracing.
-* Pagination system would be a great addition for the GET calls and for the frontend, this would be simple to add with an OFFSET and LIMIT addition to the queries.

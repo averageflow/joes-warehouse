@@ -12,8 +12,8 @@ import (
 )
 
 // GetFullProductResponse will return a list of products in the warehouse.
-func GetFullProductResponse(db infrastructure.ApplicationDatabase) (*products.ProductResponseData, error) {
-	productData, err := getProducts(db)
+func GetFullProductResponse(db infrastructure.ApplicationDatabase, limit, offset int64) (*products.ProductResponseData, error) {
+	productData, err := getProducts(db, limit, offset)
 	if err != nil {
 		return nil, err
 	}
@@ -73,11 +73,13 @@ func prepareProductDataResponse(db infrastructure.ApplicationDatabase,
 }
 
 // getProducts will return a list of products in the warehouse.
-func getProducts(db infrastructure.ApplicationDatabase) (*products.ProductResponseData, error) {
+func getProducts(db infrastructure.ApplicationDatabase, limit, offset int64) (*products.ProductResponseData, error) {
 	ctx := context.Background()
 	rows, err := db.Query(
 		ctx,
 		products.GetProductsQuery,
+		limit,
+		offset,
 	)
 
 	return handleGetProductRows(rows, err)

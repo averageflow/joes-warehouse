@@ -12,13 +12,10 @@ import (
 
 // getArticlesHandler will return a list of articles in the warehouse in JSON.
 func (s *ApplicationServer) getArticlesHandler() func(*gin.Context) {
-	type getArticlesHandlerResponse struct {
-		Data map[int64]articles.WebArticle `json:"data"`
-		Sort []int64                       `json:"sort"`
-	}
-
 	return func(c *gin.Context) {
-		articleData, err := warehouse.GetArticles(s.State.DB)
+		paginationDetails := s.getPaginationDetails(c)
+
+		articleData, err := warehouse.GetArticles(s.State.DB, paginationDetails.Limit, paginationDetails.Offset)
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
@@ -29,7 +26,7 @@ func (s *ApplicationServer) getArticlesHandler() func(*gin.Context) {
 			return
 		}
 
-		c.JSON(http.StatusOK, getArticlesHandlerResponse{
+		c.JSON(http.StatusOK, articles.GetArticlesHandlerResponse{
 			Data: articleData.Data,
 			Sort: articleData.Sort,
 		})

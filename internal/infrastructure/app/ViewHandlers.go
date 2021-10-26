@@ -13,7 +13,7 @@ import (
 // productViewHandler will render the view that shows a product list.
 func (s *ApplicationServer) productViewHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
-		productData, err := warehouse.GetFullProductResponse(s.State.DB)
+		productData, err := warehouse.GetFullProductResponse(s.State.DB, defaultFrontendPaginationLimit, 0)
 		if err != nil {
 			if errors.Is(err, products.ErrNoProductsEmptyWarehouse) {
 				c.Status(http.StatusOK)
@@ -34,7 +34,7 @@ func (s *ApplicationServer) productViewHandler() func(*gin.Context) {
 // articleViewHandler will render the view that shows an article list.
 func (s *ApplicationServer) articleViewHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
-		articleData, err := warehouse.GetArticles(s.State.DB)
+		articleData, err := warehouse.GetArticles(s.State.DB, defaultFrontendPaginationLimit, 0)
 		if err != nil {
 			c.Status(http.StatusInternalServerError)
 			_ = views.ErrorLoadingView().Render(c.Writer)

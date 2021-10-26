@@ -55,3 +55,8 @@ type SellProductFormRequest struct {
 	ProductID int64 `form:"productID"`
 	Amount    int64 `form:"amount"`
 }
+
+type GetProductsHandlerResponse struct {
+	Data map[int64]WebProduct `json:"data"`
+	Sort []int64              `json:"sort"`
+}
