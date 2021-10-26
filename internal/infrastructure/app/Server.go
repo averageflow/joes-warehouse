@@ -109,6 +109,8 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 func (s *ApplicationServer) registerHandlers() {
 	s.State.Handler.Use(gin.Logger(), gin.Recovery())
 
+	s.State.Handler.Static("/assets/favicon", fmt.Sprintf("%s/assets/favicon", s.State.Config.WebAssetLocation))
+
 	uiGroup := s.State.Handler.Group("/ui")
 
 	// UI related redirects

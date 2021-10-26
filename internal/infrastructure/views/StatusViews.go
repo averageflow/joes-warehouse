@@ -17,6 +17,7 @@ func ErrorUploadingView() g.Node {
 		Description: "An error occurred while uploading the file to the server, please try again.",
 		Language:    "en",
 		Head: []g.Node{
+			faviconLinks(),
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
@@ -41,6 +42,7 @@ func ErrorSellingView() g.Node {
 		Description: "An error occurred while selling the product, please try again.",
 		Language:    "en",
 		Head: []g.Node{
+			faviconLinks(),
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
@@ -64,6 +66,7 @@ func ErrorLoadingView() g.Node {
 		Description: "An error occurred while loading, please try again.",
 		Language:    "en",
 		Head: []g.Node{
+			faviconLinks(),
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
@@ -87,6 +90,7 @@ func SuccessUploadingView() g.Node {
 		Description: "Uploaded file to the server successfully.",
 		Language:    "en",
 		Head: []g.Node{
+			faviconLinks(),
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
@@ -110,6 +114,7 @@ func SuccessSellingView() g.Node {
 		Description: "Sold products successfully.",
 		Language:    "en",
 		Head: []g.Node{
+			faviconLinks(),
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{

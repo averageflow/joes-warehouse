@@ -99,3 +99,6 @@ Some compromises were made during development to simplify certain aspects and ma
 * The addition of DELETE endpoints to remove some resources would be useful.
 * Distributed tracing would be a good addition to the application specially if it were to communicate with more services in its operations. Personal choice would be [Jaeger](https://www.jaegertracing.io/).
 * Some structured logging on errors would be a good addition, also in combination to adding the logs into the spans for tracing.
+
+## Credits
+The icon used for the repository and for the favicon was made by [Flat Icons](https://www.flaticon.com/authors/flat-icons).

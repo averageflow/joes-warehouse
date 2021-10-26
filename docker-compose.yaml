@@ -29,3 +29,4 @@ services:
     environment:
       APPLICATION_MODE: release
       DATABASE_CONNECTION: "postgres://warehouse_user:warehouse_user_password@db:5432/warehouse_db"
+      WEB_ASSET_LOCATION: "./web"

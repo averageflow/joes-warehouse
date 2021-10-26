@@ -21,6 +21,7 @@ func ArticleSubmissionView() g.Node {
 		Description: "Submit a list of new articles to be added to the warehouse.",
 		Language:    "en",
 		Head: []g.Node{
+			faviconLinks(),
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
@@ -52,6 +53,7 @@ func ArticleView(articleData *articles.ArticleResponseData) g.Node {
 		Description: "Warehouse management software made by Joe.",
 		Language:    "en",
 		Head: []g.Node{
+			faviconLinks(),
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{

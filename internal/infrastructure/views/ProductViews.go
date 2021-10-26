@@ -22,6 +22,7 @@ func ProductSubmissionView() g.Node {
 		Description: "Submit a list of new products to be added to the warehouse.",
 		Language:    "en",
 		Head: []g.Node{
+			faviconLinks(),
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
@@ -53,12 +54,13 @@ func ProductView(productData *products.ProductResponseData) g.Node {
 		Description: "Warehouse management software made by Joe.",
 		Language:    "en",
 		Head: []g.Node{
+			faviconLinks(),
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
 			navbar(),
 			Main(
-				Class("container has-text-justified p-6"),
+				Class("has-text-justified p-6"),
 				Div(
 					H2(
 						Class("title is-2 is-success"),

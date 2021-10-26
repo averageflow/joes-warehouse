@@ -19,6 +19,7 @@ func TransactionView(transactionData *transactions.TransactionResponse) g.Node {
 		Description: "Warehouse management software made by Joe.",
 		Language:    "en",
 		Head: []g.Node{
+			faviconLinks(),
 			c.LinkStylesheet(bulmaStyleSheet),
 		},
 		Body: []g.Node{
