@@ -18,9 +18,9 @@ func IntSliceToCommaSeparatedString(data []int64) string {
 	return strings.Join(tmp, ", ")
 }
 
-// EpochToHumanReadable will return a RFC850 format date time string from a Unix epoch.
+// EpochToHumanReadable will return a RFC822 format date time string from a Unix epoch.
 func EpochToHumanReadable(epoch int64) string {
-	return time.Unix(epoch, 0).Format(time.RFC850)
+	return time.Unix(epoch, 0).Format(time.RFC822)
 }
 
 // AppendIfMissingInt64 will append to an int64 slice if the wanted element is missing.

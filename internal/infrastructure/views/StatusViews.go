@@ -23,7 +23,7 @@ func ErrorUploadingView() g.Node {
 		Body: []g.Node{
 			navbar(),
 			Main(
-				Class("container has-text-justified p-6"),
+				Class("container section"),
 				H1(
 					Class("title is-2 is-danger"),
 					g.Text("Error uploading"),
@@ -48,7 +48,7 @@ func ErrorSellingView() g.Node {
 		Body: []g.Node{
 			navbar(),
 			Main(
-				Class("container has-text-justified p-6"),
+				Class("container section"),
 				H1(
 					Class("title is-2 is-danger"),
 					g.Text("Error selling"),
@@ -72,7 +72,7 @@ func ErrorLoadingView() g.Node {
 		Body: []g.Node{
 			navbar(),
 			Main(
-				Class("container has-text-justified p-6"),
+				Class("container section"),
 				H1(
 					Class("title is-2 is-danger"),
 					g.Text("Error loading"),
@@ -96,7 +96,7 @@ func SuccessUploadingView() g.Node {
 		Body: []g.Node{
 			navbar(),
 			Main(
-				Class("container has-text-justified p-6"),
+				Class("container section"),
 				H1(
 					Class("title is-2 is-success"),
 					g.Text("Success uploading"),
@@ -120,7 +120,7 @@ func SuccessSellingView() g.Node {
 		Body: []g.Node{
 			navbar(),
 			Main(
-				Class("container has-text-justified p-6"),
+				Class("container section"),
 				H1(
 					Class("title is-2 is-success"),
 					g.Text("Success selling"),

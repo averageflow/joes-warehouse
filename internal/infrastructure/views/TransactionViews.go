@@ -25,7 +25,7 @@ func TransactionView(transactionData *transactions.TransactionResponse) g.Node {
 		Body: []g.Node{
 			navbar(),
 			Main(
-				Class("container has-text-justified p-6"),
+				Class("container section"),
 				Div(
 					H2(
 						Class("title is-2 is-success"),

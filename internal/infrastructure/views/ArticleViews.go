@@ -27,7 +27,7 @@ func ArticleSubmissionView() g.Node {
 		Body: []g.Node{
 			navbar(),
 			Main(
-				Class("container has-text-justified p-6"),
+				Class("container section"),
 				H1(
 					Class("title is-2"),
 					g.Text("Add Articles"),
@@ -59,7 +59,7 @@ func ArticleView(articleData *articles.ArticleResponseData) g.Node {
 		Body: []g.Node{
 			navbar(),
 			Main(
-				Class("container has-text-justified p-6"),
+				Class("container section"),
 				Div(
 					H2(
 						Class("title is-2 is-success"),
