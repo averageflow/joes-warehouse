@@ -29,6 +29,7 @@ If you would like to actively develop the application then you can run the appli
 ```sh
 export APPLICATION_MODE="release"
 export DATABASE_CONNECTION="postgres://user:pass@localhost:5432/db"
+export WEB_ASSET_LOCATION="../../web"
 ```
 
 You can load these variables into your environment with `source .env`. 
