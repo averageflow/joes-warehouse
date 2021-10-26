@@ -3,6 +3,7 @@ package warehouse
 import (
 	"context"
 	"fmt"
+	"strconv"
 	"time"
 
 	"github.com/averageflow/joes-warehouse/internal/domain/articles"
@@ -117,15 +118,20 @@ func handleGetProductRows(rows pgx.Rows, err error) (*products.ProductResponseDa
 	for rows.Next() {
 		var product products.WebProduct
 
+		var rawPrice float64
+
 		if err := rows.Scan(
 			&product.ID,
 			&product.Name,
-			&product.Price,
+			&rawPrice,
 			&product.CreatedAt,
 			&product.UpdatedAt,
 		); err != nil {
 			return nil, err
 		}
+
+		roundedPrice, _ := strconv.ParseFloat(fmt.Sprintf("%.2f", rawPrice), 64)
+		product.Price = roundedPrice
 
 		productData = append(productData, product)
 	}
