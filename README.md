@@ -36,6 +36,16 @@ You can load these variables into your environment with `source .env`.
 VSCode users will find a pre-made run and debug configuration and thus can run and debug the project from the IDE.
 
 ## Functionalities
+In summary the application can:
+* Create new products (from JSON request or from file upload)
+* Create new articles (from JSON request or from file upload)
+* Retrieve list of products present in warehouse (with related articles)
+* Retrieve list of articles present in warehouse
+* Sell products if stock is enough, or product is unlimited stock like software (from JSON request or from form)
+* Log every sale of products (transactions)
+* Retrieve list of transactions
+
+### Additional information
 This application provides several endpoints for "headless" usage (without frontend) and also provides a frontend to ease the use.
 Thus if we want to create new products / articles via an HTTP request with JSON body we use the normal endpoint. 
 If we want to create new products / articles via uploading a file to a web-form then we use the UI.
@@ -56,7 +66,7 @@ A simple pagination system was added to the GET calls and works by using URL par
 
 The code has been written in an attempt to achieve as clean code as possible, with dependency injection of key components and with simplicity in mind, with no global state.
 
-## Tech Stack
+### Tech Stack
 This project was built using:
 * [Go programming language](https://golang.org/)
     * [Gin Gonic web framework](https://github.com/gin-gonic/gin)
@@ -66,7 +76,7 @@ This project was built using:
 * [Bulma CSS framework](https://bulma.io/)
 * [Docker](https://www.docker.com/)
 
-## Why Go ?
+### Why Go ?
 This application is the perfect use case for using the Go programming language:
 * Connect in a seamless way to a database, nice facilities for writing queries and communicating to the database
 * Write type-safe compilable code, catch errors before they occur at runtime
@@ -94,7 +104,7 @@ Some compromises were made during development to simplify certain aspects and ma
 * The files provided contain a data structure that is not ideal for the task at hand, and thus some workarounds had to be made in order to support them. This includes some choices to the database schema, as well as in the application's code. For example providing the article id on creation does not seem a correct choice. Ideally these should be auto-incremented if possible.
 * The API could have been designed to use UUIDs instead of numeric IDs since this provides several advantages, specially when clustering. It seemed to complicate things greatly though because the provided files contained numeric IDs, and then we would need to write all sorts of lookup functions, so this was deemed as out of scope for the project. The addition of UUIDs would not be too difficult though and would prove useful on a large scale system.
 * The docker compose file contains "secrets" which for a production-ready application is not great. Either the file should be encrypted in a certain fashion or the secrets should be obtained from a Vault (Hashicorp Vault comes to mind).
-* Some more security should be added in the upload forms, some CSRF token in the form if server side rendered as it currently is and perhaps some honeypot field to avoid any sort of bot.
+* Some more security should be added in the forms, some CSRF token mechanism would mitigate many vulnerabilities.
 * Authorization and Authentication would really be important, you don't want anyone to be able to edit the warehouse's items. The suggestion would be to have both API tokens for headless usage and Cookie based authentication for the web interface. This makes sense specially for the sale of items. This should also be added as a column (perhaps user_id) to the "transactions" database table in order to be able to view who performed a transaction.
 * A SPA (single page application) seemed as a lot of overhead for this simple project. It should be considered if more complicated behavior and state were to be added to the UI. For the scale of this project SSR (server side rendering) seemed like the natural choice and simplified the development, without compromising functionality. This is also in many ways more secure and compatible across browsers, simple HTML and forms. This frontend should be improved and should be showing more data than it does now, for a more useful system.
 * The frontend might benefit from adding the related article list on a per product basis. The information is present so it is a matter of deciding the best way to show it.
@@ -103,5 +113,5 @@ Some compromises were made during development to simplify certain aspects and ma
 * Distributed tracing would be a good addition to the application specially if it were to communicate with more services in its operations. Personal choice would be [Jaeger](https://www.jaegertracing.io/).
 * Some structured logging on errors would be a good addition, also in combination to adding the logs into the spans for tracing.
 
-## Credits
+### Credits
 The icon used for the repository and for the favicon was made by [Flat Icons](https://www.flaticon.com/authors/flat-icons).
