@@ -1,7 +1,6 @@
 package products
 
 import (
-	"math"
 	"reflect"
 	"testing"
 
@@ -91,9 +90,9 @@ func TestProductAmountInStock(t *testing.T) {
 		want int64
 	}{
 		{
-			name: "test empty slice returns max infinity",
+			name: "test empty slice returns 0",
 			args: args{product: WebProduct{}},
-			want: int64(math.Inf(1)),
+			want: 0,
 		},
 		{
 			name: "test enough items return positive stock",

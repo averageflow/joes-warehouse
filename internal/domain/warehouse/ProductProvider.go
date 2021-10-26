@@ -52,15 +52,16 @@ func prepareProductDataResponse(db infrastructure.ApplicationDatabase,
 	productData *products.ProductResponseData) (*products.ProductResponseData, error) {
 	productIDs := products.CollectProductIDs(productData.Data)
 
-	relatedArticles, err := getArticlesForProduct(db, productIDs)
+	relatedArticles, err := getArticlesForProducts(db, productIDs)
 	if err != nil {
 		return nil, err
 	}
 
-	for i := range relatedArticles {
+	for i := range productData.Data {
 		wantedProduct := productData.Data[i]
 		wantedProduct.Articles = relatedArticles[i]
 		wantedProduct.AmountInStock = products.ProductAmountInStock(wantedProduct)
+		wantedProduct.IsInfiniteStock = len(wantedProduct.Articles) == 0
 		productData.Data[i] = wantedProduct
 	}
 
@@ -212,7 +213,10 @@ func SellProducts(db infrastructure.ApplicationDatabase, wantedProducts map[int6
 	}
 
 	for i := range productData.Data {
-		if productData.Data[i].AmountInStock < wantedProducts[i] {
+		product := productData.Data[i]
+		notEnoughArticleStock := product.AmountInStock < wantedProducts[i]
+
+		if !product.IsInfiniteStock && notEnoughArticleStock {
 			return products.ErrSaleFailedDueToInsufficientStock
 		}
 	}

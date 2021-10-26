@@ -9,8 +9,8 @@ import (
 	"github.com/averageflow/joes-warehouse/internal/infrastructure"
 )
 
-// getArticlesForProduct will return the associated articles per product, for the given product IDs.
-func getArticlesForProduct(db infrastructure.ApplicationDatabase, productIDs []int64) (articles.ArticlesOfProductMap, error) {
+// getArticlesForProducts will return the associated articles per product, for the given product IDs.
+func getArticlesForProducts(db infrastructure.ApplicationDatabase, productIDs []int64) (articles.ArticlesOfProductMap, error) {
 	ctx := context.Background()
 
 	rows, err := db.Query(

@@ -23,13 +23,14 @@ type ProductResponseData struct {
 }
 
 type WebProduct struct {
-	ID            int64                               `json:"id"`
-	Name          string                              `json:"name"`
-	Price         float64                             `json:"price"`
-	AmountInStock int64                               `json:"amount_in_stock"`
-	Articles      map[int64]articles.ArticleOfProduct `json:"articles"`
-	CreatedAt     int64                               `json:"created_at"`
-	UpdatedAt     int64                               `json:"updated_at"`
+	ID              int64                               `json:"id"`
+	Name            string                              `json:"name"`
+	Price           float64                             `json:"price"`
+	AmountInStock   int64                               `json:"amount_in_stock"`
+	IsInfiniteStock bool                                `json:"is_infinite_stock"`
+	Articles        map[int64]articles.ArticleOfProduct `json:"articles"`
+	CreatedAt       int64                               `json:"created_at"`
+	UpdatedAt       int64                               `json:"updated_at"`
 }
 
 type RawProduct struct {

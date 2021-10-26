@@ -33,19 +33,20 @@ func ProductAmountInStock(product WebProduct) int64 {
 	if len(product.Articles) == 0 {
 		// products should always consist of articles
 		// this edge case must be still handled, and thus we return max infinity
-		return int64(math.Inf(1))
+		return 0
 	}
 
 	var amounts []float64
 
 	for i := range product.Articles {
-		if product.Articles[i].AmountOf > product.Articles[i].Stock {
+		article := product.Articles[i]
+		if article.AmountOf > article.Stock {
 			// if we need more parts than are in stock then we immediately stop
 			// the calculation and return a 0
 			return 0
 		}
 
-		ratio := float64(product.Articles[i].Stock / product.Articles[i].AmountOf)
+		ratio := float64(article.Stock / article.AmountOf)
 		amounts = append(amounts, ratio)
 	}
 

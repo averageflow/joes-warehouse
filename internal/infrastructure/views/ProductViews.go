@@ -94,15 +94,18 @@ func productTableBody(productData *products.ProductResponseData) g.Node {
 			Td(g.Textf("%d", productItem.ID)),
 			Td(g.Text(productItem.Name)),
 			Td(g.Textf("€ %.2f", productItem.Price)),
-			Td(g.Textf("%d", productItem.AmountInStock)),
-			Td(sellProductForm(productItem.ID, productItem.AmountInStock)),
+			Td(
+				g.If(!productItem.IsInfiniteStock, g.Textf("%d", productItem.AmountInStock)),
+				g.If(productItem.IsInfiniteStock, g.Text("∞")),
+			),
+			Td(sellProductForm(productItem)),
 			Td(g.Text(infrastructure.EpochToHumanReadable(productItem.UpdatedAt))),
 		)
 	}))
 }
 
 // sellProductForm is the re-usable form used to submit a sell product request.
-func sellProductForm(productID, amountInStock int64) g.Node {
+func sellProductForm(product products.WebProduct) g.Node {
 	return FormEl(
 		Method(http.MethodPost),
 		Action("/ui/products/sell"),
@@ -112,7 +115,7 @@ func sellProductForm(productID, amountInStock int64) g.Node {
 			Class("is-hidden"),
 			Required(),
 			Name("productID"),
-			Value(fmt.Sprintf("%d", productID)),
+			Value(fmt.Sprintf("%d", product.ID)),
 			ReadOnly(),
 		),
 		Div(
@@ -123,7 +126,7 @@ func sellProductForm(productID, amountInStock int64) g.Node {
 				Name("amount"),
 				Type("number"),
 				Min("0"),
-				Max(fmt.Sprintf("%d", amountInStock)),
+				g.If(!product.IsInfiniteStock, Max(fmt.Sprintf("%d", product.AmountInStock))),
 			),
 			Button(
 				Type("submit"),

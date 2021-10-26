@@ -37,6 +37,8 @@ This application provides several endpoints for "headless" usage (without fronte
 Thus if we want to create new products / articles via an HTTP request with JSON body we use the normal endpoint. 
 If we want to create new products / articles via uploading a file to a web-form then we use the UI.
 
+Products are composed of 0 or more articles. Products that are composed of articles can be sold only if they are in stock. Products that are not composed of any article can always be sold. This is in order to take into account that the product is of "infinite stock".
+
 You can view the API specification by using the open source API client [Insomnia](https://insomnia.rest/) and opening the file at `/storage/http/joes_warehouse_http_spec.yaml` and learn how to use the application endpoints.
 
 In order to use the UI you can simply visit [http://localhost:7000](http://localhost:7000) in your browser.

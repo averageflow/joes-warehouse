@@ -35,7 +35,7 @@ func Test_getArticlesForProduct(t *testing.T) {
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := getArticlesForProduct(tt.args.db, tt.args.productIDs)
+			got, err := getArticlesForProducts(tt.args.db, tt.args.productIDs)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("getArticlesForProduct() error = %v, wantErr %v", err, tt.wantErr)
 				return
