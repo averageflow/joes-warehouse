@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/averageflow/joes-warehouse/internal/domain/articles"
+	"github.com/averageflow/joes-warehouse/internal/infrastructure"
 	g "github.com/maragudk/gomponents"
 	c "github.com/maragudk/gomponents/components"
 
@@ -65,8 +66,10 @@ func ArticleView(articleData *articles.ArticleResponseData) g.Node {
 					Table(
 						Class("table is-striped"),
 						THead(Tr(
+							Th(g.Text("ID")),
 							Th(g.Text("Name")),
 							Th(g.Text("Stock")),
+							Th(g.Text("Last updated")),
 						)),
 						TBody(articleTableBody(articleData)),
 					),
@@ -83,9 +86,12 @@ func articleTableBody(articleData *articles.ArticleResponseData) g.Node {
 	}
 
 	return g.Group(g.Map(len(articleData.Sort), func(i int) g.Node {
+		articleItem := articleData.Data[articleData.Sort[i]]
 		return Tr(
-			Td(g.Text(articleData.Data[articleData.Sort[i]].Name)),
-			Td(g.Text(fmt.Sprintf("%d", articleData.Data[articleData.Sort[i]].Stock))),
+			Td(g.Textf("%d", articleItem.ID)),
+			Td(g.Text(articleItem.Name)),
+			Td(g.Text(fmt.Sprintf("%d", articleItem.Stock))),
+			Td(g.Text(infrastructure.EpochToHumanReadable(articleItem.UpdatedAt))),
 		)
 	}))
 }

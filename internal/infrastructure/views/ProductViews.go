@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/averageflow/joes-warehouse/internal/domain/products"
+	"github.com/averageflow/joes-warehouse/internal/infrastructure"
 	g "github.com/maragudk/gomponents"
 	c "github.com/maragudk/gomponents/components"
 
@@ -66,10 +67,12 @@ func ProductView(productData *products.ProductResponseData) g.Node {
 					Table(
 						Class("table is-striped"),
 						THead(Tr(
+							Th(g.Text("ID")),
 							Th(g.Text("Name")),
 							Th(g.Text("Price")),
 							Th(g.Text("Stock")),
 							Th(),
+							Th(g.Text("Last updated")),
 						)),
 						TBody(productTableBody(productData)),
 					),
@@ -88,10 +91,12 @@ func productTableBody(productData *products.ProductResponseData) g.Node {
 	return g.Group(g.Map(len(productData.Sort), func(i int) g.Node {
 		productItem := productData.Data[productData.Sort[i]]
 		return Tr(
+			Td(g.Textf("%d", productItem.ID)),
 			Td(g.Text(productItem.Name)),
-			Td(g.Text(fmt.Sprintf("%.2f", productItem.Price))),
-			Td(g.Text(fmt.Sprintf("%d", productItem.AmountInStock))),
+			Td(g.Textf("€ %.2f", productItem.Price)),
+			Td(g.Textf("%d", productItem.AmountInStock)),
 			Td(sellProductForm(productItem.ID, productItem.AmountInStock)),
+			Td(g.Text(infrastructure.EpochToHumanReadable(productItem.UpdatedAt))),
 		)
 	}))
 }
