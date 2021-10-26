@@ -29,9 +29,8 @@ func TestCollectProductIDs(t *testing.T) {
 			name: "test conversion is successful",
 			args: args{products: map[int64]WebProduct{
 				1: {ID: 1},
-				2: {ID: 2},
 			}},
-			want: []int64{1, 2},
+			want: []int64{1},
 		},
 	}
 
@@ -65,9 +64,8 @@ func TestCollectProductIDsForSell(t *testing.T) {
 			name: "test conversion is successful",
 			args: args{products: map[int64]int64{
 				1: 123,
-				2: 234,
 			}},
-			want: []int64{1, 2},
+			want: []int64{1},
 		},
 	}
 
