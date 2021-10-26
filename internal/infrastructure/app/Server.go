@@ -109,6 +109,19 @@ func NewApplicationServer(userOptions *ApplicationState) *ApplicationServer {
 func (s *ApplicationServer) registerHandlers() {
 	s.State.Handler.Use(gin.Logger(), gin.Recovery())
 
+	// API calls
+	headlessGroup := s.State.Handler.Group("/api")
+
+	headlessGroup.Handle(http.MethodGet, "/products", s.getProductsHandler())
+	headlessGroup.Handle(http.MethodPost, "/products", s.addProductsHandler())
+	headlessGroup.Handle(http.MethodPatch, "/products/sell", s.sellProductsHandler())
+
+	headlessGroup.Handle(http.MethodGet, "/articles", s.getArticlesHandler())
+	headlessGroup.Handle(http.MethodPost, "/articles", s.addArticlesHandler())
+
+	headlessGroup.Handle(http.MethodGet, "/transactions", s.getTransactionsHandler())
+
+	// UI related routes
 	s.State.Handler.Static("/assets/favicon", fmt.Sprintf("%s/assets/favicon", s.State.Config.WebAssetLocation))
 
 	uiGroup := s.State.Handler.Group("/ui")
@@ -136,19 +149,6 @@ func (s *ApplicationServer) registerHandlers() {
 	uiGroup.Handle(http.MethodPost, "/articles/file-submission", s.addArticlesFromFileHandler())
 	uiGroup.Handle(http.MethodPost, "/products/file-submission", s.addProductsFromFileHandler())
 	uiGroup.Handle(http.MethodPost, "/products/sell", s.sellProductFormHandler())
-
-	// API calls
-	headlessGroup := s.State.Handler.Group("/api")
-
-	headlessGroup.Handle(http.MethodGet, "/products", s.getProductsHandler())
-	headlessGroup.Handle(http.MethodPost, "/products", s.addProductsHandler())
-
-	headlessGroup.Handle(http.MethodGet, "/articles", s.getArticlesHandler())
-	headlessGroup.Handle(http.MethodPost, "/articles", s.addArticlesHandler())
-
-	headlessGroup.Handle(http.MethodGet, "/transactions", s.getTransactionsHandler())
-
-	headlessGroup.Handle(http.MethodPatch, "/products/sell", s.sellProductsHandler())
 }
 
 // getPaginationDetails will extract the pagination details from the URL parameters in a GET endpoint.
