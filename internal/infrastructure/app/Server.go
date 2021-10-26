@@ -150,9 +150,14 @@ func (s *ApplicationServer) getPaginationDetails(c *gin.Context) warehouse.Pagin
 	// making the application more resilient
 	_ = c.BindQuery(&paginationDetails)
 
-	if paginationDetails.Limit == 0 {
-		// default pagination limit if it was not specified
+	if paginationDetails.Limit < 1 {
+		// default pagination limit if it was not specified or invalid
 		paginationDetails.Limit = defaultPaginationLimit
+	}
+
+	if paginationDetails.Offset < 1 {
+		// default pagination offset to 0 if it was not specified or invalid
+		paginationDetails.Offset = 0
 	}
 
 	return paginationDetails
