@@ -1,6 +1,7 @@
 package app
 
 import (
+	"log"
 	"net/http"
 	"time"
 
@@ -17,6 +18,7 @@ func (s *ApplicationServer) getArticlesHandler() func(*gin.Context) {
 
 		articleData, err := warehouse.GetArticles(s.State.DB, paginationDetails.Limit, paginationDetails.Offset)
 		if err != nil {
+			log.Println(err.Error())
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
 				Error:         err.Error(),
@@ -39,6 +41,7 @@ func (s *ApplicationServer) addArticlesHandler() func(*gin.Context) {
 		var requestBody articles.RawArticleUploadRequest
 
 		if err := c.BindJSON(&requestBody); err != nil {
+			log.Println(err.Error())
 			c.AbortWithStatusJSON(http.StatusUnprocessableEntity, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusUnprocessableEntity),
 				Error:         err.Error(),
@@ -50,6 +53,7 @@ func (s *ApplicationServer) addArticlesHandler() func(*gin.Context) {
 
 		parsedArticles := articles.ConvertRawArticle(requestBody.Inventory)
 		if err := warehouse.AddArticles(s.State.DB, parsedArticles); err != nil {
+			log.Println(err.Error())
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
 				Error:         err.Error(),
@@ -60,6 +64,7 @@ func (s *ApplicationServer) addArticlesHandler() func(*gin.Context) {
 		}
 
 		if err := warehouse.AddArticleStocks(s.State.DB, parsedArticles); err != nil {
+			log.Println(err.Error())
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
 				Error:         err.Error(),

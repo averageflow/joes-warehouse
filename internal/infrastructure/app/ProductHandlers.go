@@ -2,6 +2,7 @@ package app
 
 import (
 	"errors"
+	"log"
 	"net/http"
 	"time"
 
@@ -18,6 +19,7 @@ func (s *ApplicationServer) getProductsHandler() func(*gin.Context) {
 
 		productData, err := warehouse.GetFullProductResponse(s.State.DB, paginationDetails.Limit, paginationDetails.Offset)
 		if err != nil {
+			log.Println(err.Error())
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
 				Error:         err.Error(),
@@ -40,6 +42,7 @@ func (s *ApplicationServer) addProductsHandler() func(*gin.Context) {
 		var requestBody products.RawProductUploadRequest
 
 		if err := c.BindJSON(&requestBody); err != nil {
+			log.Println(err.Error())
 			c.AbortWithStatusJSON(http.StatusUnprocessableEntity, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusUnprocessableEntity),
 				Error:         err.Error(),
@@ -50,6 +53,7 @@ func (s *ApplicationServer) addProductsHandler() func(*gin.Context) {
 		}
 
 		if err := warehouse.AddProducts(s.State.DB, requestBody.Products); err != nil {
+			log.Println(err.Error())
 			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
 				Error:         err.Error(),
@@ -72,6 +76,7 @@ func (s *ApplicationServer) sellProductsHandler() func(*gin.Context) {
 		var requestBody products.SellProductRequest
 
 		if err := c.BindJSON(&requestBody); err != nil {
+			log.Println(err.Error())
 			c.AbortWithStatusJSON(http.StatusUnprocessableEntity, ApplicationServerResponse{
 				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusUnprocessableEntity),
 				Error:         err.Error(),
@@ -89,6 +94,7 @@ func (s *ApplicationServer) sellProductsHandler() func(*gin.Context) {
 		}
 
 		if err := warehouse.SellProducts(s.State.DB, itemsToSell); err != nil {
+			log.Println(err.Error())
 			isUnprocessableEntityError := errors.Is(err, products.ErrSaleFailedDueToIncorrectAmount) ||
 				errors.Is(err, products.ErrSaleFailedDueToInsufficientStock)
 

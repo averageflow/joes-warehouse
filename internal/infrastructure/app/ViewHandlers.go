@@ -2,6 +2,7 @@ package app
 
 import (
 	"errors"
+	"log"
 	"net/http"
 
 	"github.com/averageflow/joes-warehouse/internal/domain/products"
@@ -36,6 +37,7 @@ func (s *ApplicationServer) articleViewHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
 		articleData, err := warehouse.GetArticles(s.State.DB, defaultFrontendPaginationLimit, 0)
 		if err != nil {
+			log.Println(err.Error())
 			c.Status(http.StatusInternalServerError)
 			_ = views.ErrorLoadingView().Render(c.Writer)
 

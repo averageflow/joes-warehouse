@@ -53,14 +53,18 @@ func (s *ApplicationServer) addArticlesFromFileHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
 		formFileContents, err := getFormFileContents(c)
 		if err != nil {
+			log.Println(err.Error())
 			handleBadFormSubmission(c)
+
 			return
 		}
 
 		var requestData articles.RawArticleUploadRequest
 
 		if err := json.Unmarshal(formFileContents, &requestData); err != nil {
+			log.Println(err.Error())
 			handleBadFormSubmission(c)
+
 			return
 		}
 
@@ -69,12 +73,14 @@ func (s *ApplicationServer) addArticlesFromFileHandler() func(*gin.Context) {
 		if err := warehouse.AddArticles(s.State.DB, parsedArticles); err != nil {
 			log.Println(err.Error())
 			handleBadFormSubmission(c)
+
 			return
 		}
 
 		if err := warehouse.AddArticleStocks(s.State.DB, parsedArticles); err != nil {
 			log.Println(err.Error())
 			handleBadFormSubmission(c)
+
 			return
 		}
 
@@ -88,20 +94,25 @@ func (s *ApplicationServer) addProductsFromFileHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
 		formFileContents, err := getFormFileContents(c)
 		if err != nil {
+			log.Println(err.Error())
 			handleBadFormSubmission(c)
+
 			return
 		}
 
 		var requestData products.RawProductUploadRequest
 
 		if err := json.Unmarshal(formFileContents, &requestData); err != nil {
+			log.Println(err.Error())
 			handleBadFormSubmission(c)
+
 			return
 		}
 
 		if err := warehouse.AddProducts(s.State.DB, requestData.Products); err != nil {
 			log.Println(err.Error())
 			handleBadFormSubmission(c)
+
 			return
 		}
 
@@ -116,13 +127,17 @@ func (s *ApplicationServer) sellProductFormHandler() func(*gin.Context) {
 		var requestBody products.SellProductFormRequest
 
 		if err := c.Bind(&requestBody); err != nil {
+			log.Println(err.Error())
 			handleBadSaleSubmission(c)
+
 			return
 		}
 
 		convertedData := map[int64]int64{requestBody.ProductID: requestBody.Amount}
 		if err := warehouse.SellProducts(s.State.DB, convertedData); err != nil {
+			log.Println(err.Error())
 			handleBadSaleSubmission(c)
+
 			return
 		}
 
