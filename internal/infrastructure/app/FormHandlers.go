@@ -112,13 +112,8 @@ func (s *ApplicationServer) addProductsFromFileHandler() func(*gin.Context) {
 
 // sellProductFormHandler will process the sell product form.
 func (s *ApplicationServer) sellProductFormHandler() func(*gin.Context) {
-	type sellProductFormRequest struct {
-		Amount    int64 `form:"amount"`
-		ProductID int64 `form:"productID"`
-	}
-
 	return func(c *gin.Context) {
-		var requestBody sellProductFormRequest
+		var requestBody products.SellProductFormRequest
 
 		if err := c.Bind(&requestBody); err != nil {
 			handleBadSaleSubmission(c)

@@ -41,3 +41,17 @@ type RawProduct struct {
 type RawProductUploadRequest struct {
 	Products []RawProduct `json:"products"`
 }
+
+type SellProductRequest struct {
+	Data []SellProductRequestItems `json:"data"`
+}
+
+type SellProductRequestItems struct {
+	ProductID int64 `json:"productID"`
+	Amount    int64 `json:"amount"`
+}
+
+type SellProductFormRequest struct {
+	ProductID int64 `form:"productID"`
+	Amount    int64 `form:"amount"`
+}

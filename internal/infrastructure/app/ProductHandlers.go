@@ -71,12 +71,8 @@ func (s *ApplicationServer) addProductsHandler() func(*gin.Context) {
 
 // sellProductsHandler performs a product sale from a JSON request body.
 func (s *ApplicationServer) sellProductsHandler() func(*gin.Context) {
-	type sellProductsRequest struct {
-		Data map[int64]int64 `json:"data"`
-	}
-
 	return func(c *gin.Context) {
-		var requestBody sellProductsRequest
+		var requestBody products.SellProductRequest
 
 		if err := c.BindJSON(&requestBody); err != nil {
 			c.AbortWithStatusJSON(http.StatusUnprocessableEntity, ApplicationServerResponse{
@@ -88,7 +84,14 @@ func (s *ApplicationServer) sellProductsHandler() func(*gin.Context) {
 			return
 		}
 
-		if err := warehouse.SellProducts(s.State.DB, requestBody.Data); err != nil {
+		itemsToSell := make(map[int64]int64)
+
+		for i := range requestBody.Data {
+			item := requestBody.Data[i]
+			itemsToSell[item.ProductID] = item.Amount
+		}
+
+		if err := warehouse.SellProducts(s.State.DB, itemsToSell); err != nil {
 			isUnprocessableEntityError := errors.Is(err, products.ErrSaleFailedDueToIncorrectAmount) ||
 				errors.Is(err, products.ErrSaleFailedDueToInsufficientStock)
 

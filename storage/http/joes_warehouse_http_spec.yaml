@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2021-10-25T18:59:02.272Z
+__export_date: 2021-10-26T09:10:26.499Z
 __export_source: insomnia.desktop.app:v2021.5.3
 resources:
   - _id: req_bbba59c685da4ec6a923248604c4b591
@@ -82,7 +82,6 @@ resources:
           value: ""
           description: ""
           type: file
-          multiline: null
           fileName: /Users/joe/Development/Personal/Repositories/joes-warehouse/storage/payload-files/products.json
           disabled: false
     parameters: []
@@ -121,7 +120,6 @@ resources:
           value: ""
           description: ""
           type: file
-          multiline: null
           fileName: /Users/joe/Development/Personal/Repositories/joes-warehouse/storage/payload-files/inventory.json
     parameters: []
     headers:
@@ -350,15 +348,14 @@ resources:
     _type: request
   - _id: req_98a638b7c0c94b49bac9b0817f2af088
     parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
-    modified: 1635185883309
+    modified: 1635239260340
     created: 1635173010242
     url: "{{ _.protocol }}://{{ _.host }}/api/products/sell"
     name: Sell products
     description: >-
-      Sell a given amount of products. `data` is a `map[string]int64` where the
-      keys are product IDs and the values are the amount of products to be sold
-      for given ID. This request will only be successful if enough stock is
-      present to perform the sale transaction.
+      Sell a given amount of products. `data` is a a list of items to be sold
+      with respective amounts. This request will only be successful if enough
+      stock is present to perform the sale transaction.
 
 
       Example request body:
@@ -366,9 +363,12 @@ resources:
       ```json
 
       {
-        "data":{
-          "3":1
-        }
+          "data": [
+              {
+                  "productID": 1,
+                  "amount": 1
+              }
+          ]
       }
 
       ```
@@ -402,9 +402,12 @@ resources:
       mimeType: application/json
       text: |-
         {
-            "data": {
-                "3": 1
-            }
+            "data": [
+                {
+                    "productID": 1,
+                    "amount": 1
+                }
+            ]
         }
     parameters: []
     headers:
