@@ -1,4 +1,9 @@
 # Joe's Warehouse Software
+
+[![PkgGoDev](https://pkg.go.dev/badge/github.com/averageflow/joes-warehouse)](https://pkg.go.dev/github.com/averageflow/joes-warehouse)
+[![Go Report Card](https://goreportcard.com/badge/github.com/averageflow/joes-warehouse)](https://goreportcard.com/report/github.com/averageflow/joes-warehouse)
+[![License](https://img.shields.io/github/license/averageflow/joes-warehouse.svg)](https://github.com/averageflow/joes-warehouse/blob/master/LICENSE.md)
+
 Joe's Warehouse Software is a Go application that has the purpose of managing products and articles in your warehouse.
 
 ## Running the application
