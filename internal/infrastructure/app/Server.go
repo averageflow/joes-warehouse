@@ -111,6 +111,7 @@ func (s *ApplicationServer) registerHandlers() {
 
 	// API calls
 	headlessGroup := s.State.Handler.Group("/api")
+	headlessGroup.Use(s.authTokenMiddleware())
 
 	headlessGroup.Handle(http.MethodGet, "/products", s.getProductsHandler())
 	headlessGroup.Handle(http.MethodPost, "/products", s.addProductsHandler())

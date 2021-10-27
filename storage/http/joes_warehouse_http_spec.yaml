@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2021-10-27T09:26:39.376Z
+__export_date: 2021-10-27T11:54:05.162Z
 __export_source: insomnia.desktop.app:v2021.5.3
 resources:
   - _id: req_bbba59c685da4ec6a923248604c4b591
@@ -139,7 +139,7 @@ resources:
     _type: request
   - _id: req_147378d82cc84e6081c2751f0364404a
     parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
-    modified: 1635241899538
+    modified: 1635334540870
     created: 1635173010240
     url: "{{ _.protocol }}://{{ _.host }}/api/products"
     name: Get products
@@ -196,7 +196,9 @@ resources:
       - value: application/json; charset=utf-8
         name: Content-Type
         id: pair_32ff7cb328f34895a59ccb2f88281d31
-    authentication: {}
+    authentication:
+      type: bearer
+      token: 387bf0c7-86dc-410e-ba05-1362cc1979ab-a6466675-fa39-46de-9e0b-d8b4bd94b52d
     metaSortKey: -1635178335840.5
     isPrivate: false
     settingStoreCookies: true
@@ -218,7 +220,7 @@ resources:
     _type: request_group
   - _id: req_1f2b3ac3349d422bb4e54bfebf1d17f4
     parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
-    modified: 1635258235098
+    modified: 1635334800345
     created: 1635257123957
     url: "{{ _.protocol }}://{{ _.host }}/api/transactions"
     name: Get transactions
@@ -259,7 +261,9 @@ resources:
       - value: application/json; charset=utf-8
         name: Content-Type
         id: pair_32ff7cb328f34895a59ccb2f88281d31
-    authentication: {}
+    authentication:
+      type: bearer
+      token: 387bf0c7-86dc-410e-ba05-1362cc1979ab-a6466675-fa39-46de-9e0b-d8b4bd94b52d
     metaSortKey: -1635178335828
     isPrivate: false
     settingStoreCookies: true
@@ -271,7 +275,7 @@ resources:
     _type: request
   - _id: req_dbe5912e35c84de0a26b5b360bcd30d8
     parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
-    modified: 1635242771260
+    modified: 1635335487833
     created: 1635173010237
     url: "{{ _.protocol }}://{{ _.host }}/api/articles"
     name: Get articles
@@ -312,7 +316,9 @@ resources:
       - value: application/json; charset=utf-8
         name: Content-Type
         id: pair_cc623060d4d443b5b1d1da2fcb3eb91c
-    authentication: {}
+    authentication:
+      type: bearer
+      token: 387bf0c7-86dc-410e-ba05-1362cc1979ab-a6466675-fa39-46de-9e0b-d8b4bd94b52d
     metaSortKey: -1635178335815.5
     isPrivate: false
     settingStoreCookies: true
@@ -324,7 +330,7 @@ resources:
     _type: request
   - _id: req_fc5c6c2e9e904e0ca8a8a2c50744c75a
     parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
-    modified: 1635184928974
+    modified: 1635335492124
     created: 1635173010223
     url: "{{ _.protocol }}://{{ _.host }}/api/articles"
     name: Add articles
@@ -405,7 +411,9 @@ resources:
       - value: application/json; charset=utf-8
         name: Content-Type
         id: pair_5d2ceddcb5fa413c886ecedf360adb83
-    authentication: {}
+    authentication:
+      type: bearer
+      token: 387bf0c7-86dc-410e-ba05-1362cc1979ab-a6466675-fa39-46de-9e0b-d8b4bd94b52d
     metaSortKey: -1635178335803
     isPrivate: false
     settingStoreCookies: true
@@ -417,7 +425,7 @@ resources:
     _type: request
   - _id: req_fa1dbd81a6534ff2a2dc536696c5c784
     parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
-    modified: 1635319824904
+    modified: 1635335590211
     created: 1635314200642
     url: "{{ _.protocol }}://{{ _.host }}/api/products/4"
     name: Delete product
@@ -455,7 +463,9 @@ resources:
       text: ""
     parameters: []
     headers: []
-    authentication: {}
+    authentication:
+      type: bearer
+      token: 387bf0c7-86dc-410e-ba05-1362cc1979ab-a6466675-fa39-46de-9e0b-d8b4bd94b52d
     metaSortKey: -1635178335796.75
     isPrivate: false
     settingStoreCookies: true
@@ -467,7 +477,7 @@ resources:
     _type: request
   - _id: req_6c8beb7ea7084190b57f519d60744460
     parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
-    modified: 1635326763916
+    modified: 1635335594048
     created: 1635321162064
     url: "{{ _.protocol }}://{{ _.host }}/api/articles/4"
     name: Delete article
@@ -505,7 +515,9 @@ resources:
       text: ""
     parameters: []
     headers: []
-    authentication: {}
+    authentication:
+      type: bearer
+      token: 387bf0c7-86dc-410e-ba05-1362cc1979ab-a6466675-fa39-46de-9e0b-d8b4bd94b52d
     metaSortKey: -1635178335793.625
     isPrivate: false
     settingStoreCookies: true
@@ -517,7 +529,7 @@ resources:
     _type: request
   - _id: req_98a638b7c0c94b49bac9b0817f2af088
     parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
-    modified: 1635257490663
+    modified: 1635335598943
     created: 1635173010242
     url: "{{ _.protocol }}://{{ _.host }}/api/products/sell"
     name: Sell products
@@ -590,7 +602,9 @@ resources:
       - value: application/json; charset=utf-8
         name: Content-Type
         id: pair_db834180cf4f4f27b1ee84c45779235e
-    authentication: {}
+    authentication:
+      type: bearer
+      token: 387bf0c7-86dc-410e-ba05-1362cc1979ab-a6466675-fa39-46de-9e0b-d8b4bd94b52d
     metaSortKey: -1635178335790.5
     isPrivate: false
     settingStoreCookies: true
@@ -602,7 +616,7 @@ resources:
     _type: request
   - _id: req_b33e3e33d91744738bb4c0d1bc9344c7
     parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
-    modified: 1635185463848
+    modified: 1635335603097
     created: 1635173010244
     url: "{{ _.protocol }}://{{ _.host }}/api/products"
     name: Add products
@@ -705,7 +719,9 @@ resources:
       - value: application/json; charset=utf-8
         name: Content-Type
         id: pair_b33063293d98443cab234b8369200f6c
-    authentication: {}
+    authentication:
+      type: bearer
+      token: 387bf0c7-86dc-410e-ba05-1362cc1979ab-a6466675-fa39-46de-9e0b-d8b4bd94b52d
     metaSortKey: -1635178335740.5
     isPrivate: false
     settingStoreCookies: true
