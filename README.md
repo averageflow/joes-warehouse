@@ -32,9 +32,12 @@ In summary the application can:
 * Delete products from the warehouse
 * Delete articles from the warehouse
 ## Running the application
-To kickstart the application and all dependencies required for its operation, you should be running on a machine with Docker installed, and from the root of the project run (use `-d` option to run as daemon in background):
+To kickstart the application and all dependencies required for its operation, you should be running on a machine with Docker installed.
+Clone the project, or download the zip file with the source code from [the releases page](https://github.com/averageflow/joes-warehouse/releases) page. 
+Then, from the root of the project run from the terminal:
 
 ```sh
+# -d option to run as daemon in background
 docker-compose up -d
 ```
 
