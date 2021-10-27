@@ -119,7 +119,7 @@ func (s *ApplicationServer) registerHandlers() {
 
 	headlessGroup.Handle(http.MethodGet, "/articles", s.getArticlesHandler())
 	headlessGroup.Handle(http.MethodPost, "/articles", s.addArticlesHandler())
-	headlessGroup.Handle(http.MethodDelete, "/articles/:id")
+	headlessGroup.Handle(http.MethodDelete, "/articles/:id", s.deleteArticleHandler())
 
 	headlessGroup.Handle(http.MethodGet, "/transactions", s.getTransactionsHandler())
 

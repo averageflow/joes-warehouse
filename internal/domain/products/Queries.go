@@ -58,3 +58,11 @@ const AddTransactionProductRelationQuery = `
 const DeleteProductQuery = `
 	DELETE FROM products WHERE id IN (%s);
 `
+
+const DeleteProductArticlesQuery = `
+	DELETE FROM product_articles WHERE product_id IN (%s);
+`
+
+const DeleteTransactionProductsQuery = `
+	DELETE FROM transaction_products WHERE product_id IN (%s);
+`

@@ -246,7 +246,7 @@ func SellProducts(db infrastructure.ApplicationDatabase, wantedProducts map[int6
 	return CreateTransactionProductRelation(db, transactionID, wantedProducts)
 }
 
-// DeleteProducts will delete products in the warehouse by ID.
+// DeleteProducts will delete products and relations in the warehouse by ID.
 func DeleteProducts(db infrastructure.ApplicationDatabase, productIDs []int64) error {
 	if len(productIDs) == 0 {
 		return nil
@@ -262,11 +262,26 @@ func DeleteProducts(db infrastructure.ApplicationDatabase, productIDs []int64) e
 	if _, err := tx.Exec(
 		ctx,
 		fmt.Sprintf(
-			/*
-				-- DELETE FROM product_articles WHERE product_id  = 1
-				-- DELETE FROM transaction_products WHERE product_id  = 1
-				DELETE FROM products WHERE id  = 1
-			*/
+			products.DeleteProductArticlesQuery,
+			infrastructure.IntSliceToCommaSeparatedString(productIDs),
+		),
+	); err != nil {
+		return err
+	}
+
+	if _, err := tx.Exec(
+		ctx,
+		fmt.Sprintf(
+			products.DeleteTransactionProductsQuery,
+			infrastructure.IntSliceToCommaSeparatedString(productIDs),
+		),
+	); err != nil {
+		return err
+	}
+
+	if _, err := tx.Exec(
+		ctx,
+		fmt.Sprintf(
 			products.DeleteProductQuery,
 			infrastructure.IntSliceToCommaSeparatedString(productIDs),
 		),

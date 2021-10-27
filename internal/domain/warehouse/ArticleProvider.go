@@ -171,3 +171,49 @@ func AddArticleProductRelation(db infrastructure.ApplicationDatabase, productID 
 
 	return tx.Commit(ctx)
 }
+
+// DeleteArticles will delete articles and relations in the warehouse by ID.
+func DeleteArticles(db infrastructure.ApplicationDatabase, articleIDs []int64) error {
+	if len(articleIDs) == 0 {
+		return nil
+	}
+
+	ctx := context.Background()
+
+	tx, err := db.Begin(ctx)
+	if err != nil {
+		return err
+	}
+
+	if _, err := tx.Exec(
+		ctx,
+		fmt.Sprintf(
+			articles.DeleteArticleStocksQuery,
+			infrastructure.IntSliceToCommaSeparatedString(articleIDs),
+		),
+	); err != nil {
+		return err
+	}
+
+	if _, err := tx.Exec(
+		ctx,
+		fmt.Sprintf(
+			articles.DeleteProductArticlesQuery,
+			infrastructure.IntSliceToCommaSeparatedString(articleIDs),
+		),
+	); err != nil {
+		return err
+	}
+
+	if _, err := tx.Exec(
+		ctx,
+		fmt.Sprintf(
+			articles.DeleteArticlesQuery,
+			infrastructure.IntSliceToCommaSeparatedString(articleIDs),
+		),
+	); err != nil {
+		return err
+	}
+
+	return tx.Commit(ctx)
+}
