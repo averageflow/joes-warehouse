@@ -8,7 +8,6 @@ import (
 
 var ErrSaleFailedDueToInsufficientStock = errors.New("sale failed, did not have enough stock for wanted product")
 var ErrSaleFailedDueToIncorrectAmount = errors.New("sale failed, incorrect amount of products to sell was requested")
-var ErrNoProductsEmptyWarehouse = errors.New("no products found due to empty warehouse")
 
 type Product struct {
 	ID       int64              `json:"id"`

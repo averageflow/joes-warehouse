@@ -25,14 +25,14 @@ func TestGetFullProductResponse(t *testing.T) {
 		wantErr bool
 	}{
 		{
-			name: "test get records errors due to empty warehouse",
+			name: "test get records empty warehouse does not error",
 			args: args{
 				db:     &infrastructure.MockApplicationDatabase{},
 				limit:  30,
 				offset: 0,
 			},
-			want:    nil,
-			wantErr: true,
+			want:    &products.ProductResponseData{},
+			wantErr: false,
 		},
 	}
 

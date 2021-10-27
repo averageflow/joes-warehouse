@@ -81,7 +81,7 @@ The code has been written in an attempt to achieve as clean code as possible, wi
 
 ### Technologies used
 This project was built using:
-* [Go programming language](https://golang.org/)
+* [Go programming language (1.17+)](https://golang.org/)
     * [Gin Gonic web framework](https://github.com/gin-gonic/gin)
     * [Gomponents declarative HTML components](https://github.com/maragudk/gomponents)
     * [PGX PostgreSQL driver](https://github.com/jackc/pgx)
@@ -105,7 +105,7 @@ This application is the perfect use case for using the Go programming language:
 You can run the unit tests for this project if you have Go installed, by at the root of the project executing:
 
 ```sh
-go test ./...
+go test -shuffle=on ./...
 ```
 
 The unit tests will also be run every time the Docker image is rebuilt.

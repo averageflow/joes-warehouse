@@ -20,7 +20,7 @@ func GetFullProductResponse(db infrastructure.ApplicationDatabase, limit, offset
 	}
 
 	if len(productData.Data) == 0 {
-		return nil, products.ErrNoProductsEmptyWarehouse
+		return &products.ProductResponseData{}, nil
 	}
 
 	result, err := prepareProductDataResponse(db, productData)

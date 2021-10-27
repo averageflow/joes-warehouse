@@ -1,11 +1,9 @@
 package app
 
 import (
-	"errors"
 	"log"
 	"net/http"
 
-	"github.com/averageflow/joes-warehouse/internal/domain/products"
 	"github.com/averageflow/joes-warehouse/internal/domain/warehouse"
 	"github.com/averageflow/joes-warehouse/internal/infrastructure/views"
 	"github.com/gin-gonic/gin"
@@ -16,13 +14,8 @@ func (s *ApplicationServer) productViewHandler() func(*gin.Context) {
 	return func(c *gin.Context) {
 		productData, err := warehouse.GetFullProductResponse(s.State.DB, defaultFrontendPaginationLimit, 0)
 		if err != nil {
-			if errors.Is(err, products.ErrNoProductsEmptyWarehouse) {
-				c.Status(http.StatusOK)
-				_ = views.ProductView(productData).Render(c.Writer)
-			} else {
-				c.Status(http.StatusInternalServerError)
-				_ = views.ErrorLoadingView().Render(c.Writer)
-			}
+			c.Status(http.StatusInternalServerError)
+			_ = views.ErrorLoadingView().Render(c.Writer)
 
 			return
 		}
