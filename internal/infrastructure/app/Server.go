@@ -114,10 +114,12 @@ func (s *ApplicationServer) registerHandlers() {
 
 	headlessGroup.Handle(http.MethodGet, "/products", s.getProductsHandler())
 	headlessGroup.Handle(http.MethodPost, "/products", s.addProductsHandler())
+	headlessGroup.Handle(http.MethodDelete, "/products/:id", s.deleteProductHandler())
 	headlessGroup.Handle(http.MethodPatch, "/products/sell", s.sellProductsHandler())
 
 	headlessGroup.Handle(http.MethodGet, "/articles", s.getArticlesHandler())
 	headlessGroup.Handle(http.MethodPost, "/articles", s.addArticlesHandler())
+	headlessGroup.Handle(http.MethodDelete, "/articles/:id")
 
 	headlessGroup.Handle(http.MethodGet, "/transactions", s.getTransactionsHandler())
 

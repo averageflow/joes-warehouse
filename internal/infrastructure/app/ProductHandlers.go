@@ -121,3 +121,41 @@ func (s *ApplicationServer) sellProductsHandler() func(*gin.Context) {
 		})
 	}
 }
+
+// deleteProductHandler deletes products from the warehouse by ID specified in the URL.
+func (s *ApplicationServer) deleteProductHandler() func(*gin.Context) {
+	type deleteProductHandlerURI struct {
+		ID int64 `uri:"id"`
+	}
+
+	return func(c *gin.Context) {
+		var request deleteProductHandlerURI
+
+		if err := c.BindUri(&request); err != nil {
+			log.Println(err.Error())
+			c.AbortWithStatusJSON(http.StatusUnprocessableEntity, ApplicationServerResponse{
+				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusUnprocessableEntity),
+				Error:         err.Error(),
+				UnixTimestamp: time.Now().Unix(),
+			})
+
+			return
+		}
+
+		if err := warehouse.DeleteProducts(s.State.DB, []int64{request.ID}); err != nil {
+			log.Println(err.Error())
+			c.AbortWithStatusJSON(http.StatusInternalServerError, ApplicationServerResponse{
+				Message:       infrastructure.GetMessageForHTTPStatus(http.StatusInternalServerError),
+				Error:         err.Error(),
+				UnixTimestamp: time.Now().Unix(),
+			})
+
+			return
+		}
+
+		c.JSON(http.StatusOK, ApplicationServerResponse{
+			Message:       infrastructure.GetMessageForHTTPStatus(http.StatusOK),
+			UnixTimestamp: time.Now().Unix(),
+		})
+	}
+}
