@@ -10,9 +10,9 @@ Joe's Warehouse Software is a Go application that has the purpose of managing pr
 
 ## Table of contents
 
+* [Functionalities](#functionalities)
 * [Running the application](#running-the-application)
 * [Running for development](#running-for-development)
-* [Functionalities](#functionalities)
 * [Additional information](#additional-information)
 * [Technologies used](#technologies-used)
 * [Why Go ?](#why-go-)
@@ -20,6 +20,15 @@ Joe's Warehouse Software is a Go application that has the purpose of managing pr
 * [Possible Improvements](#possible-improvements)
 * [Credits](#credits)
 
+## Functionalities
+In summary the application can:
+* Create new products (from JSON request or from file upload)
+* Create new articles (from JSON request or from file upload)
+* Retrieve list of products present in warehouse (with related articles)
+* Retrieve list of articles present in warehouse
+* Sell products if stock is enough, or product is unlimited stock like software (from JSON request or from form)
+* Log every sale of products (transactions)
+* Retrieve list of transactions
 ## Running the application
 To kickstart the application and all dependencies required for its operation, you should be running on a machine with Docker installed, and from the root of the project run (use `-d` option to run as daemon in background):
 
@@ -46,16 +55,6 @@ export WEB_ASSET_LOCATION="../../web"
 
 You can load these variables into your environment with `source .env`. 
 VSCode users will find a pre-made run and debug configuration and thus can run and debug the project from the IDE.
-
-## Functionalities
-In summary the application can:
-* Create new products (from JSON request or from file upload)
-* Create new articles (from JSON request or from file upload)
-* Retrieve list of products present in warehouse (with related articles)
-* Retrieve list of articles present in warehouse
-* Sell products if stock is enough, or product is unlimited stock like software (from JSON request or from form)
-* Log every sale of products (transactions)
-* Retrieve list of transactions
 
 ### Additional information
 This application provides several endpoints for "headless" usage (without frontend) and also provides a frontend to ease the use.
