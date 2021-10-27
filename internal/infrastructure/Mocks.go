@@ -12,18 +12,18 @@ type MockApplicationDatabase struct {
 	callParams []interface{}
 }
 
-func (mdb *MockApplicationDatabase) Exec(ctx context.Context, sql string, arguments ...interface{}) (pgconn.CommandTag, error) {
+func (mdb MockApplicationDatabase) Exec(ctx context.Context, sql string, arguments ...interface{}) (pgconn.CommandTag, error) {
 	mdb.callParams = []interface{}{sql}
 	mdb.callParams = append(mdb.callParams, arguments...)
 
 	return nil, nil
 }
 
-func (mdb *MockApplicationDatabase) Begin(ctx context.Context) (pgx.Tx, error) {
+func (mdb MockApplicationDatabase) Begin(ctx context.Context) (pgx.Tx, error) {
 	return MockTx{}, nil
 }
 
-func (mdb *MockApplicationDatabase) Query(ctx context.Context, sql string, args ...interface{}) (pgx.Rows, error) {
+func (mdb MockApplicationDatabase) Query(ctx context.Context, sql string, args ...interface{}) (pgx.Rows, error) {
 	mdb.callParams = []interface{}{sql}
 	mdb.callParams = append(mdb.callParams, args...)
 

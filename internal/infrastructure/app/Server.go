@@ -33,7 +33,7 @@ const (
 type ApplicationState struct {
 	Handler    infrastructure.ApplicationHTTPHandler
 	HTTPServer *http.Server
-	DB         *pgxpool.Pool
+	DB         infrastructure.ApplicationDatabase
 	Config     *ApplicationConfig
 }
 
