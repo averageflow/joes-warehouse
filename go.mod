@@ -34,6 +34,7 @@ require (
 )
 
 require (
+	github.com/brianvoe/gofakeit/v6 v6.9.0
 	github.com/gin-gonic/gin v1.7.4
 	github.com/jackc/pgx/v4 v4.13.0
 	github.com/maragudk/gomponents v0.18.0
