@@ -31,6 +31,7 @@ In summary the application can:
 * Retrieve list of transactions
 * Delete products from the warehouse
 * Delete articles from the warehouse
+
 ## Running the application
 To kickstart the application and all dependencies required for its operation, you should be running on a machine with Docker installed.
 Clone the project, or download the zip file with the source code from [the releases page](https://github.com/averageflow/joes-warehouse/releases) page. 
