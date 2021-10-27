@@ -31,7 +31,7 @@ func TestGetFullProductResponse(t *testing.T) {
 				limit:  30,
 				offset: 0,
 			},
-			want:    &products.ProductResponseData{},
+			want:    &products.ProductResponseData{Data: make(map[int64]products.WebProduct), Sort: []int64{}},
 			wantErr: false,
 		},
 	}

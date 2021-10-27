@@ -20,7 +20,7 @@ func GetFullProductResponse(db infrastructure.ApplicationDatabase, limit, offset
 	}
 
 	if len(productData.Data) == 0 {
-		return &products.ProductResponseData{}, nil
+		return &products.ProductResponseData{Data: make(map[int64]products.WebProduct), Sort: []int64{}}, nil
 	}
 
 	result, err := prepareProductDataResponse(db, productData)
