@@ -1,6 +1,6 @@
 _type: export
 __export_format: 4
-__export_date: 2021-10-26T14:24:11.811Z
+__export_date: 2021-10-27T09:26:39.376Z
 __export_source: insomnia.desktop.app:v2021.5.3
 resources:
   - _id: req_bbba59c685da4ec6a923248604c4b591
@@ -407,6 +407,106 @@ resources:
         id: pair_5d2ceddcb5fa413c886ecedf360adb83
     authentication: {}
     metaSortKey: -1635178335803
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_fa1dbd81a6534ff2a2dc536696c5c784
+    parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
+    modified: 1635319824904
+    created: 1635314200642
+    url: "{{ _.protocol }}://{{ _.host }}/api/products/4"
+    name: Delete product
+    description: >-
+      Delete products from the warehouse by specifying the product ID in the
+      URL.
+
+
+      Example successful response:
+
+      ```json
+
+      {
+        "message": "ok",
+        "unix_timestamp": 1635184841
+      }
+
+      ```
+
+
+      Example error response:
+
+      ```json
+
+      {
+        "message": "unprocessable entity, likely due to an invalid payload",
+        "error": "json: cannot unmarshal object into Go struct field ...",
+        "unix_timestamp": 1635184905
+      }
+
+      ```
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1635178335796.75
+    isPrivate: false
+    settingStoreCookies: true
+    settingSendCookies: true
+    settingDisableRenderRequestBody: false
+    settingEncodeUrl: true
+    settingRebuildPath: true
+    settingFollowRedirects: global
+    _type: request
+  - _id: req_6c8beb7ea7084190b57f519d60744460
+    parentId: fld_5dfb8cb4c3ba4d33a003a3caf356090c
+    modified: 1635326763916
+    created: 1635321162064
+    url: "{{ _.protocol }}://{{ _.host }}/api/articles/4"
+    name: Delete article
+    description: >-
+      Delete articles from the warehouse by specifying the article ID in the
+      URL.
+
+
+      Example successful response:
+
+      ```json
+
+      {
+        "message": "ok",
+        "unix_timestamp": 1635184841
+      }
+
+      ```
+
+
+      Example error response:
+
+      ```json
+
+      {
+        "message": "unprocessable entity, likely due to an invalid payload",
+        "error": "json: cannot unmarshal object into Go struct field ...",
+        "unix_timestamp": 1635184905
+      }
+
+      ```
+    method: DELETE
+    body:
+      mimeType: application/json
+      text: ""
+    parameters: []
+    headers: []
+    authentication: {}
+    metaSortKey: -1635178335793.625
     isPrivate: false
     settingStoreCookies: true
     settingSendCookies: true

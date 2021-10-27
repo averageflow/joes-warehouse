@@ -167,3 +167,33 @@ func TestAddArticleProductRelation(t *testing.T) {
 		})
 	}
 }
+
+func TestDeleteArticles(t *testing.T) {
+	type args struct {
+		db         infrastructure.ApplicationDatabase
+		articleIDs []int64
+	}
+
+	tests := []struct {
+		name    string
+		args    args
+		wantErr bool
+	}{
+		{
+			name: "test delete records does not error",
+			args: args{
+				db:         &infrastructure.MockApplicationDatabase{},
+				articleIDs: []int64{1, 2, 3},
+			},
+			wantErr: false,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if err := DeleteArticles(tt.args.db, tt.args.articleIDs); (err != nil) != tt.wantErr {
+				t.Errorf("DeleteArticles() error = %v, wantErr %v", err, tt.wantErr)
+			}
+		})
+	}
+}

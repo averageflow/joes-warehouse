@@ -29,6 +29,8 @@ In summary the application can:
 * Sell products if stock is enough, or product is unlimited stock like software (from JSON request or from form)
 * Log every sale of products (transactions)
 * Retrieve list of transactions
+* Delete products from the warehouse
+* Delete articles from the warehouse
 ## Running the application
 To kickstart the application and all dependencies required for its operation, you should be running on a machine with Docker installed, and from the root of the project run (use `-d` option to run as daemon in background):
 
@@ -120,7 +122,7 @@ Some compromises were made during development to simplify certain aspects and ma
 * A SPA (single page application) seemed as a lot of overhead for this simple project. It should be considered if more complicated behavior and state were to be added to the UI. For the scale of this project SSR (server side rendering) seemed like the natural choice and simplified the development, without compromising functionality. This is also in many ways more secure and compatible across browsers, simple HTML and forms. This frontend should be improved and should be showing more data than it does now, for a more useful system.
 * The frontend might benefit from adding the related article list on a per product basis. The information is present so it is a matter of deciding the best way to show it.
 * The addition of PATCH endpoints to modify some resources would be useful, then we could for example rename products and articles.
-* The addition of DELETE endpoints to remove some resources would be useful.
+* The addition of delete buttons in the UI to remove some resources would be useful.
 * Distributed tracing would be a good addition to the application specially if it were to communicate with more services in its operations. Personal choice would be [Jaeger](https://www.jaegertracing.io/).
 * Some structured logging on errors would be a good addition, also in combination to adding the logs into the spans for tracing.
 

@@ -76,3 +76,15 @@ const UpdateArticleStockQuery = `
 	WHERE
 		article_id = $2;
 `
+
+const DeleteArticlesQuery = `
+	DELETE FROM articles WHERE id IN (%s);
+`
+
+const DeleteProductArticlesQuery = `
+	DELETE FROM product_articles WHERE article_id IN (%s);
+`
+
+const DeleteArticleStocksQuery = `
+	DELETE FROM article_stocks WHERE article_id IN (%s);
+`
